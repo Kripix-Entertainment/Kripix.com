@@ -41,12 +41,11 @@ const hash = (n) => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return
 
 // ---------- testi digitati (condivisi con la colonna sonora) ----------
 const TYPE = {
-    boot1: { text: '> KRIPIX NETWORK // NODO OPERATIVO v2.0.4', t: 0.22, cps: 64 },
+    boot1: { text: '> KRIPIX NETWORK · NODO OPERATIVO v2.0.4', t: 0.22, cps: 64 },
     boot2: { text: '> handshake crittografato ......... [OK]', t: 0.98, cps: 64 },
     boot3: { text: '> intercettazione segnale', t: 1.72, cps: 52 },
     tagline: { text: 'A different way to see pixels.', t: 5.05, cps: 36 },
-    pagodaTag: { text: 'LIMINAL SURVIVAL HORROR', t: T.PAGODA + 1.95, cps: 38 },
-    pagodaCap: { text: 'La luce è la tua unica arma.', t: T.PAGODA + 7.72, cps: 46 },
+    pagodaTag: { text: 'LA LUCE È LA TUA UNICA ARMA.', t: T.PAGODA + 1.95, cps: 40 },
     endTag: { text: 'A different way to see pixels.', t: T.END + 0.95, cps: 36 },
 };
 const typed = (k, t) => { const s = TYPE[k]; return s.text.slice(0, clamp(Math.floor((t - s.t) * s.cps), 0, s.text.length)); };
@@ -59,10 +58,10 @@ const PILLARS = [
     ['04', 'QUALITÀ', 'SULLA QUANTITÀ.', '10 ore indimenticabili, non 100 ore ripetitive.'],
 ];
 const ECO = [
-    { icon: 'cube', title: 'PIXEL OTROS', body: ['Il nostro motore proprietario:', 'streaming SSD e Nanovoxel.'], tag: '> ENGINE' },
-    { icon: 'ai', title: 'KRIPIX AI', body: ['L’assistente intelligente', 'integrato nel portale.'], tag: '> ASSISTENTE · BETA' },
-    { icon: 'net', title: 'NETWORK AGENTI', body: ['Chat live, dossier personale', 'e server Discord ufficiale.'], tag: '> COMMUNITY' },
-    { icon: 'key', title: 'KRIPIX STORE', body: ['Chiavi Kripix, Deluxe Edition', 'e zero DRM.'], tag: '> STORE' },
+    { icon: 'cube', title: 'PIXEL OTROS', body: ['Il nostro motore proprietario:', 'streaming SSD e Nanovoxel.'], tag: 'ENGINE' },
+    { icon: 'ai', title: 'KRIPIX AI', body: ['L’assistente intelligente', 'integrato nel portale.'], tag: 'ASSISTENTE · BETA' },
+    { icon: 'net', title: 'NETWORK AGENTI', body: ['Chat live, dossier personale', 'e server Discord ufficiale.'], tag: 'COMMUNITY' },
+    { icon: 'key', title: 'KRIPIX STORE', body: ['Chiavi Kripix, Deluxe Edition', 'e zero DRM.'], tag: 'STORE' },
 ];
 const SECTIONS = [
     [T.BOOT, '00 — SEGNALE'], [T.LOGO, '01 — KRIPIX'], [T.STUDIO, '02 — STUDIO'], [T.GAMES, '03 — GIOCHI'],
@@ -139,7 +138,21 @@ export async function createReel(canvas) {
         if ((o.align === 'center') && o.spacing) dx = o.spacing / 2; // compensa lo spazio finale
         if ((o.align === 'right') && o.spacing) dx = o.spacing;
         if (o.glow) { ctx.shadowColor = o.glowColor || o.color; ctx.shadowBlur = o.glow; }
-        if (o.stroke) { ctx.lineWidth = o.lineWidth || 2; ctx.strokeStyle = o.stroke; ctx.strokeText(str, x + dx, y); }
+        if (o.stroke) {
+            // Contorno "pulito": i glifi di Montserrat sono fatti di tracciati
+            // sovrapposti, e strokeText ne disegnerebbe anche le linee interne.
+            // Si traccia un contorno doppio e si sottrae il riempimento: resta
+            // solo il bordo esterno della lettera.
+            const m = ctx.getTransform();
+            tctx.setTransform(1, 0, 0, 1, 0, 0); tctx.globalCompositeOperation = 'source-over'; tctx.clearRect(0, 0, W, H);
+            tctx.setTransform(m);
+            tctx.font = ctx.font; tctx.letterSpacing = ctx.letterSpacing; tctx.textAlign = ctx.textAlign; tctx.textBaseline = ctx.textBaseline;
+            tctx.lineJoin = 'round'; tctx.lineWidth = (o.lineWidth || 2) * 2; tctx.strokeStyle = o.stroke;
+            tctx.strokeText(str, x + dx, y);
+            tctx.globalCompositeOperation = 'destination-out'; tctx.fillStyle = '#000'; tctx.fillText(str, x + dx, y);
+            tctx.globalCompositeOperation = 'source-over'; tctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.shadowColor = 'transparent'; ctx.drawImage(tmp, 0, 0); ctx.restore();
+        }
         if (o.color) { ctx.fillStyle = o.color; ctx.fillText(str, x + dx, y); }
         ctx.restore();
     }
@@ -268,19 +281,28 @@ export async function createReel(canvas) {
             text('ENTERTAINMENT', W / 2, LOGO.y + 78 + (o.dy || 0), { weight: 300, size: 50, spacing: sp, align: 'center', color: '#a83030', alpha: a * clamp(o.entK * 1.6) });
         }
     }
-    function glint(k, y0, y1) {
+    // riflesso lucido che attraversa il logo; disegnato sulla stessa posizione
+    // del testo (dy) così combacia esattamente con le lettere
+    function glint(k, { dy = 0, strength = 1 } = {}) {
         if (k <= 0 || k >= 1) return;
-        // banda di luce che attraversa il logo (solo sopra il testo)
-        tctx.globalCompositeOperation = 'copy'; tctx.clearRect(0, 0, W, H);
-        tctx.globalCompositeOperation = 'source-over';
-        tctx.font = font(900, LOGO.size); tctx.letterSpacing = `${LOGO.spacing}px`; tctx.textAlign = 'center'; tctx.fillStyle = '#fff';
-        tctx.fillText('KRIPIX', W / 2 + LOGO.spacing / 2, LOGO.y);
+        tctx.setTransform(1, 0, 0, 1, 0, 0);
+        tctx.globalCompositeOperation = 'source-over'; tctx.clearRect(0, 0, W, H);
+        tctx.font = font(900, LOGO.size); tctx.letterSpacing = `${LOGO.spacing}px`; tctx.textAlign = 'center'; tctx.textBaseline = 'alphabetic'; tctx.fillStyle = '#fff';
+        tctx.fillText('KRIPIX', W / 2 + LOGO.spacing / 2, LOGO.y + dy);
         tctx.globalCompositeOperation = 'source-in';
-        const x = lerp(300, 1620, E.inOutCubic(k));
-        const g = tctx.createLinearGradient(x - 180, y0, x + 180, y1);
-        g.addColorStop(0, 'rgba(255,240,200,0)'); g.addColorStop(0.5, 'rgba(255,245,215,0.95)'); g.addColorStop(1, 'rgba(255,240,200,0)');
+        const x = lerp(250, 1670, E.inOutCubic(k));
+        const yTop = LOGO.y + dy - 190, yBot = LOGO.y + dy + 10;
+        // banda morbida larga + filo di luce più stretto e intenso
+        const g = tctx.createLinearGradient(x - 220, yTop, x + 120, yBot);
+        g.addColorStop(0, 'rgba(255,240,200,0)');
+        g.addColorStop(0.42, `rgba(255,244,214,${0.55 * strength})`);
+        g.addColorStop(0.5, `rgba(255,252,240,${Math.min(1, 1.0 * strength)})`);
+        g.addColorStop(0.58, `rgba(255,244,214,${0.55 * strength})`);
+        g.addColorStop(1, 'rgba(255,240,200,0)');
         tctx.fillStyle = g; tctx.fillRect(0, 0, W, H);
-        ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(tmp, 0, 0); ctx.restore();
+        // il riflesso si accende e si spegne ai bordi della corsa
+        const fade = Math.sin(Math.PI * k);
+        ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = fade; ctx.drawImage(tmp, 0, 0); ctx.restore();
     }
 
     // ---------- icone line-art ----------
@@ -369,13 +391,13 @@ export async function createReel(canvas) {
     }
 
     // ---- 01 · LOGO -------------------------------------------------
-    function sLogo(t) {
+    function sLogo(t, intro = false) {
         const l = t - T.LOGO;
         bg(C.deep);
         ctx.save();
         const z = 1 + 0.045 * E.outCubic(prog(l, 0, 4));
         ctx.translate(W / 2, H / 2); ctx.scale(z, z); ctx.translate(-W / 2, -H / 2);
-        drawGrid(E.smooth(prog(l, 0.15, 1.2)) * 0.95, 1 + 0.06 * l);
+        drawGrid(E.smooth(prog(l, 0.15, 1.2)) * 0.95, 1 + 0.2 * E.outCubic(prog(l, 0, 3.6)));
         glow(W / 2, LOGO.y - 60, 900, 'rgba(139,35,35,0.35)', E.smooth(prog(l, 0.8, 2.0)) * 0.7);
         // onda d'urto e lampo iniziale
         const kRing = prog(l, 0, 0.75);
@@ -386,7 +408,7 @@ export async function createReel(canvas) {
         const crisp = E.smooth(prog(l, 1.28, 1.55));
         if (crisp < 1) logoParticles(l, 1 - crisp * 0.999);
         logoText({ alpha: crisp, entK: prog(l, 1.35, 2.3) });
-        glint(prog(l, 1.65, 2.25), 300, 600);
+        glint(prog(l, 1.6, 2.35), { strength: 1.35 });
         // tagline digitata
         const tag = typed('tagline', t);
         if (tag) {
@@ -394,7 +416,9 @@ export async function createReel(canvas) {
             const wFull = measure(full, { weight: 400, size: 30, family: 'Courier Prime', spacing: 1 });
             const x = W / 2 - wFull / 2;
             text(tag, x, LOGO.y + 160, { weight: 400, size: 30, family: 'Courier Prime', spacing: 1, color: '#9a9a9a' });
-            if (l < 3.7) cursor(x + measure(tag, { weight: 400, size: 30, family: 'Courier Prime', spacing: 1 }), LOGO.y + 160, 30, t);
+            // nell'intro il cursore sparisce con l'ultima lettera: poi l'immagine resta ferma
+            const showCursor = intro ? tag.length < full.length : l < 3.7;
+            if (showCursor) cursor(x + measure(tag, { weight: 400, size: 30, family: 'Courier Prime', spacing: 1 }), LOGO.y + 160, 30, t);
         }
         ctx.restore();
         flash(Math.pow(1 - prog(l, 0, 0.42), 2.2), '255,246,224');
@@ -409,7 +433,7 @@ export async function createReel(canvas) {
         if (k < 1.0) {
             const out = E.inCubic(prog(k, 0.86, 1.0));
             ctx.save(); ctx.translate(0, -out * 60); ctx.globalAlpha = 1 - out;
-            text('// LO STUDIO', 160, 318, { weight: 700, size: 24, family: 'Courier Prime', spacing: 4, color: C.gold, alpha: prog(k, 0, 0.15) });
+            text('LO STUDIO', 160, 318, { weight: 700, size: 24, family: 'Courier Prime', spacing: 4, color: C.gold, alpha: prog(k, 0, 0.15) });
             reveal('NON CREIAMO', 152, 480, prog(k, 0.02, 0.42), { size: 138, color: C.ivory, spacing: 2 });
             reveal('PASSATEMPI.', 152, 628, prog(k, 0.1, 0.5), { size: 138, stroke: C.ivory, lineWidth: 2.5, spacing: 2 });
             const ws = measure('PASSATEMPI.', { size: 138, spacing: 2 });
@@ -450,7 +474,7 @@ export async function createReel(canvas) {
                 const f = j < i ? 1 : j === i ? prog(q, 0, 0.5) : 0;
                 ctx.fillStyle = C.gold; ctx.fillRect(x, 905, 80 * f, 4);
             }
-            text('// I 4 PILASTRI', 170, 250, { weight: 700, size: 22, family: 'Courier Prime', spacing: 4, color: '#6f6f6f' });
+            text('I 4 PILASTRI', 170, 250, { weight: 700, size: 22, family: 'Courier Prime', spacing: 4, color: '#6f6f6f' });
             flash((1 - prog(q, 0, 0.07)) * 0.16);
             glitch(q < 0.05 && i > 0 ? 0.35 : 0, i * 17 + Math.floor(q * 60));
         }
@@ -458,6 +482,12 @@ export async function createReel(canvas) {
     }
 
     // ---- 03 · GIOCHI -----------------------------------------------
+    // titolo della scheda: centrato e ridotto quanto basta per restare dentro
+    function cardTitle(str, x, y, w) {
+        let size = 44;
+        while (size > 20 && measure(str, { size, spacing: 1.5 }) > w - 56) size -= 1;
+        text(str, x + w / 2, y, { size, spacing: 1.5, align: 'center', color: C.ivory });
+    }
     function posterPagoda(x, y, w, h) {
         ctx.save();
         ctx.fillStyle = '#060606'; ctx.fillRect(x, y, w, h);
@@ -473,9 +503,9 @@ export async function createReel(canvas) {
         ctx.fillStyle = 'rgba(0,0,0,0.65)'; ctx.fillRect(x + 18, y + 20, 138, 30);
         ctx.strokeStyle = C.gold; ctx.lineWidth = 1; ctx.strokeRect(x + 18.5, y + 20.5, 138, 30);
         text('IN SVILUPPO', x + 87, y + 41, { weight: 700, size: 14, family: 'Courier Prime', spacing: 2, align: 'center', color: C.gold });
-        text('LA PAGODA', x + 28, y + ih + 30, { size: 46, spacing: 2, color: C.ivory });
-        text('LIMINAL SURVIVAL HORROR', x + 30, y + ih + 66, { weight: 700, size: 17, family: 'Courier Prime', spacing: 3, color: C.redHi });
-        text('PC · 2027 · KRIPIX STORE / STEAM', x + 30, y + ih + 96, { weight: 400, size: 15, family: 'Courier Prime', spacing: 1, color: '#8a8a8a' });
+        cardTitle('LA PAGODA', x, y + ih + 30, w);
+        text('LA LUCE È LA TUA UNICA ARMA.', x + w / 2, y + ih + 66, { weight: 700, size: 15, family: 'Courier Prime', spacing: 2, align: 'center', color: C.redHi });
+        text('PC · 2027 · KRIPIX STORE / STEAM', x + w / 2, y + ih + 96, { weight: 400, size: 15, family: 'Courier Prime', spacing: 1, align: 'center', color: '#8a8a8a' });
         ctx.strokeStyle = 'rgba(227,198,108,0.6)'; ctx.lineWidth = 1.5; ctx.strokeRect(x + 0.75, y + 0.75, w - 1.5, h - 1.5);
         ctx.restore();
     }
@@ -486,13 +516,13 @@ export async function createReel(canvas) {
         ctx.drawImage(noiseTex, 0, Math.floor(hash(Math.floor(t * 24)) * 20), 400, 420, x, y, w, ih);
         text('?', x + w / 2, y + ih * 0.66, { size: 300, align: 'center', stroke: 'rgba(232,230,217,0.22)', lineWidth: 2 });
         ctx.fillStyle = '#000'; ctx.fillRect(x + 40, y + 70, w * 0.55, 18); ctx.fillRect(x + 40, y + 100, w * 0.4, 18);
-        ctx.save(); ctx.translate(x + w / 2, y + ih * 0.52); ctx.rotate(-0.2);
-        ctx.strokeStyle = C.redHi; ctx.lineWidth = 4; ctx.strokeRect(-150, -34, 300, 68);
-        text('CLASSIFICATO', 0, 13, { size: 34, spacing: 4, align: 'center', color: C.redHi });
+        ctx.save(); ctx.translate(x + w / 2, y + ih * 0.52); ctx.rotate(-0.16);
+        ctx.strokeStyle = C.redHi; ctx.lineWidth = 2.5; ctx.strokeRect(-100, -22, 200, 44);
+        text('CLASSIFICATO', 0, 8, { size: 21, spacing: 3, align: 'center', color: C.redHi });
         ctx.restore();
-        text('PROGETTO SEGRETO', x + 28, y + ih + 30, { size: 34, spacing: 1, color: C.ivory });
-        text('UN NUOVO CAPITOLO', x + 30, y + ih + 66, { weight: 700, size: 17, family: 'Courier Prime', spacing: 3, color: '#9a9a9a' });
-        text('PRE-PRODUZIONE · ████', x + 30, y + ih + 96, { weight: 400, size: 15, family: 'Courier Prime', spacing: 1, color: '#6a6a6a' });
+        cardTitle('PROGETTO SEGRETO', x, y + ih + 30, w);
+        text('UN NUOVO CAPITOLO', x + w / 2, y + ih + 66, { weight: 700, size: 15, family: 'Courier Prime', spacing: 2, align: 'center', color: '#9a9a9a' });
+        text('PRE-PRODUZIONE · ████', x + w / 2, y + ih + 96, { weight: 400, size: 15, family: 'Courier Prime', spacing: 1, align: 'center', color: '#6a6a6a' });
         ctx.strokeStyle = '#2a2a2a'; ctx.lineWidth = 1.5; ctx.strokeRect(x + 0.75, y + 0.75, w - 1.5, h - 1.5);
         ctx.restore();
     }
@@ -508,7 +538,7 @@ export async function createReel(canvas) {
         const z = 1 + push * 5.2;
         ctx.save();
         ctx.translate(W / 2, H / 2); ctx.scale(z, z); ctx.translate(-lerp(W / 2, focusX, Math.min(1, push * 3)), -lerp(H / 2, focusY, Math.min(1, push * 3)));
-        text('// I NOSTRI GIOCHI', 170, 175, { weight: 700, size: 24, family: 'Courier Prime', spacing: 4, color: C.gold, alpha: prog(g, 0, 0.2) });
+        text('I NOSTRI GIOCHI', 170, 175, { weight: 700, size: 24, family: 'Courier Prime', spacing: 4, color: C.gold, alpha: prog(g, 0, 0.2) });
         text('CATALOGO PROGETTI', 170, 214, { weight: 400, size: 18, family: 'Courier Prime', spacing: 3, color: '#6a6a6a', alpha: prog(g, 0.05, 0.25) });
         const card = (x, k, rot, draw, alpha = 1) => {
             const e = E.outExpo(k);
@@ -567,13 +597,6 @@ export async function createReel(canvas) {
         text(typed('pagodaTag', t), tx + 4, ty + 70, { weight: 700, size: 27, family: 'Courier Prime', spacing: 7, color: '#d04a44', glow: 12, glowColor: 'rgba(200,40,40,0.5)' });
         text('PC · 2027 · IN SVILUPPO', tx + 4, ty + 108, { weight: 400, size: 19, family: 'Courier Prime', spacing: 4, color: '#a0a0a0', alpha: prog(s, 2.75, 3.1) });
         ctx.restore();
-        // didascalia dopo lo sbattere della porta
-        const cap = typed('pagodaCap', t);
-        if (cap) {
-            const full = TYPE.pagodaCap.text;
-            const wf = measure(full, { weight: 400, size: 32, family: 'Courier Prime', spacing: 2 });
-            text(cap, W / 2 - wf / 2, H - BAR - 64, { weight: 400, size: 32, family: 'Courier Prime', spacing: 2, color: C.ivory, glow: 14, glowColor: 'rgba(0,0,0,0.9)' });
-        }
         // bande cinematografiche: si aprono col flash e si chiudono come un otturatore
         const open = E.outExpo(prog(s, 0.05, 0.55));
         const shut = E.inExpo(prog(s, 8.55, 8.92));
@@ -637,7 +660,7 @@ export async function createReel(canvas) {
         g.fillStyle = C.gold; g.fillRect(bx, by, bw, 2);
         tx('IN EVIDENZA', bx + 34, by + 52, { weight: 700, size: 13, family: 'Courier Prime', spacing: 4, color: C.gold });
         tx('LA PAGODA', bx + 32, by + 122, { weight: 900, size: 66, spacing: 2 });
-        tx('Liminal Survival Horror', bx + 34, by + 158, { weight: 400, size: 17, family: 'Courier Prime', spacing: 1, color: '#c0c0c0' });
+        tx('La luce è la tua unica arma.', bx + 34, by + 158, { weight: 400, size: 17, family: 'Courier Prime', spacing: 1, color: '#c0c0c0' });
         g.strokeStyle = C.gold; g.lineWidth = 1; g.strokeRect(bx + 34.5, by + 180.5, 156, 28);
         tx('DELUXE EDITION', bx + 112, by + 200, { weight: 700, size: 12, family: 'Courier Prime', spacing: 2, align: 'center', color: C.gold });
         // pulsante (INSTALLA → SCARICAMENTO → GIOCA)
@@ -678,7 +701,7 @@ export async function createReel(canvas) {
             g.stroke(); g.restore();
             tx(title, fx + 26, fy + 128, { weight: 900, size: 17, spacing: 1.5 });
             tx(body, fx + 26, fy + 158, { weight: 500, size: 13.5, color: '#888' });
-            tx('> ATTIVO', fx + 26, fy + 196, { weight: 700, size: 11.5, family: 'Courier Prime', spacing: 2, color: C.gold });
+            tx('ATTIVO', fx + 26, fy + 196, { weight: 700, size: 11.5, family: 'Courier Prime', spacing: 2, color: C.gold });
             g.globalAlpha = 1;
         });
         // cursore del mouse
@@ -702,13 +725,13 @@ export async function createReel(canvas) {
         glow(1360, 560, 600, 'rgba(139,35,35,0.25)', 1);
         // colonna di testo
         const x = 150;
-        text('// KRIPIX LAUNCHER', x, 300, { weight: 700, size: 24, family: 'Courier Prime', spacing: 4, color: C.gold, alpha: prog(u, 0.2, 0.4) });
+        text('KRIPIX LAUNCHER', x, 300, { weight: 700, size: 24, family: 'Courier Prime', spacing: 4, color: C.gold, alpha: prog(u, 0.2, 0.4) });
         reveal('IL TUO PORTALE', x - 4, 404, prog(u, 0.3, 0.75), { size: 70, spacing: 1, color: C.ivory });
         reveal('PER LA PAGODA', x - 4, 486, prog(u, 0.4, 0.85), { size: 70, spacing: 1, color: C.ivory });
         reveal('E OLTRE.', x - 4, 568, prog(u, 0.5, 0.95), { size: 70, spacing: 1, color: C.gold });
         ['Aggiornamenti rapidi', 'Cloud save', 'Bonus esclusivi'].forEach((s, i) => {
             const a = E.outExpo(prog(u, 1.45 + i * 0.22, 1.75 + i * 0.22));
-            text('▸', x + (1 - a) * -20, 660 + i * 46, { weight: 700, size: 24, family: 'Courier Prime', color: C.gold, alpha: a });
+            ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = C.gold; ctx.fillRect(x + (1 - a) * -20, 660 + i * 46 - 14, 10, 10); ctx.restore();
             text(s, x + 34 + (1 - a) * -20, 660 + i * 46, { weight: 400, size: 26, family: 'Courier Prime', color: '#b5b5b5', alpha: a });
         });
         const oa = E.outExpo(prog(u, 2.3, 2.6));
@@ -741,7 +764,7 @@ export async function createReel(canvas) {
         const collapse = E.inExpo(prog(e, 2.55, 2.95));
         ctx.save();
         ctx.globalAlpha = 1 - collapse * 0.6;
-        text('// NON SOLO GIOCHI', W / 2, 205, { weight: 700, size: 24, family: 'Courier Prime', spacing: 5, align: 'center', color: C.gold, alpha: prog(e, 0, 0.2) });
+        text('NON SOLO GIOCHI', W / 2, 205, { weight: 700, size: 24, family: 'Courier Prime', spacing: 5, align: 'center', color: C.gold, alpha: prog(e, 0, 0.2) });
         const k = E.outExpo(prog(e, 0.05, 0.45));
         ctx.save(); ctx.beginPath(); ctx.rect(0, 220, W, 110); ctx.clip();
         const wA = measure('UN INTERO ', { size: 76, spacing: 2 }), wB = measure('ECOSISTEMA.', { size: 76, spacing: 2 });
@@ -791,7 +814,7 @@ export async function createReel(canvas) {
         // esposizione: il logo nasce sovraesposto e si "sviluppa" come una foto
         const dev = E.outCubic(prog(f, 0.0, 0.9));
         logoText({ dy, entK: prog(f, 0.15, 1.1), kColor: `rgb(${Math.round(lerp(255, 232, dev))},${Math.round(lerp(255, 230, dev))},${Math.round(lerp(255, 217, dev))})`, glow: 60 * (1 - dev) + 4, glowColor: `rgba(255,240,210,${0.9 * (1 - dev)})` });
-        glint(prog(f, 1.15, 1.75), 300, 600);
+        glint(prog(f, 1.15, 1.85), { dy, strength: 0.45 });
         const tag = typed('endTag', t);
         if (tag) {
             const full = TYPE.endTag.text;
@@ -850,6 +873,25 @@ export async function createReel(canvas) {
         if (fin > 0) { ctx.fillStyle = `rgba(0,0,0,${fin})`; ctx.fillRect(0, 0, W, H); }
     }
 
+    // ---- LOGO INTRO (per l'apertura dei giochi) --------------------
+    // Punto d'oro → esplosione di pixel → KRIPIX / ENTERTAINMENT → tagline,
+    // poi fermo immagine. Nessun HUD.
+    function renderLogoIntro(i) {
+        i = clamp(i, 0, LOGO_INTRO.duration - 1e-6);
+        ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+        const f = Math.min(i, LOGO_INTRO.freeze);
+        if (f < LOGO_INTRO.lead) {
+            bg('#000');
+            const grow = E.inExpo(prog(f, 0.1, LOGO_INTRO.lead));
+            const pulse = 0.65 + 0.35 * Math.sin(f * 40);
+            goldDot(clamp(E.smooth(prog(f, 0, 0.2)) * (0.7 + grow)) * pulse, 3 + grow * 3);
+            glow(W / 2, H / 2, 200 + grow * 500, 'rgba(255,230,170,0.7)', grow * 0.8);
+        } else {
+            sLogo(T.LOGO + f - LOGO_INTRO.lead, true);
+        }
+        post(f + 1);
+    }
+
     function renderAt(t) {
         t = clamp(t, 0, DURATION - 1e-6);
         ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none';
@@ -865,7 +907,26 @@ export async function createReel(canvas) {
         post(t);
     }
 
-    return { renderAt, DURATION, W, H, events: buildEvents() };
+    return { renderAt, renderLogoIntro, DURATION, LOGO_INTRO, W, H, events: buildEvents(), logoEvents: buildLogoEvents() };
+}
+
+// Intro del logo: 0.6s di punto d'oro, l'animazione del logo fino all'ultima
+// lettera della tagline, poi 2.5s di fermo immagine.
+export const LOGO_INTRO = (() => {
+    const lead = 0.6;
+    const freeze = lead + (typingDone('tagline') - T.LOGO) + 0.1;
+    return { lead, freeze, hold: 2.5, duration: +(freeze + 2.5).toFixed(3) };
+})();
+
+export function buildLogoEvents() {
+    const off = LOGO_INTRO.lead - T.LOGO; // tempo del reel → tempo dell'intro
+    const keep = new Set(['impact', 'pixel', 'glint']);
+    const ev = buildEvents().events
+        .filter((e) => (keep.has(e.type) && e.t < T.STUDIO) || ((e.type === 'key' || e.type === 'key_space') && e.group === 'tagline'))
+        .map((e) => ({ ...e, t: +(e.t + off).toFixed(4) }));
+    ev.push({ t: 0, type: 'riser_flash', dur: LOGO_INTRO.lead });
+    ev.sort((a, b) => a.t - b.t);
+    return { duration: LOGO_INTRO.duration, bpm: BPM, sections: { ...T, LOGO: LOGO_INTRO.lead }, events: ev, mode: 'logo', freeze: LOGO_INTRO.freeze };
 }
 
 // =====================================================================
@@ -897,7 +958,7 @@ export function buildEvents() {
     for (const f of footstepTimes()) push(T.PAGODA + f.s, 'step', { surface: f.surface, inside: f.inside });
     push(T.PAGODA + SCENE.DOOR_OPEN[0], 'door_open', { dur: SCENE.DOOR_OPEN[1] - SCENE.DOOR_OPEN[0] });
     push(T.PAGODA + SCENE.DOOR_CLOSE[1], 'door_slam');
-    push(T.PAGODA + SCENE.SHADOW_PASS[0], 'presence', { dur: SCENE.SHADOW_PASS[1] - SCENE.SHADOW_PASS[0] });
+    push(T.PAGODA + SCENE.TENSION[0], 'presence', { dur: SCENE.TENSION[1] - SCENE.TENSION[0] });
     push(T.PAGODA + 1.6, 'thunder');
     push(T.PAGODA + 2.1, 'neon_flicker'); push(T.PAGODA + 7.5, 'neon_flicker'); push(T.PAGODA + 7.8, 'neon_flicker');
     push(T.PAGODA + 8.55, 'shutter_close');

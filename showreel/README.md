@@ -5,6 +5,7 @@
 Showreel di ~33 secondi di Kripix Entertainment: lo studio, i giochi, **La Pagoda**, il **Kripix Launcher** e l'ecosistema (Pixel Otros, Kripix AI, Network Agenti, Kripix Store).
 
 - **Video finale:** [`kripix-showreel.mp4`](kripix-showreel.mp4) — 1920×1080, 30 fps, H.264 + AAC
+- **Intro del logo:** [`kripix-logo-intro.mp4`](kripix-logo-intro.mp4) — 6 s, pixel → logo → tagline e 2,5 s di fermo immagine, da usare come apertura dei giochi
 - **Versione interattiva:** [`index.html`](index.html) — lo stesso showreel generato dal vivo nel browser, con audio
 
 Tutto è **procedurale**: nessun asset esterno oltre ai font del sito (Montserrat, Courier Prime) e a Three.js. Ogni fotogramma è una funzione pura del tempo (`renderAt(t)`), quindi il rendering è riproducibile e la colonna sonora è sincronizzata al fotogramma.
@@ -19,13 +20,13 @@ Tutto è **procedurale**: nessun asset esterno oltre ai font del sito (Montserra
 | 0:03 – 0:07 | **Kripix** | Il punto esplode in pixel che compongono il logo KRIPIX / ENTERTAINMENT + tagline |
 | 0:07 – 0:11 | **Studio** | "Non creiamo passatempi. Creiamo mondi." e i 4 pilastri dello studio |
 | 0:11 – 0:13 | **Giochi** | Catalogo: La Pagoda e il Progetto Segreto. Carrello dentro il poster, il flash si carica… |
-| 0:13 – 0:22 | **La Pagoda** | *Flash.* Scena 3D vista dal basso: Stefano Valenti attraversa la strada bagnata ed entra nel ristorante. Titolo in alto a sinistra |
+| 0:13 – 0:22 | **La Pagoda** | *Flash.* Scena 3D vista dal basso: Stefano Valenti attraversa la strada bagnata ed entra nel ristorante. Titolo in alto a sinistra con "La luce è la tua unica arma." |
 | 0:22 – 0:26 | **Launcher** | Il Kripix Launcher in prospettiva: installazione de La Pagoda → GIOCA |
 | 0:26 – 0:29 | **Ecosistema** | Pixel Otros, Kripix AI, Network Agenti, Kripix Store |
 | 0:29 – 0:33 | **Finale** | Logo, tagline, sito — lo schermo si richiude nel punto d'oro dell'inizio |
 
 La transizione verso La Pagoda usa la meccanica del gioco: **il flash della fotocamera** di Stefano.
-Nella scena: neon "RISTORANTE" che sfarfalla, porte che si aprono da sole, l'ombra lunga verso la camera, il Maître (maschera da cervo) in fondo al corridoio e la sua sagoma che passa dietro il vetro dopo che la porta sbatte.
+Nella scena: neon "RISTORANTE" che sfarfalla, porte che si aprono da sole, l'ombra lunga verso la camera, la porta che sbatte alle spalle di Stefano.
 
 ---
 
@@ -44,6 +45,13 @@ python3 tools/soundtrack.py
 node tools/render.mjs
 ```
 
+Intro del logo:
+
+```bash
+python3 tools/soundtrack.py --logo
+node tools/render.mjs --mode logo      # → kripix-logo-intro.mp4
+```
+
 Opzioni utili di `tools/render.mjs`:
 
 | Opzione | Effetto |
@@ -53,6 +61,7 @@ Opzioni utili di `tools/render.mjs`:
 | `--stills 3.5,15,24` | salva solo alcuni fotogrammi in PNG (anteprime veloci) |
 | `--from 13 --to 22` | renderizza solo un intervallo |
 | `--out file.mp4` | file di uscita |
+| `--mode logo` | renderizza l'intro del logo invece dello showreel |
 
 Per vedere la versione interattiva serve un server locale (i moduli ES non funzionano da `file://`):
 

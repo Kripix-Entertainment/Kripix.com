@@ -33,7 +33,7 @@ export const SCENE = {
     STRIDE: 0.8,           // metri per passo
     DOOR_OPEN: [4.75, 5.75],
     DOOR_CLOSE: [7.0, 7.48],   // lo sbattere della porta cade a 7.48
-    SHADOW_PASS: [7.75, 8.35], // sagoma con le corna dietro il vetro
+    TENSION: [7.75, 8.35],      // il silenzio dopo lo sbattere
     DURATION: 9.0,
 };
 
@@ -117,11 +117,10 @@ function canvasTex(w, h, draw, { repeat = null, srgb = true } = {}) {
     if (repeat) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(repeat[0], repeat[1]); }
     return t;
 }
-function latticeDraw(g, w, h, { glow = '#ffb36b', frame = '#1a0705', cells = 6, lineW = 0.06, sil = null } = {}) {
+function latticeDraw(g, w, h, { glow = '#ffb36b', frame = '#1a0705', cells = 6, lineW = 0.06 } = {}) {
     const grd = g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.max(w, h) * 0.7);
     grd.addColorStop(0, glow); grd.addColorStop(1, '#5a1d0c');
     g.fillStyle = grd; g.fillRect(0, 0, w, h);
-    if (sil) sil(g, w, h);
     g.strokeStyle = frame; g.lineCap = 'square';
     const lw = Math.min(w, h) * lineW * 0.5;
     g.lineWidth = lw;
@@ -312,34 +311,6 @@ function buildStefano(mats) {
         coat.scale.x = 1.22 + 0.015 * amp * Math.sin(th * 2);
     }
     return { root, pose };
-}
-
-// ---------- il Maître: due metri di eleganza e una maschera da cervo ----------
-function buildMaitre(mats) {
-    const g = new THREE.Group();
-    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.24, 1.55, 16), mats.tux);
-    body.position.y = 1.05; g.add(body);
-    const shirt = new THREE.Mesh(new THREE.PlaneGeometry(0.12, 0.5), mats.bone);
-    shirt.position.set(0, 1.5, 0.215); g.add(shirt);
-    const legs = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.12, 0.35, 12), mats.tux);
-    legs.position.y = 0.17; g.add(legs);
-    for (const sx of [-1, 1]) {
-        const a = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.04, 0.95, 8), mats.tux);
-        a.position.set(sx * 0.26, 1.25, 0); a.rotation.z = sx * 0.06; g.add(a);
-    }
-    const head = new THREE.Group(); head.position.y = 1.95; g.add(head);
-    const skull = new THREE.Mesh(new THREE.ConeGeometry(0.11, 0.38, 12), mats.bone);
-    skull.rotation.x = Math.PI / 2 + 0.35; skull.position.set(0, 0.02, 0.1); head.add(skull);
-    const cranium = new THREE.Mesh(new THREE.SphereGeometry(0.12, 14, 10), mats.bone);
-    cranium.position.y = 0.06; head.add(cranium);
-    const tube = (pts, r) => new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p))), 16, r, 5), mats.antler);
-    for (const sx of [-1, 1]) {
-        head.add(tube([[sx * 0.06, 0.12, 0], [sx * 0.2, 0.3, -0.03], [sx * 0.3, 0.55, -0.05], [sx * 0.33, 0.85, 0]], 0.018));
-        head.add(tube([[sx * 0.22, 0.34, -0.03], [sx * 0.35, 0.42, 0.05], [sx * 0.45, 0.5, 0.06]], 0.012));
-        head.add(tube([[sx * 0.29, 0.52, -0.05], [sx * 0.42, 0.68, -0.02], [sx * 0.5, 0.75, 0.02]], 0.011));
-        head.add(tube([[sx * 0.31, 0.7, -0.03], [sx * 0.24, 0.88, -0.04], [sx * 0.2, 0.98, -0.02]], 0.01));
-    }
-    return { root: g, head };
 }
 
 // =====================================================================
@@ -535,39 +506,14 @@ export function createPagoda(renderer, W, H) {
     }
 
     // ---------- le ante della porta (si aprono da sole) ----------
-    const doorTexBase = (sil) => canvasTex(256, 384, (g, w, h) => latticeDraw(g, w, h, { glow: '#ffc27a', cells: 4, sil }));
-    // silhouette con le corna (frame-dipendente): una texture per anta, così
-    // la sagoma attraversa la porta da un vetro all'altro come un'unica figura
-    const silDraw = (x0) => (gg, w, h) => {
-        const x = x0 * w, y = h * 0.62;
-        gg.save(); gg.translate(x, y); gg.fillStyle = 'rgba(18,3,2,0.94)';
-        gg.beginPath(); gg.ellipse(0, 0, w * 0.2, h * 0.16, 0, 0, Math.PI * 2); gg.fill();
-        gg.fillRect(-w * 0.3, h * 0.12, w * 0.6, h * 0.5);
-        gg.lineWidth = w * 0.035; gg.strokeStyle = 'rgba(18,3,2,0.94)'; gg.lineCap = 'round';
-        for (const sx of [-1, 1]) {
-            gg.beginPath(); gg.moveTo(sx * w * 0.06, -h * 0.1); gg.quadraticCurveTo(sx * w * 0.28, -h * 0.3, sx * w * 0.22, -h * 0.55); gg.stroke();
-            gg.beginPath(); gg.moveTo(sx * w * 0.2, -h * 0.26); gg.lineTo(sx * w * 0.42, -h * 0.36); gg.stroke();
-            gg.beginPath(); gg.moveTo(sx * w * 0.25, -h * 0.42); gg.lineTo(sx * w * 0.4, -h * 0.55); gg.stroke();
-        }
-        gg.restore();
-    };
     const doorMats = [-1, 1].map((side) => {
         const c = document.createElement('canvas'); c.width = 256; c.height = 384;
         const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
         const mat = std({ map: tex, emissiveMap: tex, emissive: new THREE.Color(1, 0.75, 0.5), roughness: 0.7 });
-        let last = 'init';
-        const draw = (k) => {
-            // k in [0,1]: posizione della figura lungo la larghezza delle due ante
-            const x0 = k === null ? null : (side < 0 ? lerp(-0.5, 2.6, k) : lerp(-1.9, 1.2, k));
-            const key = x0 === null ? 'none' : x0.toFixed(3);
-            if (key === last) return; last = key;
-            latticeDraw(c.getContext('2d'), 256, 384, { glow: '#ffc27a', cells: 4, sil: x0 === null ? null : silDraw(x0) });
-            tex.needsUpdate = true;
-        };
-        draw(null);
-        return { mat, draw };
+        latticeDraw(c.getContext('2d'), 256, 384, { glow: '#ffc27a', cells: 4 });
+        tex.needsUpdate = true;
+        return { mat };
     });
-    const drawSil = (k) => doorMats.forEach(d => d.draw(k));
     const studs = new THREE.SphereGeometry(0.028, 8, 6);
     const makeLeaf = (side) => {
         const pivot = new THREE.Group(); pivot.position.set(side * 1.1, 0.3, F - 0.1); bld.add(pivot);
@@ -599,7 +545,7 @@ export function createPagoda(renderer, W, H) {
     for (const [z, c, i] of [[F - 3.0, 0xffa060, 7], [F - 7.5, 0xff4a2a, 6], [F - 12.5, 0xff3020, 5]]) {
         const pl = new THREE.PointLight(c, i, 7.5, 2); pl.position.set(0, 2.5, z); scene.add(pl); inLights.push([pl, i]);
     }
-    // fondo del corridoio: bagliore rosso, il Maître vi si staglia contro
+    // fondo del corridoio: bagliore rosso
     const endTex = canvasTex(256, 256, (g, w, h) => {
         const gr = g.createRadialGradient(w / 2, h * 0.55, 0, w / 2, h * 0.55, w * 0.6);
         gr.addColorStop(0, '#ff6a3a'); gr.addColorStop(0.5, '#9a1a0c'); gr.addColorStop(1, '#2a0504');
@@ -607,8 +553,6 @@ export function createPagoda(renderer, W, H) {
     });
     const endWall = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 3.0), new THREE.MeshBasicMaterial({ map: endTex, color: new THREE.Color(1.2, 1.2, 1.2) }));
     endWall.position.set(0, 1.8, F - 16.2); scene.add(endWall);
-    const maitre = buildMaitre(mats);
-    maitre.root.position.set(0.15, 0.3, F - 13.5); scene.add(maitre.root);
 
     // ---------- piani superiori e tetti ----------
     add(new THREE.BoxGeometry(10.5, 3.3, 8), std({ map: (() => {
@@ -799,14 +743,9 @@ export function createPagoda(renderer, W, H) {
         doorSpot.intensity = 90 * open;
         doorSpot.castShadow = open > 0.02;
         for (const [pl, i] of inLights) pl.intensity = i * (0.25 + 0.75 * open);
-        // pannelli della porta: luce interna + sagoma che passa dopo lo sbattere
-        const sp = (s - SCENE.SHADOW_PASS[0]) / (SCENE.SHADOW_PASS[1] - SCENE.SHADOW_PASS[0]);
-        drawSil(sp > 0 && sp < 1 ? sp : null);
+        // pannelli della porta: si accendono quando la porta sbatte
         const slam = s > SCENE.DOOR_CLOSE[1] ? Math.exp(-(s - SCENE.DOOR_CLOSE[1]) * 6) : 0;
         doorMats.forEach(d => { d.mat.emissiveIntensity = 0.75 + 0.25 * open + 0.9 * slam; });
-        // il Maître inclina la testa mentre lo guardiamo
-        maitre.head.rotation.z = 0.32 * smooth(5.6, 6.3, s);
-        maitre.root.visible = s < SCENE.DOOR_CLOSE[1] + 0.2;
         // neon
         const n = neonAt(s);
         neonMat.color.setScalar(0.25 + 2.2 * n);
