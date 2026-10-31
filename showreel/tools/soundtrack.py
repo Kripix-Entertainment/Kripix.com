@@ -19,7 +19,9 @@ from scipy import signal
 
 ROOT = Path(__file__).resolve().parent.parent
 SR = 48000
-EV = json.loads((ROOT / "assets" / "events.json").read_text())
+import sys
+LOGO = "--logo" in sys.argv  # solo l'intro del logo
+EV = json.loads((ROOT / "assets" / ("logo-events.json" if LOGO else "events.json")).read_text())
 DUR = EV["duration"]
 N = int(DUR * SR)
 BEAT = 60 / EV["bpm"]
@@ -237,109 +239,117 @@ def glitch_burst(d=0.25):
 
 
 # ================================================================= MUSICA
-bar = 2 * 2 * BEAT  # 4 battiti = 2 s
+if not LOGO:
+    bar = 2 * 2 * BEAT  # 4 battiti = 2 s
 
-# 00 · drone di apertura + statico
-d0 = S["LOGO"]
-x = (sine(55, d0) * 0.5 + filt(saw(55, d0), "low", 220) * 0.4) * np.linspace(0, 1, int(d0 * SR)) ** 1.5
-place(x, 0, 0.45)
-st = filt(noise(d0), "band", (2000, 9000)) * 0.05 * (0.6 + 0.4 * (rng.random(int(d0 * SR)) > 0.995))
-place(st * np.linspace(0.4, 1, len(st)), 0, 0.5, pan=0.2)
+    # 00 · drone di apertura + statico
+    d0 = S["LOGO"]
+    x = (sine(55, d0) * 0.5 + filt(saw(55, d0), "low", 220) * 0.4) * np.linspace(0, 1, int(d0 * SR)) ** 1.5
+    place(x, 0, 0.45)
+    st = filt(noise(d0), "band", (2000, 9000)) * 0.05 * (0.6 + 0.4 * (rng.random(int(d0 * SR)) > 0.995))
+    place(st * np.linspace(0.4, 1, len(st)), 0, 0.5, pan=0.2)
 
-# 01 · pad dopo l'impatto (La minore add9)
-place(pad([note("A2"), note("E3"), note("B3"), note("C4"), note("E4")], 4.2, cutoff=1500, a=0.25, r=1.0), S["LOGO"], 0.5, send=0.35)
-place(pad([note("A1")], 4.0, cutoff=300, a=0.05, r=1.0, voices=2), S["LOGO"], 0.5)
-# pulsazione leggera mentre il logo si posa
-for i in range(int((S["STUDIO"] - (S["LOGO"] + 2.0)) / BEAT)):
-    place(kick(0.35), S["LOGO"] + 2.0 + i * BEAT)
+    # 01 · pad dopo l'impatto (La minore add9)
+    place(pad([note("A2"), note("E3"), note("B3"), note("C4"), note("E4")], 4.2, cutoff=1500, a=0.25, r=1.0), S["LOGO"], 0.5, send=0.35)
+    place(pad([note("A1")], 4.0, cutoff=300, a=0.05, r=1.0, voices=2), S["LOGO"], 0.5)
+    # pulsazione leggera mentre il logo si posa
+    for i in range(int((S["STUDIO"] - (S["LOGO"] + 2.0)) / BEAT)):
+        place(kick(0.35), S["LOGO"] + 2.0 + i * BEAT)
 
-# 02 · STUDIO: groove (La minore → Fa)
-chords_studio = [("A", ["A2", "C3", "E3", "A3"]), ("F", ["F2", "A2", "C3", "F3"])]
-for bi, (root, ch) in enumerate(chords_studio):
-    t0 = S["STUDIO"] + bi * bar
-    place(pad([note(n) for n in ch], bar, cutoff=1300, a=0.05, r=0.3), t0, 0.32, send=0.2)
-    rf = note(ch[0]) / 2
-    for k in range(8):
-        place(bass_note(rf, BEAT / 2 * 0.95), t0 + k * BEAT / 2, 0.5)
-for i in range(8):
-    tb = S["STUDIO"] + i * BEAT
-    place(kick(0.9), tb)
-    if i >= 2:
-        place(hat(0.25), tb + BEAT / 2, pan=0.3)
-    if i >= 4 and i % 2 == 1:
-        place(snare(0.55), tb, send=0.2)
-for k in range(4):  # rullata finale verso i giochi
-    place(snare(0.25 + 0.1 * k), S["GAMES"] - 0.5 + k * BEAT / 4, send=0.15)
+    # 02 · STUDIO: groove (La minore → Fa)
+    chords_studio = [("A", ["A2", "C3", "E3", "A3"]), ("F", ["F2", "A2", "C3", "F3"])]
+    for bi, (root, ch) in enumerate(chords_studio):
+        t0 = S["STUDIO"] + bi * bar
+        place(pad([note(n) for n in ch], bar, cutoff=1300, a=0.05, r=0.3), t0, 0.32, send=0.2)
+        rf = note(ch[0]) / 2
+        for k in range(8):
+            place(bass_note(rf, BEAT / 2 * 0.95), t0 + k * BEAT / 2, 0.5)
+    for i in range(8):
+        tb = S["STUDIO"] + i * BEAT
+        place(kick(0.9), tb)
+        if i >= 2:
+            place(hat(0.25), tb + BEAT / 2, pan=0.3)
+        if i >= 4 and i % 2 == 1:
+            place(snare(0.55), tb, send=0.2)
+    for k in range(4):  # rullata finale verso i giochi
+        place(snare(0.25 + 0.1 * k), S["GAMES"] - 0.5 + k * BEAT / 4, send=0.15)
 
-# 03 · GIOCHI: kick + carica del flash (la musica si ferma prima dell'esplosione)
-place(pad([note("D3"), note("F3"), note("A3"), note("C4")], 2.0, cutoff=1100, a=0.05, r=0.05), S["GAMES"], 0.28, send=0.2)
-place(kick(0.9), S["GAMES"]); place(kick(0.8), S["GAMES"] + BEAT)
-roll_t = S["GAMES"] + 1.0
-k = 0
-while roll_t < S["PAGODA"] - 0.05:
-    place(snare(0.15 + 0.5 * (roll_t - S["GAMES"] - 1.0)), roll_t, send=0.15)
-    k += 1
-    roll_t += BEAT / 4 if roll_t < S["GAMES"] + 1.5 else BEAT / 8
+    # 03 · GIOCHI: kick + carica del flash (la musica si ferma prima dell'esplosione)
+    place(pad([note("D3"), note("F3"), note("A3"), note("C4")], 2.0, cutoff=1100, a=0.05, r=0.05), S["GAMES"], 0.28, send=0.2)
+    place(kick(0.9), S["GAMES"]); place(kick(0.8), S["GAMES"] + BEAT)
+    roll_t = S["GAMES"] + 1.0
+    k = 0
+    while roll_t < S["PAGODA"] - 0.05:
+        place(snare(0.15 + 0.5 * (roll_t - S["GAMES"] - 1.0)), roll_t, send=0.15)
+        k += 1
+        roll_t += BEAT / 4 if roll_t < S["GAMES"] + 1.5 else BEAT / 8
 
-# 04 · PAGODA: drone horror (Re + Mib), pioggia, neon
-dp = S["LAUNCHER"] - S["PAGODA"]
-p0 = S["PAGODA"]
-t = tt(dp)
-drone = (sine(note("D2"), dp) * 0.5 + sine(note("Eb2"), dp) * 0.3 + filt(saw(note("D1"), dp), "low", 160) * 0.6)
-drone *= np.minimum(1, t / 1.5) * np.minimum(1, (dp - t) / 0.4) * (0.8 + 0.2 * np.sin(2 * np.pi * 0.23 * t))
-place(drone, p0, 0.42)
-glass = sine(2093 + 6 * np.sin(2 * np.pi * 0.4 * t), dp) * 0.05 * np.minimum(1, t / 3) * np.minimum(1, (dp - t) / 0.3)
-place(glass, p0, 0.6, pan=-0.3, send=0.5)
-# pioggia stereo
-rain_l = filt(filt(noise(dp), "high", 500), "low", 9000)
-rain_r = filt(filt(noise(dp), "high", 500), "low", 9000)
-renv = np.minimum(1, t / 0.6) * np.minimum(1, (dp - t) / 0.35)
-place_st(rain_l * renv * 0.11, rain_r * renv * 0.11, p0)
-for _ in range(900):  # gocce
-    dt_ = rng.uniform(0, dp - 0.1)
-    drop = filt(noise(0.02), "band", (2500, 9000)) * env_exp(0.02, 0.003)
-    place(drop, p0 + dt_, rng.uniform(0.04, 0.15) * renv[int(dt_ * SR)], pan=rng.uniform(-1, 1))
-# ronzio del neon (si spegne negli sfarfallii)
-hum = sum(sine(120 * h, dp) / h for h in (1, 2, 3, 5)) * 0.04
-place(hum * renv, p0, 1.0, pan=0.6)
+    # 04 · PAGODA: drone horror (Re + Mib), pioggia, neon
+    dp = S["LAUNCHER"] - S["PAGODA"]
+    p0 = S["PAGODA"]
+    t = tt(dp)
+    drone = (sine(note("D2"), dp) * 0.5 + sine(note("Eb2"), dp) * 0.3 + filt(saw(note("D1"), dp), "low", 160) * 0.6)
+    drone *= np.minimum(1, t / 1.5) * np.minimum(1, (dp - t) / 0.4) * (0.8 + 0.2 * np.sin(2 * np.pi * 0.23 * t))
+    place(drone, p0, 0.42)
+    glass = sine(2093 + 6 * np.sin(2 * np.pi * 0.4 * t), dp) * 0.05 * np.minimum(1, t / 3) * np.minimum(1, (dp - t) / 0.3)
+    place(glass, p0, 0.6, pan=-0.3, send=0.5)
+    # pioggia stereo
+    rain_l = filt(filt(noise(dp), "high", 500), "low", 9000)
+    rain_r = filt(filt(noise(dp), "high", 500), "low", 9000)
+    renv = np.minimum(1, t / 0.6) * np.minimum(1, (dp - t) / 0.35)
+    place_st(rain_l * renv * 0.11, rain_r * renv * 0.11, p0)
+    for _ in range(900):  # gocce
+        dt_ = rng.uniform(0, dp - 0.1)
+        drop = filt(noise(0.02), "band", (2500, 9000)) * env_exp(0.02, 0.003)
+        place(drop, p0 + dt_, rng.uniform(0.04, 0.15) * renv[int(dt_ * SR)], pan=rng.uniform(-1, 1))
+    # ronzio del neon (si spegne negli sfarfallii)
+    hum = sum(sine(120 * h, dp) / h for h in (1, 2, 3, 5)) * 0.04
+    place(hum * renv, p0, 1.0, pan=0.6)
 
-# 05 · LAUNCHER + 06 · ECOSISTEMA: groove più luminoso (La- Fa Do Sol)
-prog_ = [["A2", "C3", "E3", "A3"], ["F2", "A2", "C3", "F3"], ["C3", "E3", "G3", "C4"], ["G2", "B2", "D3", "G3"]]
-for bi in range(4):
-    t0 = S["LAUNCHER"] + bi * bar
-    if t0 >= S["END"]:
-        break
-    ln = min(bar, S["END"] - t0)
-    ch = prog_[bi % 4]
-    place(pad([note(n) for n in ch], ln, cutoff=1700, a=0.08, r=0.25), t0, 0.3, send=0.25)
-    rf = note(ch[0]) / 2
-    for k in range(int(ln / (BEAT / 2))):
-        tk = t0 + k * BEAT / 2
-        if tk >= S["END"] - 0.1:
+    # 05 · LAUNCHER + 06 · ECOSISTEMA: groove più luminoso (La- Fa Do Sol)
+    prog_ = [["A2", "C3", "E3", "A3"], ["F2", "A2", "C3", "F3"], ["C3", "E3", "G3", "C4"], ["G2", "B2", "D3", "G3"]]
+    for bi in range(4):
+        t0 = S["LAUNCHER"] + bi * bar
+        if t0 >= S["END"]:
             break
-        place(bass_note(rf * (2 if k % 4 == 3 else 1), BEAT / 2 * 0.9, cutoff=650), tk, 0.45)
-i = 0
-while True:
-    tb = S["LAUNCHER"] + 0.5 + i * BEAT
-    if tb >= S["END"] - 0.1:
-        break
-    place(kick(0.9), tb)
-    place(hat(0.22), tb + BEAT / 2, pan=0.3)
-    place(hat(0.12), tb + BEAT / 4, pan=-0.3)
-    if i % 2 == 1:
-        place(snare(0.5), tb, send=0.2)
-    i += 1
-k = 0
-rt = S["END"] - 1.0
-while rt < S["END"] - 0.06:
-    place(snare(0.2 + 0.5 * (rt - (S["END"] - 1.0))), rt, send=0.2)
-    rt += BEAT / 4 if rt < S["END"] - 0.5 else BEAT / 8
+        ln = min(bar, S["END"] - t0)
+        ch = prog_[bi % 4]
+        place(pad([note(n) for n in ch], ln, cutoff=1700, a=0.08, r=0.25), t0, 0.3, send=0.25)
+        rf = note(ch[0]) / 2
+        for k in range(int(ln / (BEAT / 2))):
+            tk = t0 + k * BEAT / 2
+            if tk >= S["END"] - 0.1:
+                break
+            place(bass_note(rf * (2 if k % 4 == 3 else 1), BEAT / 2 * 0.9, cutoff=650), tk, 0.45)
+    i = 0
+    while True:
+        tb = S["LAUNCHER"] + 0.5 + i * BEAT
+        if tb >= S["END"] - 0.1:
+            break
+        place(kick(0.9), tb)
+        place(hat(0.22), tb + BEAT / 2, pan=0.3)
+        place(hat(0.12), tb + BEAT / 4, pan=-0.3)
+        if i % 2 == 1:
+            place(snare(0.5), tb, send=0.2)
+        i += 1
+    k = 0
+    rt = S["END"] - 1.0
+    while rt < S["END"] - 0.06:
+        place(snare(0.2 + 0.5 * (rt - (S["END"] - 1.0))), rt, send=0.2)
+        rt += BEAT / 4 if rt < S["END"] - 0.5 else BEAT / 8
 
-# 07 · FINALE: accordo pieno che si spegne
-de = DUR - S["END"]
-place(pad([note("A1"), note("A2"), note("E3"), note("B3"), note("C4"), note("E4")], de, cutoff=2200, a=0.02, r=1.6), S["END"], 0.85, send=0.45)
-place(sine(note("A1"), de) * adsr(de, 0.05, 1.8) * 0.5, S["END"], 0.6)
-place(pad([note("E5"), note("B5")], de, cutoff=5000, a=1.2, r=1.5, voices=2), S["END"], 0.08, send=0.6)
+    # 07 · FINALE: accordo pieno che si spegne
+    de = DUR - S["END"]
+    place(pad([note("A1"), note("A2"), note("E3"), note("B3"), note("C4"), note("E4")], de, cutoff=2200, a=0.02, r=1.6), S["END"], 0.85, send=0.45)
+    place(sine(note("A1"), de) * adsr(de, 0.05, 1.8) * 0.5, S["END"], 0.6)
+    place(pad([note("E5"), note("B5")], de, cutoff=5000, a=1.2, r=1.5, voices=2), S["END"], 0.08, send=0.6)
+
+else:
+    # intro del logo: un solo accordo (La minore add9) che regge il fermo immagine e si spegne
+    dl = DUR - S["LOGO"]
+    place(pad([note("A2"), note("E3"), note("B3"), note("C4"), note("E4")], dl, cutoff=1500, a=0.25, r=2.2), S["LOGO"], 0.6, send=0.4)
+    place(pad([note("A1")], dl, cutoff=300, a=0.05, r=2.2, voices=2), S["LOGO"], 0.55)
+    place(pad([note("E5"), note("B5")], dl - 0.8, cutoff=5000, a=1.0, r=1.8, voices=2), S["LOGO"] + 0.8, 0.07, send=0.6)
 
 # ================================================================= EFFETTI
 for e in EV["events"]:
@@ -496,7 +506,7 @@ mix[:, :fade] *= np.linspace(0, 1, fade)
 mix[:, -int(0.25 * SR):] *= np.linspace(1, 0, int(0.25 * SR)) ** 2
 mix *= 10 ** (-1 / 20)  # -1 dBFS
 
-out = ROOT / "assets" / "soundtrack.wav"
+out = ROOT / "assets" / ("logo-intro.wav" if LOGO else "soundtrack.wav")
 pcm = (np.clip(mix.T, -1, 1) * 32767).astype("<i2")
 with wave.open(str(out), "wb") as w:
     w.setnchannels(2)

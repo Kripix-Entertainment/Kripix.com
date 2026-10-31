@@ -1,3 +1,4 @@
 # file intermedi dello showreel (rigenerabili con tools/soundtrack.py)
 assets/soundtrack.wav
 node_modules/
+assets/logo-intro.wav
