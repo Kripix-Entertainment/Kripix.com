@@ -17,7 +17,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <script>(function(d){try{if(localStorage.getItem('kripix_theme')==='light')d.dataset.theme='light';}catch(e){}if(!('onpagereveal' in window)&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('page-enter');})(document.documentElement);</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
@@ -29,13 +29,18 @@
     <main>
         <!-- APERTURA: La Pagoda a tutto schermo -->
         <header class="home-hero is-dark" id="hero">
-            <video id="hero-video" autoplay muted loop playsinline preload="auto"
+            <video id="hero-video" data-parallax="0.35" autoplay muted loop playsinline preload="auto"
                    poster="assets/img/pagoda-hero-poster.jpg" aria-hidden="true">
-                <source src="assets/video/pagoda-hero.mp4" type="video/mp4">
+                <!-- Cellulare: 720p (AV1 se supportato, altrimenti H.264) -->
+                <source src="assets/video/pagoda-hero-720-av1.mp4" type='video/mp4; codecs="av01.0.05M.10"' media="(max-width: 760px)">
+                <source src="assets/video/pagoda-hero-720.mp4" type="video/mp4" media="(max-width: 760px)">
+                <!-- Desktop: 1080p -->
+                <source src="assets/video/pagoda-hero-1080-av1.mp4" type='video/mp4; codecs="av01.0.08M.10"'>
+                <source src="assets/video/pagoda-hero-1080.mp4" type="video/mp4">
             </video>
             <div class="camera-flash" id="camera-flash" aria-hidden="true"></div>
 
-            <div class="hero-inner">
+            <div class="hero-inner" data-scroll-fade>
                 <div>
                     <p class="hero-kicker" id="hero-kicker" data-i18n="Il primo gioco di Kripix Entertainment">Il primo gioco di Kripix Entertainment</p>
                     <h1 class="display-xl hero-title">La Pagoda</h1>
@@ -185,6 +190,12 @@
         const flash = document.getElementById('camera-flash');
         const pauseBtn = document.getElementById('hero-pause');
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const saveData = !!(navigator.connection && navigator.connection.saveData);
+
+        // Sul cellulare basta un'immagine di copertina più leggera
+        if (window.matchMedia('(max-width: 760px)').matches) video.poster = 'assets/img/pagoda-hero-poster-720.jpg';
+        // Con il risparmio dati attivo il video non parte da solo
+        if (saveData) { video.removeAttribute('autoplay'); video.preload = 'none'; video.pause(); }
 
         // Il flash della fotocamera "rivela" la scena: una volta per visita
         let seen = false;
@@ -217,7 +228,7 @@
             pauseBtn.querySelector('.i-play').style.display = paused ? '' : 'none';
         };
         pauseBtn.addEventListener('click', () => setPaused(!video.paused));
-        if (reduced) setPaused(true);
+        if (reduced || saveData) setPaused(true);
 
         // Teaser su YouTube (caricato solo quando serve)
         const modal = document.getElementById('trailer-modal');

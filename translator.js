@@ -803,7 +803,17 @@ const dizionario_EN = {
     "Scollega Discord": "Unlink Discord",
     "Attiva il codice": "Redeem code",
     "Prosegui": "Continue",
-    "Ho capito": "Got it"
+    "Ho capito": "Got it",
+    "Home": "Home",
+    "Aiuto": "Help",
+    "Menu": "Menu",
+    "Tema scuro": "Dark theme",
+    "Tema chiaro": "Light theme",
+    "Impostazioni account": "Account settings",
+    "← Torna al profilo": "← Back to profile",
+    "Passa al tema chiaro": "Switch to light theme",
+    "Passa al tema scuro": "Switch to dark theme",
+    "Navigazione rapida": "Quick navigation"
 };
 
 
@@ -893,7 +903,7 @@ function updateLanguageIndicator() {
     // reader per pronunciare i testi con la fonetica giusta.
     document.documentElement.lang = currentLang;
 
-    document.querySelectorAll('.lang-switcher .lang-btn').forEach(btn => {
+    document.querySelectorAll('.lang-switcher .lang-btn, .seg-switch .lang-btn').forEach(btn => {
         const isCurrent = (btn.dataset.lang || btn.textContent.trim().toLowerCase()) === currentLang;
         btn.classList.toggle('active', isCurrent);
         btn.setAttribute('aria-pressed', String(isCurrent));

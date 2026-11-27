@@ -12,7 +12,7 @@ import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/fi
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-functions.js";
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
 
-import { injectNavbar, injectFooter, injectBackToTop } from './components.js';
+import { injectNavbar, injectFooter, injectBackToTop, initPageTransitions, initReveal } from './components.js';
 import { initTranslator, switchLanguage } from './translator.js';
 
 
@@ -74,6 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
     injectNavbar();
     injectFooter();
     injectBackToTop();
+    initPageTransitions();
+    initReveal();
 
     // Widget Kripix AI: si monta da solo, e solo per chi ha la beta attiva.
     // Import dinamico così il codice non pesa sulle pagine di chi non lo usa.
@@ -215,7 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 { href: 'profilo.html', text: 'Profilo' },
                 { href: 'libreria.html', text: 'I miei giochi' },
                 { href: 'terminale.html', text: 'Messaggi' },
-                { href: 'impostazioni.html', text: 'Impostazioni' },
             ];
             if (me.isAdmin) links.push({ href: 'admin.html', text: 'Pannello admin', cls: 'is-admin' });
             links.push({ href: '#', text: 'Esci', id: 'action-logout' });
