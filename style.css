@@ -1260,18 +1260,12 @@ a.news-item:hover h3 { color: var(--gold); }
 /* Parallasse leggera del video */
 .home-hero video, .home-hero .hero-poster { will-change: transform; }
 
-/* ── Cambio tema: cerchio che si allarga dal pulsante ───────── */
-::view-transition-old(root), ::view-transition-new(root) { mix-blend-mode: normal; }
-.theme-vt #main-nav, .theme-vt #tab-bar { view-transition-name: none; }
-.theme-vt::view-transition-old(root) { animation: none; z-index: 1; }
-.theme-vt::view-transition-new(root) {
-    z-index: 2;
-    animation: themeReveal .7s cubic-bezier(.65, 0, .35, 1) both;
+/* ── Cambio tema: i colori sfumano insieme, il video non si ferma ── */
+html.theme-anim *, html.theme-anim *::before, html.theme-anim *::after {
+    transition: background-color .5s ease, color .5s ease, border-color .5s ease,
+                fill .5s ease, stroke .5s ease, box-shadow .5s ease, opacity .3s ease !important;
 }
-@keyframes themeReveal {
-    from { clip-path: circle(0 at var(--vt-x, 100%) var(--vt-y, 0)); }
-    to   { clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 100%) var(--vt-y, 0)); }
-}
+html.theme-anim body { transition: background-color .5s ease, color .5s ease !important; }
 
 /* ── Transizioni tra le pagine ──────────────────────────────── */
 @view-transition { navigation: auto; }
@@ -1446,4 +1440,47 @@ body:has(#kripix-assistant) .kripix-footer { padding-bottom: 100px; }
         background:
             linear-gradient(to top, rgba(5,6,8,.97) 0%, rgba(5,6,8,.82) 38%, rgba(5,6,8,.35) 62%, rgba(5,6,8,0) 80%);
     }
+}
+
+
+/* ── Finestre di dialogo (al posto di alert/confirm del browser) ── */
+.kd-overlay { z-index: 12000; animation: kdFade .18s ease both; }
+.kd-overlay.kd-closing { animation: kdFadeOut .16s ease both; }
+.kd-box { max-width: 440px; }
+.kd-box h3 { margin-bottom: 10px; }
+.kd-message { color: var(--text-soft); line-height: 1.6; white-space: pre-line; }
+.kd-input { margin: 18px 0 0; }
+.kd-box .modal-actions { margin-top: 24px; }
+@keyframes kdFade { from { opacity: 0; } }
+@keyframes kdFadeOut { to { opacity: 0; } }
+body.dialog-open #kripix-assistant .ka-launcher { transform: translateY(140%); opacity: 0; pointer-events: none; }
+@media (max-width: 760px) {
+    .kd-overlay { align-items: flex-end; padding: 0; }
+    .kd-box { max-width: none; border-radius: 18px 18px 0 0; padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); animation: kdSheet .28s cubic-bezier(.2, .9, .25, 1) both; }
+    .kd-box .modal-actions { display: grid; grid-template-columns: 1fr 1fr; }
+    .kd-box .modal-actions > :only-child { grid-column: 1 / -1; }
+}
+@keyframes kdSheet { from { transform: translateY(100%); } }
+
+
+/* ── Footer compatto su cellulare ───────────────────────────────
+   Le voci principali stanno già nella barra in basso e nel Menu:
+   qui restano solo social, link legali e copyright. */
+.footer-mini { display: none; }
+@media (max-width: 760px) {
+    .kripix-footer { padding: 22px 16px 18px; }
+    .footer-top, .footer-bottom { display: none; }
+    .footer-mini { display: block; }
+    .footer-mini-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .footer-mini-logo { color: var(--text); display: flex; }
+    .footer-mini-logo svg { height: 15px; width: auto; fill: currentColor; }
+    .footer-mini-social { display: flex; gap: 4px; }
+    .footer-mini-social a { width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-muted); border-radius: 50%; }
+    .footer-mini-social a:active { background: var(--surface-2); color: var(--text); }
+    .footer-mini-social svg { width: 18px; height: 18px; fill: currentColor; }
+    .footer-mini-links { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-bottom: 10px; }
+    .footer-mini-links a { color: var(--text-soft); font-size: .86rem; text-decoration: none; padding: 4px 0; }
+    .footer-mini-links a.active { color: var(--text); font-weight: 600; }
+    .footer-mini-copy { color: var(--text-faint); font-size: .78rem; }
+    body:has(#kripix-assistant) .kripix-footer { padding-bottom: 76px; }
 }

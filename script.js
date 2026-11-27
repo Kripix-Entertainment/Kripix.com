@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!userSnap.exists()) {
                 console.warn("Profilo mancante nel database.");
                 if (!window.location.href.includes("login.html") && !window.location.href.includes("register.html")) {
-                    alert("Per finire la registrazione devi scegliere un nome utente.");
+                    await window.kripixAlert("Per finire la registrazione devi scegliere un nome utente.", { title: "Registrazione da completare" });
                     await signOut(auth);
                     window.location.href = "login.html";
                     return;

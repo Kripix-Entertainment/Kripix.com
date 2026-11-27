@@ -62,22 +62,17 @@ function applyTheme(theme) {
     if (meta) meta.content = theme === 'light' ? '#e8e8e4' : '#07080b';
 }
 
-// Cambio di tema con un cerchio che si allarga dal pulsante premuto:
-// si vede subito, anche in cima a una pagina con l'immagine scura.
-export function setTheme(theme, origin) {
-    if (theme === getTheme()) return applyTheme(theme);
-    if (!document.startViewTransition || REDUCED || !origin) return applyTheme(theme);
-
-    const r = origin.getBoundingClientRect();
-    const x = r.left + r.width / 2, y = r.top + r.height / 2;
-    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+// Cambio di tema: i colori sfumano dal vecchio al nuovo su tutta la
+// pagina insieme. Niente "fotografie" della pagina (come fanno le View
+// Transitions), così il video dell'apertura continua a scorrere.
+let themeTimer = null;
+export function setTheme(theme) {
+    if (theme === getTheme() || REDUCED) return applyTheme(theme);
     const root = document.documentElement;
-    root.style.setProperty('--vt-x', x + 'px');
-    root.style.setProperty('--vt-y', y + 'px');
-    root.style.setProperty('--vt-r', radius + 'px');
-    root.classList.add('theme-vt');
-    const t = document.startViewTransition(() => applyTheme(theme));
-    t.finished.finally(() => root.classList.remove('theme-vt'));
+    root.classList.add('theme-anim');
+    applyTheme(theme);
+    clearTimeout(themeTimer);
+    themeTimer = setTimeout(() => root.classList.remove('theme-anim'), 600);
 }
 
 
@@ -146,7 +141,7 @@ export function injectNavbar() {
     `;
     markActiveLinks(nav);
     nav.querySelector('.theme-toggle').addEventListener('click', (e) => {
-        setTheme(getTheme() === 'light' ? 'dark' : 'light', e.currentTarget);
+        setTheme(getTheme() === 'light' ? 'dark' : 'light');
     });
     applyTheme(getTheme());
 
@@ -251,7 +246,7 @@ function injectTabBar() {
     moreBtn.addEventListener('click', () => setOpen(!sheet.classList.contains('open')));
     sheet.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => setOpen(false)));
     sheet.querySelector('.sheet-theme').addEventListener('click', (e) => {
-        setTheme(getTheme() === 'light' ? 'dark' : 'light', e.currentTarget);
+        setTheme(getTheme() === 'light' ? 'dark' : 'light');
     });
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && sheet.classList.contains('open')) { setOpen(false); moreBtn.focus(); }
@@ -328,6 +323,23 @@ export function injectFooter() {
                     <li><a href="https://www.youtube.com/@KripixEntertainment" target="_blank" rel="noopener noreferrer">YouTube</a></li>
                 </ul>
             </div>
+        </div>
+        <div class="footer-mini">
+            <div class="footer-mini-top">
+                <a href="index.html" class="footer-mini-logo" aria-label="Kripix Entertainment, vai alla home">${LOGO_SVG}</a>
+                <div class="footer-mini-social">
+                    <a href="https://discord.gg/FwwuYJ4Dn3" target="_blank" rel="noopener noreferrer" aria-label="Discord"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.3 5.3A16.6 16.6 0 0 0 15.2 4l-.5 1a15.3 15.3 0 0 0-5.4 0l-.5-1a16.6 16.6 0 0 0-4.1 1.3C2.1 9.2 1.4 13 1.7 16.7a16.7 16.7 0 0 0 5 2.5l1.1-1.7c-.6-.2-1.2-.5-1.8-.9l.4-.3a11.9 11.9 0 0 0 10.2 0l.4.3c-.6.4-1.2.7-1.8.9l1.1 1.7a16.6 16.6 0 0 0 5-2.5c.4-4.3-.7-8-3-11.4zM8.7 14.5c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg></a>
+                    <a href="https://x.com/KripixEnt" target="_blank" rel="noopener noreferrer" aria-label="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.2-8.3L1.8 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.5z"/></svg></a>
+                    <a href="https://www.youtube.com/@KripixEntertainment" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.8 15.1V8.9L15.6 12z"/></svg></a>
+                </div>
+            </div>
+            <nav class="footer-mini-links" aria-label="Link del sito">
+                <a href="contatti.html" data-i18n="Contatti">Contatti</a>
+                <a href="eula.html" data-i18n="Termini d'uso">Termini d'uso</a>
+                <a href="cookies.html" data-i18n="Privacy e cookie">Privacy e cookie</a>
+                <a href="dmr.html" data-i18n="Politica DRM">Politica DRM</a>
+            </nav>
+            <p class="footer-mini-copy">&copy; ${new Date().getFullYear()} Kripix Entertainment. <span data-i18n="Sviluppato in Italia.">Sviluppato in Italia.</span></p>
         </div>
         <div class="footer-bottom">
             <span>&copy; ${new Date().getFullYear()} Kripix Entertainment. <span data-i18n="Tutti i diritti riservati.">Tutti i diritti riservati.</span></span>
@@ -460,3 +472,115 @@ export function initReveal() {
     });
     document.querySelectorAll('#news-feed-container, #library-grid').forEach(el => mo.observe(el, { childList: true }));
 }
+
+
+// ── FINESTRE DI DIALOGO ─────────────────────────────────────
+//  Sostituiscono alert(), confirm() e prompt() del browser con
+//  finestre nello stile del sito. Restituiscono una Promise:
+//    await kripixAlert('Fatto.')
+//    if (await kripixConfirm('Eliminare?', { danger: true })) …
+//    const testo = await kripixPrompt('Scrivi ELIMINA')  // null se annulli
+
+function kripixDialog({ title = '', message = '', confirmText = 'OK', cancelText = null, danger = false, input = null }) {
+    return new Promise((resolve) => {
+        const previous = document.activeElement;
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay kd-overlay';
+        overlay.setAttribute('role', cancelText ? 'alertdialog' : 'dialog');
+        overlay.setAttribute('aria-modal', 'true');
+
+        const box = document.createElement('div');
+        box.className = 'modal-box kd-box';
+        if (title) {
+            const h = document.createElement('h3');
+            h.id = 'kd-title-' + Date.now();
+            h.textContent = title;
+            overlay.setAttribute('aria-labelledby', h.id);
+            box.appendChild(h);
+        }
+        const p = document.createElement('p');
+        p.className = 'kd-message';
+        p.textContent = message;
+        box.appendChild(p);
+
+        let field = null;
+        if (input) {
+            field = document.createElement('input');
+            field.type = 'text';
+            field.className = 'modal-input kd-input';
+            field.placeholder = input.placeholder || '';
+            field.autocomplete = 'off';
+            field.setAttribute('aria-label', input.label || message);
+            box.appendChild(field);
+        }
+
+        const actions = document.createElement('div');
+        actions.className = 'modal-actions';
+        let cancelBtn = null;
+        if (cancelText) {
+            cancelBtn = document.createElement('button');
+            cancelBtn.type = 'button';
+            cancelBtn.className = 'btn-outline';
+            cancelBtn.textContent = cancelText;
+            actions.appendChild(cancelBtn);
+        }
+        const okBtn = document.createElement('button');
+        okBtn.type = 'button';
+        okBtn.className = danger ? 'btn-danger' : 'btn-gold';
+        okBtn.textContent = confirmText;
+        actions.appendChild(okBtn);
+        box.appendChild(actions);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+        overlay.style.display = 'flex';
+        document.body.classList.add('dialog-open');
+
+        let done = false;
+        const close = (value) => {
+            if (done) return;
+            done = true;
+            overlay.classList.add('kd-closing');
+            document.removeEventListener('keydown', onKey, true);
+            setTimeout(() => {
+                overlay.remove();
+                if (!document.querySelector('.kd-overlay')) document.body.classList.remove('dialog-open');
+                if (previous && previous.focus) previous.focus({ preventScroll: true });
+            }, REDUCED ? 0 : 160);
+            resolve(value);
+        };
+        const confirmValue = () => input ? field.value : (cancelText ? true : undefined);
+        const cancelValue = () => input ? null : (cancelText ? false : undefined);
+
+        okBtn.addEventListener('click', () => close(confirmValue()));
+        if (cancelBtn) cancelBtn.addEventListener('click', () => close(cancelValue()));
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) close(cancelValue()); });
+
+        // Tastiera: Esc annulla, Invio conferma, Tab resta dentro la finestra
+        const onKey = (e) => {
+            if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(cancelValue()); }
+            else if (e.key === 'Enter' && (e.target === field || e.target === document.body)) { e.preventDefault(); e.stopPropagation(); close(confirmValue()); }
+            else if (e.key === 'Tab') {
+                const items = [field, cancelBtn, okBtn].filter(Boolean);
+                const i = items.indexOf(document.activeElement);
+                e.preventDefault();
+                items[(i + (e.shiftKey ? items.length - 1 : 1)) % items.length].focus();
+            }
+        };
+        document.addEventListener('keydown', onKey, true);
+        (field || (danger && cancelBtn) || okBtn).focus();
+    });
+}
+
+export const kripixAlert = (message, opts = {}) =>
+    kripixDialog({ title: opts.title || '', message, confirmText: opts.confirmText || 'Ho capito' });
+
+export const kripixConfirm = (message, opts = {}) =>
+    kripixDialog({ title: opts.title || '', message, confirmText: opts.confirmText || 'Conferma', cancelText: opts.cancelText || 'Annulla', danger: !!opts.danger });
+
+export const kripixPrompt = (message, opts = {}) =>
+    kripixDialog({ title: opts.title || '', message, confirmText: opts.confirmText || 'Conferma', cancelText: opts.cancelText || 'Annulla', danger: !!opts.danger, input: { placeholder: opts.placeholder || '', label: opts.label } });
+
+// Disponibili anche agli script delle singole pagine
+window.kripixAlert = kripixAlert;
+window.kripixConfirm = kripixConfirm;
+window.kripixPrompt = kripixPrompt;

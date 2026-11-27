@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="local-guard.js"></script>
     <title>Pannello admin | Kripix</title>
     <meta name="description" content="Pannello di amministrazione di Kripix Entertainment.">
     <meta name="robots" content="noindex">
@@ -388,7 +389,7 @@
         const gameAction = (action) => (e) => withBusy(e.currentTarget, async () => {
             if (!current) return;
             const game = $('u-game').value;
-            if (action === 'revoke' && !confirm(`Togliere ${GAME_NAMES[game] || game} a ${current.username}?`)) return;
+            if (action === 'revoke' && !(await kripixConfirm(`${GAME_NAMES[game] || game} sparirà dall'account di ${current.username}.`, { title: 'Togliere il gioco?', confirmText: 'Togli il gioco', danger: true }))) return;
             const r = await run(`license ${action} ${current.uid} ${game}`);
             show($('u-game-result'), r);
             if (r.ok) { lookup(current.query); loadStats(); }
@@ -400,7 +401,7 @@
             if (!current) return;
             const action = btn.dataset.net;
             const reason = $('u-reason').value.trim().replace(/\s+/g, ' ');
-            if (action === 'ban' && !confirm(`Bloccare ${current.username}? Non potrà più accedere.`)) return;
+            if (action === 'ban' && !(await kripixConfirm(`${current.username} non potrà più accedere finché non lo sblocchi.`, { title: 'Bloccare l\'account?', confirmText: 'Blocca', danger: true }))) return;
             if ((action === 'ban' || action === 'suspend') && !reason) {
                 show($('u-net-result'), { ok: false, text: 'Scrivi un motivo: l\'utente lo vedrà.' });
                 return;
@@ -416,7 +417,7 @@
             show($('u-mfa-result'), r.ok ? { ok: true, text: n ? `Attiva (${n} ${n === 1 ? 'dispositivo' : 'dispositivi'}).` : 'Non attiva.' } : r);
         }));
         $('u-mfa-reset').addEventListener('click', (e) => withBusy(e.currentTarget, async () => {
-            if (!current || !confirm(`Rimuovere la verifica in due passaggi da ${current.username}? Fallo solo dopo aver verificato la sua identità.`)) return;
+            if (!current || !(await kripixConfirm(`Fallo solo dopo aver verificato che sia davvero ${current.username}: potrà entrare con la sola password.`, { title: 'Rimuovere la verifica in due passaggi?', confirmText: 'Rimuovi', danger: true }))) return;
             show($('u-mfa-result'), await run(`mfa reset ${current.uid}`));
         }));
 
@@ -440,7 +441,7 @@
                     del.className = 'btn-danger btn-sm';
                     del.textContent = 'Elimina';
                     del.onclick = async () => {
-                        if (!confirm(`Eliminare "${n.title}"?`)) return;
+                        if (!(await kripixConfirm(`"${n.title}" sparirà dalla home.`, { title: 'Eliminare la notizia?', confirmText: 'Elimina', danger: true }))) return;
                         try { await deleteDoc(doc(db, "news", newsDoc.id)); loadNews(); }
                         catch (err) { window.kripixNotify && window.kripixNotify('Errore', 'Non è stato possibile eliminare la notizia.', 'error'); }
                     };
@@ -494,7 +495,7 @@
                 const no = document.createElement('button'); no.className = 'btn-outline btn-sm'; no.textContent = 'Rifiuta';
                 const decide = (verb) => (e) => withBusy(e.currentTarget, async () => {
                     const res = await run(`beta ${verb} ${uid} ${program}`);
-                    if (res.ok) li.remove(); else alert(tidy(res.text));
+                    if (res.ok) li.remove(); else await kripixAlert(tidy(res.text), { title: 'Operazione non riuscita' });
                     if (!list.children.length) list.innerHTML = '<li class="empty">Nessuna richiesta in attesa.</li>';
                 });
                 ok.onclick = decide('grant'); no.onclick = decide('deny');
@@ -527,7 +528,7 @@
                 const close = document.createElement('button'); close.className = 'btn-outline btn-sm'; close.textContent = 'Segna come risolto';
                 close.onclick = (e) => withBusy(e.currentTarget, async () => {
                     const res = await run(`ticket close ${code}`);
-                    if (res.ok) li.remove(); else alert(tidy(res.text));
+                    if (res.ok) li.remove(); else await kripixAlert(tidy(res.text), { title: 'Operazione non riuscita' });
                     if (!list.children.length) list.innerHTML = '<li class="empty">Nessun ticket aperto.</li>';
                 });
                 actions.appendChild(close);
@@ -543,8 +544,9 @@
             show($('ai-result'), await run('ai ping'));
         }));
         $('keys-purge').addEventListener('click', (e) => withBusy(e.currentTarget, async () => {
-            const typed = prompt('Per confermare scrivi ELIMINA');
-            if (typed !== 'ELIMINA') return;
+            const typed = await kripixPrompt('Tutte le chiavi mai riscattate verranno cancellate. Per confermare scrivi ELIMINA.', { title: 'Eliminare le chiavi?', placeholder: 'ELIMINA', confirmText: 'Elimina le chiavi', danger: true });
+            if (typed === null) return;
+            if (typed.trim().toUpperCase() !== 'ELIMINA') { show($('keys-result'), { ok: false, text: 'Non hai scritto ELIMINA: nessuna chiave è stata cancellata.' }); return; }
             const r = await run('keys purge');
             show($('keys-result'), r);
             if (r.ok) loadStats();
