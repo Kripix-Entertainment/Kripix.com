@@ -19,24 +19,76 @@
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="has-hero">
     <nav id="main-nav"></nav>
 
-    <main class="error-page">
-        <img src="assets/img/pagoda-facade.jpg" alt="" class="error-bg">
-        <div class="error-inner">
-            <p class="error-code">404</p>
-            <h1 class="display-l" data-i18n="Questa porta è chiusa">Questa porta è chiusa</h1>
-            <p class="lead" style="margin:18px 0 30px" data-i18n="La pagina che cerchi non esiste, oppure è stata spostata.">La pagina che cerchi non esiste, oppure è stata spostata.</p>
+    <main class="e404" id="e404">
+        <div class="e404-scene" aria-hidden="true">
+            <img class="e404-img" src="assets/img/pagoda-facade.jpg" alt="">
+            <img class="e404-img e404-ghost" src="assets/img/pagoda-door.jpg" alt="">
+            <div class="e404-dark"></div>
+            <div class="e404-flash"></div>
+        </div>
+
+        <div class="e404-inner">
+            <p class="e404-neon" aria-hidden="true"><span>4</span><span>0</span><span>4</span></p>
+            <h1 data-i18n="Questa porta è chiusa">Questa porta è chiusa</h1>
+            <p class="e404-text" data-i18n="La pagina che cerchi non esiste, oppure è stata spostata.">La pagina che cerchi non esiste, oppure è stata spostata.</p>
             <div class="btn-container">
                 <a href="index.html" class="btn-gold" data-i18n="Torna alla home">Torna alla home</a>
-                <a href="faq.html" class="btn-outline" data-i18n="Centro assistenza">Centro assistenza</a>
+                <a href="progetti.html" class="btn-outline" data-i18n="Giochi">Giochi</a>
+                <button type="button" class="btn-outline" id="e404-shot">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h3.5l1.6-2.4A1 1 0 0 1 9 5h6a1 1 0 0 1 .9.6L17.5 8H21v11H3z"/><circle cx="12" cy="13.5" r="3.5"/></svg>
+                    <span data-i18n="Scatta una foto">Scatta una foto</span>
+                </button>
             </div>
+            <p class="e404-hint" id="e404-hint" data-i18n="La luce segue il cursore. Il flash rivela il resto.">La luce segue il cursore. Il flash rivela il resto.</p>
         </div>
     </main>
 
     <footer id="main-footer" class="kripix-footer"></footer>
 
     <script type="module" src="script.js"></script>
+    <script>
+    (function () {
+        const page = document.getElementById('e404');
+        const shot = document.getElementById('e404-shot');
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const touch = window.matchMedia('(hover: none)').matches;
+
+        if (touch) {
+            const hint = document.getElementById('e404-hint');
+            hint.textContent = 'Trascina il dito sulla scena. Il flash rivela il resto.';
+            hint.setAttribute('data-i18n', hint.textContent);
+        }
+
+        // La luce segue il puntatore (mouse o dito)
+        let raf = null;
+        const move = (x, y) => {
+            if (raf) return;
+            raf = requestAnimationFrame(() => {
+                const r = page.getBoundingClientRect();
+                page.style.setProperty('--lx', (x - r.left) + 'px');
+                page.style.setProperty('--ly', (y - r.top) + 'px');
+                page.classList.add('is-tracking');
+                raf = null;
+            });
+        };
+        page.addEventListener('pointermove', (e) => move(e.clientX, e.clientY));
+        page.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') move(e.clientX, e.clientY); });
+        page.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') page.classList.remove('is-tracking'); });
+
+        // Il flash: per un attimo la scena è illuminata... e la porta è aperta
+        let busy = false;
+        shot.addEventListener('click', () => {
+            if (busy) return;
+            busy = true;
+            page.classList.remove('is-flashing');
+            void page.offsetWidth;
+            page.classList.add('is-flashing');
+            setTimeout(() => { page.classList.remove('is-flashing'); busy = false; }, reduced ? 1200 : 1900);
+        });
+    })();
+    </script>
 </body>
 </html>

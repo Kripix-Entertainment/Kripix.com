@@ -813,7 +813,10 @@ const dizionario_EN = {
     "← Torna al profilo": "← Back to profile",
     "Passa al tema chiaro": "Switch to light theme",
     "Passa al tema scuro": "Switch to dark theme",
-    "Navigazione rapida": "Quick navigation"
+    "Navigazione rapida": "Quick navigation",
+    "Scatta una foto": "Take a photo",
+    "La luce segue il cursore. Il flash rivela il resto.": "The light follows your cursor. The flash reveals the rest.",
+    "Trascina il dito sulla scena. Il flash rivela il resto.": "Drag your finger across the scene. The flash reveals the rest."
 };
 
 

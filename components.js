@@ -62,17 +62,45 @@ function applyTheme(theme) {
     if (meta) meta.content = theme === 'light' ? '#e8e8e4' : '#07080b';
 }
 
-// Cambio di tema: i colori sfumano dal vecchio al nuovo su tutta la
-// pagina insieme. Niente "fotografie" della pagina (come fanno le View
-// Transitions), così il video dell'apertura continua a scorrere.
+// Cambio di tema: un cerchio si allarga e ridisegna la pagina.
+// Di solito parte dal pulsante premuto; nella home parte dal bordo sotto
+// il video, e il video resta "vivo" (non viene fotografato), quindi non
+// si blocca. Senza View Transitions i colori sfumano e basta.
 let themeTimer = null;
-export function setTheme(theme) {
+export function setTheme(theme, origin) {
     if (theme === getTheme() || REDUCED) return applyTheme(theme);
     const root = document.documentElement;
-    root.classList.add('theme-anim');
-    applyTheme(theme);
-    clearTimeout(themeTimer);
-    themeTimer = setTimeout(() => root.classList.remove('theme-anim'), 600);
+
+    if (!document.startViewTransition) {
+        root.classList.add('theme-anim');
+        applyTheme(theme);
+        clearTimeout(themeTimer);
+        themeTimer = setTimeout(() => root.classList.remove('theme-anim'), 600);
+        return;
+    }
+
+    let x = innerWidth - 40, y = 36;
+    if (origin) {
+        const r = origin.getBoundingClientRect();
+        x = r.left + r.width / 2; y = r.top + r.height / 2;
+    }
+    const hero = document.querySelector('.home-hero');
+    if (hero) {
+        const hb = hero.getBoundingClientRect().bottom;
+        if (hb > 0) {
+            // Il cerchio nasce dove finisce il video, al centro
+            x = innerWidth / 2;
+            y = Math.min(hb, innerHeight);
+            root.classList.add('theme-vt-hero');
+        }
+    }
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    root.style.setProperty('--vt-x', x + 'px');
+    root.style.setProperty('--vt-y', y + 'px');
+    root.style.setProperty('--vt-r', radius + 'px');
+    root.classList.add('theme-vt');
+    const t = document.startViewTransition(() => applyTheme(theme));
+    t.finished.finally(() => root.classList.remove('theme-vt', 'theme-vt-hero'));
 }
 
 
@@ -141,7 +169,7 @@ export function injectNavbar() {
     `;
     markActiveLinks(nav);
     nav.querySelector('.theme-toggle').addEventListener('click', (e) => {
-        setTheme(getTheme() === 'light' ? 'dark' : 'light');
+        setTheme(getTheme() === 'light' ? 'dark' : 'light', e.currentTarget);
     });
     applyTheme(getTheme());
 
@@ -246,7 +274,7 @@ function injectTabBar() {
     moreBtn.addEventListener('click', () => setOpen(!sheet.classList.contains('open')));
     sheet.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => setOpen(false)));
     sheet.querySelector('.sheet-theme').addEventListener('click', (e) => {
-        setTheme(getTheme() === 'light' ? 'dark' : 'light');
+        setTheme(getTheme() === 'light' ? 'dark' : 'light', e.currentTarget);
     });
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && sheet.classList.contains('open')) { setOpen(false); moreBtn.focus(); }
