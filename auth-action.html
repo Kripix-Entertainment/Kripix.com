@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
-    <title>Inizializzazione Rete - Kripix</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Un attimo… | Kripix</title>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Legge i parametri magici di Firebase dall'URL
+        // Firebase manda qui i link delle email: smistiamo verso la pagina giusta
+        (function () {
             const params = new URLSearchParams(window.location.search);
             const mode = params.get('mode');
-
-            // Mantieni tutti i parametri per passarli alla pagina corretta
-            const allParams = window.location.search;
-
-            if (mode === 'resetPassword') {
-                window.location.href = 'reset.html' + allParams;
-            } else if (mode === 'verifyEmail') {
-                window.location.href = 'verify.html' + allParams;
-            } else {
-                // Se non capisce cos'è, lo manda alla home
-                window.location.href = 'index.html';
-            }
-        });
+            const all = window.location.search;
+            if (mode === 'resetPassword') window.location.replace('reset.html' + all);
+            else if (mode === 'verifyEmail') window.location.replace('verify.html' + all);
+            else window.location.replace('index.html');
+        })();
     </script>
+    <style>
+        html, body { margin: 0; height: 100%; background: #07080b; color: #94918a; font: 16px system-ui, sans-serif; }
+        body { display: grid; place-items: center; }
+        @media (prefers-color-scheme: light) { html, body { background: #e8e8e4; color: #5a5b5f; } }
+    </style>
 </head>
-<body style="background-color: #05070a; color: #e3c66c; font-family: monospace; text-align: center; padding-top: 20%;">
-    <h2>>> ANALISI SEGNALE CRITTOGRAFATO IN CORSO...</h2>
+<body>
+    <p>Un attimo, ti stiamo portando alla pagina giusta…</p>
 </body>
 </html>

@@ -2,84 +2,79 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-
-    <!-- ========================================== -->
-    <!-- FAVICON (ICONA SULLA TAB DEL BROWSER)      -->
-    <!-- ========================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy e cookie | Kripix</title>
+    <meta name="description" content="Come Kripix Entertainment tratta i tuoi dati.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Privacy e cookie | Kripix">
+    <meta property="og:description" content="Come Kripix Entertainment tratta i tuoi dati.">
+    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png">
+    <meta property="og:url" content="https://kripixent.netlify.app/cookies.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico"> <!-- Fallback per browser vecchi -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - Kripix</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
-    
-    <style>
-        .privacy-content { max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.02); border: 1px solid #333; padding: 50px; }
-        .privacy-content h2 { color: var(--accent-gold); font-size: 1.5rem; margin-top: 40px; margin-bottom: 15px; border-bottom: 1px solid #222; padding-bottom: 10px; }
-        .privacy-content h2:first-child { margin-top: 0; }
-        .privacy-content p { color: #888; font-family: 'Courier Prime', monospace; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; }
-        .privacy-content ul { color: #888; font-family: 'Courier Prime', monospace; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; padding-left: 20px; }
-        .privacy-content li { margin-bottom: 10px; }
-        .highlight-text { color: var(--text-main); font-weight: bold; }
-    </style>
 </head>
 <body>
-    <div class="background-grid"></div>
+    <nav id="main-nav"></nav>
 
-    <nav>
-        <div class="logo-text"><a href="index.html">KRIPIX</a></div>
-        <a href="index.html" class="back-link">← TORNA AL NETWORK</a>
-    </nav>
+    <header class="page-header">
+        <h1>Privacy e cookie</h1>
+        <p>Quali dati raccogliamo, perché, e come puoi cancellarli. Ultimo aggiornamento: 2026.</p>
+    </header>
 
-    <div class="page-header" style="padding-top: 100px; padding-bottom: 30px;">
-        <h1 style="font-size: 2rem;">DOSSIER PRIVACY</h1>
-        <p style="font-family:'Courier Prime'; color:#888;">Ultimo aggiornamento: 2026 (GDPR Compliant)</p>
-    </div>
-
-    <section class="section-padding" style="padding-top: 20px;">
-        <div class="container">
-            <div class="privacy-content">
-                
-                <h2>1. RACCOLTA DATI OPERATIVI</h2>
-                <p>Kripix Entertainment raccoglie esclusivamente i dati necessari al mantenimento del tuo <span class="highlight-text">ID Agente</span> e all'accesso al Network Operativo. Questi includono:</p>
+    <section class="section-padding">
+        <div class="container legal-layout">
+            <nav class="legal-toc" aria-label="In questa pagina">
                 <ul>
-                    <li>Indirizzo email crittografato (per l'autenticazione tramite Google Firebase).</li>
-                    <li>Nome in codice (Username) e ID Visivo (Avatar/Colore).</li>
-                    <li>Licenze software acquisite (es. "La Pagoda").</li>
-                    <li>Rete di contatti (Lista Amici).</li>
+                    <li><a href="#s1">Quali dati raccogliamo</a></li>
+                    <li><a href="#s2">Dove sono conservati</a></li>
+                    <li><a href="#s3">Cookie e statistiche</a></li>
+                    <li><a href="#s4">Assistente Kripix AI (beta)</a></li>
+                    <li><a href="#s5">Cancellare il tuo account</a></li>
+                    <li><a href="#s6">Contatti</a></li>
                 </ul>
-
-                <h2>2. ARCHITETTURA CLOUD (FIREBASE)</h2>
-                <p>Tutti i dossier degli agenti sono ospitati su server cloud protetti gestiti da <span class="highlight-text">Google LLC (Firebase)</span>. Le tue credenziali d'accesso non transitano mai in chiaro sui nostri terminali locali, ma sono processate direttamente dai protocolli di sicurezza di Firebase Authentication.</p>
-
-                <h2>3. TRACCIAMENTO TELEMETRICO E COOKIE</h2>
-                <p>Utilizziamo tecnologie di archiviazione locale (LocalStorage e Cookie) per due scopi:</p>
+            </nav>
+            <article class="legal-text">
+                <h2 id="s1">Quali dati raccogliamo</h2>
+                <p>Raccogliamo solo quello che serve per far funzionare il tuo account:</p>
                 <ul>
-                    <li><span class="highlight-text">Cookie Essenziali:</span> Mantengono attiva la tua sessione per evitare di farti reinserire le credenziali ad ogni cambio pagina.</li>
-                    <li><span class="highlight-text">Telemetria (Opzionale):</span> Se attivata dal tuo pannello di Configurazione, raccogliamo dati anonimi sui crash dell'engine <em>Pixel Otros</em> per scopi di sviluppo.</li>
+                    <li>il tuo indirizzo email, per l'accesso (gestito da Google Firebase);</li>
+                    <li>il nome utente e l'immagine o il colore del profilo;</li>
+                    <li>i giochi che hai acquistato (per esempio La Pagoda);</li>
+                    <li>la tua lista di amici.</li>
                 </ul>
-
-                <h2>4. ASSISTENTE "KRIPIX AI" (BETA)</h2>
-                <p>Agli agenti ammessi al programma beta è disponibile un assistente conversazionale. È bene sapere come funziona prima di usarlo:</p>
+                <h2 id="s2">Dove sono conservati</h2>
+                <p>I dati degli account sono conservati sui server di <strong>Google LLC (Firebase)</strong>. La password non passa mai in chiaro dai nostri sistemi: la gestisce direttamente Firebase Authentication.</p>
+                <h2 id="s3">Cookie e statistiche</h2>
+                <p>Usiamo cookie e memoria locale del browser per due motivi:</p>
                 <ul>
-                    <li>Le conversazioni vengono elaborate dai modelli <span class="highlight-text">Gemini di Google LLC</span>. Il servizio è utilizzato nel suo livello gratuito, in cui <span class="highlight-text">Google può usare i contenuti scambiati per migliorare i propri modelli</span>.</li>
-                    <li>Insieme al messaggio trasmettiamo il tuo Nome in Codice, l'elenco delle licenze possedute e se la verifica in due passaggi è attiva. Non trasmettiamo la tua email, le chiavi di attivazione, la password né dati di pagamento.</li>
-                    <li>Non scrivere all'assistente password, codici di accesso o dati di pagamento: non gli servono e finirebbero nella conversazione.</li>
-                    <li>L'assistente <span class="highlight-text">non può modificare il tuo account</span>. Quando serve un intervento reale, prepara una richiesta che viene valutata da una persona dello studio.</li>
-                    <li>La partecipazione è volontaria: se non richiedi l'accesso alla beta, nessun tuo dato viene inviato a Google per questo scopo.</li>
+                    <li><strong>Cookie essenziali:</strong> ti mantengono connesso mentre cambi pagina e ricordano le tue preferenze, come lingua e tema.</li>
+                    <li><strong>Statistiche (facoltative):</strong> solo se le accetti, registriamo browser, sistema operativo e risoluzione dello schermo, per capire su quali dispositivi gira il sito. Nelle impostazioni puoi anche attivare l'invio di dati anonimi sui crash del motore <em>Pixel Otros</em>.</li>
                 </ul>
-
-                <h2>5. IL DIRITTO ALL'OBLIO (CANCELLAZIONE)</h2>
-                <p>In conformità al Regolamento Generale sulla Protezione dei Dati (GDPR), ogni Agente ha il diritto di richiedere la distruzione totale del proprio fascicolo. <br><br>
-                Puoi esercitare questo diritto in autonomia accedendo al tuo pannello <a href="impostazioni.html">Configurazione > Zona Rossa</a> e selezionando "Elimina Account". Questa azione è irreversibile e distruggerà ogni record dai server Firebase, incluse le licenze acquisite.</p>
-
-                <h2>6. CONTATTI STUDIO</h2>
-                <p>Per richieste relative al trattamento dei dati, puoi contattare il responsabile della sicurezza del network all'indirizzo: <span class="highlight-text">privacy@kripix.com</span>.</p>
-                
-            </div>
+                <h2 id="s4">Assistente Kripix AI (beta)</h2>
+                <p>Chi partecipa alla beta può usare un assistente che risponde alle domande. Prima di usarlo è bene sapere che:</p>
+                <ul>
+                    <li>le conversazioni sono elaborate dai modelli <strong>Gemini di Google LLC</strong>, nel livello gratuito: <strong>Google può usare i messaggi per migliorare i propri modelli</strong>;</li>
+                    <li>insieme al messaggio inviamo il tuo nome utente, i giochi che possiedi e se hai attivato la verifica in due passaggi. Non inviamo email, chiavi di attivazione, password o dati di pagamento;</li>
+                    <li>non scrivere all'assistente password, codici o dati di pagamento: non gli servono;</li>
+                    <li>l'assistente <strong>non può modificare il tuo account</strong>. Quando serve un intervento, prepara una richiesta che viene letta da una persona dello studio;</li>
+                    <li>la beta è volontaria: se non chiedi di partecipare, nessun dato viene inviato a Google per questo scopo.</li>
+                </ul>
+                <h2 id="s5">Cancellare il tuo account</h2>
+                <p>Come previsto dal GDPR, puoi chiedere che tutti i tuoi dati vengano cancellati.</p>
+                <p>Puoi farlo da solo in <a href="impostazioni.html">Impostazioni</a>, alla voce "Elimina account". L'operazione non si può annullare: cancella tutti i tuoi dati dai server, compresi i giochi acquistati.</p>
+                <h2 id="s6">Contatti</h2>
+                <p>Per qualsiasi domanda sui tuoi dati scrivi a <strong>privacy@kripix.com</strong>.</p>
+            </article>
         </div>
     </section>
 

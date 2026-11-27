@@ -2,23 +2,28 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Kripix Entertainment: A different way to see pixels">
-    <meta name="author" content="Kripix Entertainment">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accedi | Kripix</title>
+    <meta name="description" content="Accedi al tuo account Kripix.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accesso - Kripix</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
+
+
     
     <style>
         .modal-input {
             width: 100%; padding: 12px 15px; margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.03); border: 1px solid #333;
-            color: white; font-family: 'Montserrat', sans-serif; font-size: 1rem;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line);
+            color: var(--text); font-family: var(--font-body); font-size: 1rem;
             transition: all 0.3s ease;
         }
         .modal-input:focus {
@@ -30,11 +35,11 @@
         /* --- STILI PER IL BOTTONE GOOGLE --- */
         .separator {
             display: flex; align-items: center; text-align: center;
-            color: #555; margin: 25px 0;
-            font-family: 'Courier Prime', monospace; font-size: 0.8rem;
+            color: var(--text-faint); margin: 25px 0;
+            font-family: var(--font-body); font-size: 0.8rem;
         }
         .separator::before, .separator::after {
-            content: ''; flex: 1; border-bottom: 1px solid #333;
+            content: ''; flex: 1; border-bottom: 1px solid var(--line);
         }
         .separator:not(:empty)::before { margin-right: .5em; }
         .separator:not(:empty)::after { margin-left: .5em; }
@@ -42,8 +47,8 @@
         .btn-google {
             display: flex; align-items: center; justify-content: center;
             gap: 15px; padding: 12px; width: 100%;
-            background: transparent; border: 1px solid #666; color: #888;
-            font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: bold;
+            background: transparent; border: 1px solid var(--line-strong); color: var(--text-muted);
+            font-family: var(--font-body); font-size: 0.9rem; font-weight: bold;
             text-transform: uppercase; cursor: pointer; transition: 0.3s;
         }
         .btn-google:hover {
@@ -54,37 +59,34 @@
     </style>
 </head>
 <body>
-    <div class="background-grid"></div>
 
-    <nav>
-        <div class="logo-text"><a href="index.html">KRIPIX</a></div>
-        <a href="index.html" class="back-link">← TORNA ALLA HOME</a>
-    </nav>
+    <nav id="main-nav"></nav>
 
     <div class="login-container">
         <div class="login-box">
             <div class="login-header">
-                <h2>ACCESSO</h2>
+                <h2 data-i18n="Accedi">Accedi</h2>
+                <p data-i18n="Bentornato. Entra con il tuo account Kripix.">Bentornato. Entra con il tuo account Kripix.</p>
             </div>
 
             <form class="terminal-form" id="loginForm">
                 <div class="input-group">
-                    <label>E-MAIL</label>
-                    <input type="email" id="emailInput" placeholder="La tua email..." required autocomplete="email">
+                    <label for="emailInput">Email</label>
+                    <input type="email" id="emailInput" placeholder="nome@esempio.com" required autocomplete="email">
                 </div>
                 <div class="input-group">
-                    <label>PASSWORD</label>
-                    <input type="password" id="passwordInput" placeholder="••••••••" required>
+                    <label for="passwordInput">Password</label>
+                    <input type="password" id="passwordInput" placeholder="La tua password" required autocomplete="current-password">
                     <div class="validation-msg" id="err-login"></div>
                 </div>
                 <div class="form-actions" style="margin-bottom: 15px;">
-                    <label class="checkbox-container"><input type="checkbox" checked> Rimani connesso</label>
-                    <a href="#" onclick="openResetModal()" style="color: #666; font-size: 0.8rem; text-decoration: none;">Password dimenticata?</a>
+                    <label class="checkbox-container"><input type="checkbox" checked> <span data-i18n="Resta connesso">Resta connesso</span></label>
+                    <a href="#" onclick="openResetModal()" data-i18n="Password dimenticata?">Password dimenticata?</a>
                 </div>
-                <button type="submit" class="btn-gold full-width glow-effect">VERIFICA CREDENZIALI</button>
+                <button type="submit" class="btn-gold full-width" data-i18n="Accedi">Accedi</button>
             </form>
 
-            <div class="separator">OPPURE</div>
+            <div class="separator" data-i18n="oppure">oppure</div>
 
             <!-- BOTTONE ACCESSO GOOGLE -->
             <button id="btn-google-login" class="btn-google">
@@ -93,8 +95,8 @@
             </button>
             
             <div class="login-footer">
-                <p>Non possiedi un Kripix ID?</p>
-                <a href="register.html" class="register-link">CREA NUOVO ACCOUNT</a>
+                <p data-i18n="Non hai ancora un account?">Non hai ancora un account?</p>
+                <a href="register.html" class="register-link" data-i18n="Creane uno">Creane uno</a>
             </div>
         </div>
     </div>
@@ -102,16 +104,16 @@
     <!-- MODALE RECUPERO PASSWORD (invariato) -->
     <div id="reset-modal" class="modal-overlay">
     <div class="modal-box" style="max-width:400px;">
-        <h3 style="color:var(--accent-gold); margin-bottom:15px;">RIPRISTINO CONNESSIONE</h3>
-        <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">
-            Inserisci la tua email operativa. Ti invieremo un link crittografato per resettare la password.
+        <h3 style="color:var(--accent-gold); margin-bottom:15px;">Password dimenticata</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">
+            Scrivi l'email del tuo account: ti mandiamo un link per scegliere una nuova password.
         </p>
-        <input type="email" id="reset-email-input" class="modal-input" placeholder="latua@email.com" autocomplete="email">
+        <input type="email" id="reset-email-input" class="modal-input" placeholder="nome@esempio.com" autocomplete="email">
         <p id="reset-msg" class="validation-msg"></p>
         
         <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
-            <button class="btn-outline" onclick="closeResetModal()">ANNULLA</button>
-            <button id="btn-send-reset" class="btn-gold">INVIA LINK</button>
+            <button class="btn-outline" onclick="closeResetModal()" data-i18n="Annulla">Annulla</button>
+            <button id="btn-send-reset" class="btn-gold" data-i18n="Invia il link">Invia il link</button>
         </div>
     </div>
 </div>
@@ -122,8 +124,8 @@
             <span style="display:flex; justify-content:center; color:var(--accent-gold); margin-bottom:15px;" aria-hidden="true">
                 <svg class="icon" style="width:2.6rem; height:2.6rem;" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2.5"/></svg>
             </span>
-            <h3 style="color:var(--accent-gold); margin-bottom:12px;">VERIFICA IN DUE PASSAGGI</h3>
-            <p style="color:#888; font-size:0.88rem; margin-bottom:20px; line-height:1.6;">
+            <h3 style="color:var(--accent-gold); margin-bottom:12px;">Verifica in due passaggi</h3>
+            <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:20px; line-height:1.6;">
                 Apri la tua app di autenticazione e inserisci il codice a 6 cifre.
             </p>
 
@@ -132,13 +134,13 @@
             <p id="mfa-login-msg" class="validation-msg"></p>
 
             <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
-                <button class="btn-outline" onclick="closeMfaLogin()">ANNULLA</button>
-                <button id="btn-mfa-login" class="btn-gold">CONFERMA</button>
+                <button class="btn-outline" onclick="closeMfaLogin()" data-i18n="Annulla">Annulla</button>
+                <button id="btn-mfa-login" class="btn-gold" data-i18n="Conferma">Conferma</button>
             </div>
 
-            <p style="color:#555; font-family:'Courier Prime'; font-size:0.75rem; margin-top:20px; line-height:1.6;">
+            <p style="color:var(--text-faint); font-family: var(--font-body); font-size:0.75rem; margin-top:20px; line-height:1.6;">
                 Hai perso l'accesso all'app? Scrivi a
-                <a href="mailto:info@kripix.com" style="color:#888;">info@kripix.com</a> dall'email dell'account.
+                <a href="mailto:info@kripix.com" style="color:var(--text-muted);">info@kripix.com</a> dall'email dell'account.
             </p>
         </div>
     </div>
@@ -146,16 +148,18 @@
     <!-- NUOVO MODALE: REGISTRAZIONE POST-GOOGLE -->
     <div id="google-register-modal" class="modal-overlay">
         <div class="modal-box" style="max-width:400px;">
-            <h3 style="color:var(--accent-gold); margin-bottom:15px;">BENVENUTO, AGENTE</h3>
-            <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">
-                Identità Google <strong id="google-email-display" style="color:white;"></strong> verificata.
-                Scegli il tuo nome in codice per completare il reclutamento.
+            <h3 style="color:var(--accent-gold); margin-bottom:15px;">Scegli un nome utente</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">
+                Hai effettuato l'accesso con Google come <strong id="google-email-display"></strong>.
+                Scegli il nome che gli altri giocatori vedranno.
             </p>
-            <input type="text" id="google-username-input" class="modal-input" placeholder="Nome in Codice Unico..." autocomplete="off">
+            <input type="text" id="google-username-input" class="modal-input" placeholder="Nome utente" autocomplete="username">
             <p id="google-reg-msg" class="error-msg"></p>
-            <button id="btn-confirm-google-reg" class="btn-gold full-width" style="margin-top:10px;">COMPLETA REGISTRAZIONE</button>
+            <button id="btn-confirm-google-reg" class="btn-gold full-width" style="margin-top:10px;" data-i18n="Completa la registrazione">Completa la registrazione</button>
         </div>
     </div>
+
+    <footer id="main-footer" class="kripix-footer"></footer>
 
     <script type="module">
         // Import da Firebase (inclusi i nuovi per Google e Firestore)
@@ -218,13 +222,13 @@
 
             const code = mfaCodeInput.value();
             if (code.length !== 6) {
-                msg.textContent = '>> SERVONO TUTTE E 6 LE CIFRE.';
+                msg.textContent = 'Inserisci tutte e 6 le cifre.';
                 msg.style.display = 'block';
                 return;
             }
 
             mfaChecking = true;
-            btn.textContent = 'VERIFICA...';
+            btn.textContent = 'Verifica…';
             btn.style.pointerEvents = 'none';
             mfaCodeInput.setDisabled(true);
 
@@ -233,7 +237,7 @@
                 const assertion = TotpMultiFactorGenerator.assertionForSignIn(hint.uid, code);
                 const credential = await mfaResolver.resolveSignIn(assertion);
 
-                btn.textContent = 'ACCESSO CONSENTITO';
+                btn.textContent = 'Accesso eseguito';
                 btn.classList.add('btn-success');
                 if (onMfaResolved) await onMfaResolved(credential);
             } catch (error) {
@@ -243,7 +247,7 @@
                 wrap.classList.add('error');
                 setTimeout(() => wrap.classList.remove('error'), 400);
                 mfaCodeInput.clear();
-                btn.textContent = 'CONFERMA';
+                btn.textContent = 'Conferma';
                 btn.classList.remove('btn-success');
             } finally {
                 mfaChecking = false;
@@ -261,7 +265,7 @@
             const msg = document.getElementById('err-login');
             msg.style.display = 'none';
 
-            btn.innerHTML = 'VERIFICA NEL CLOUD...';
+            btn.innerHTML = 'Accesso in corso…';
             btn.style.pointerEvents = 'none';
 
             // Passaggio finale comune: con o senza secondo fattore
@@ -269,11 +273,11 @@
                 if (!userCredential.user.emailVerified) {
                     await sendEmailVerification(userCredential.user);
                     await signOut(auth);
-                    msg.innerText = '>> AUTORIZZAZIONE IN SOSPESO. Ti abbiamo re-inviato una mail di verifica.';
+                    msg.innerText = 'Devi ancora confermare la tua email. Ti abbiamo rimandato il link: controlla la posta (anche lo spam).';
                     msg.style.display = 'block';
                     throw new Error("email-not-verified");
                 }
-                btn.innerHTML = 'ACCESSO CONSENTITO';
+                btn.innerHTML = 'Accesso eseguito';
                 btn.classList.add('btn-success');
                 setTimeout(() => { window.location.href = 'index.html'; }, 1000);
             };
@@ -285,25 +289,25 @@
             // Password corretta, ma l'account ha la verifica in due passaggi
             if (error.code === 'auth/multi-factor-auth-required') {
                 if (openMfaChallenge(error, completaAccesso)) {
-                    btn.innerHTML = 'VERIFICA CREDENZIALI';
+                    btn.innerHTML = 'Accedi';
                     btn.style.pointerEvents = 'auto';
                     return;
                 }
-                msg.innerText = '>> QUESTO ACCOUNT RICHIEDE UN SECONDO FATTORE NON SUPPORTATO QUI.';
+                msg.innerText = 'Questo account usa un tipo di verifica in due passaggi che il sito non supporta. Scrivi a info@kripix.com.';
                 msg.style.display = 'block';
             }
             // AGGIUNGI QUESTO CONTROLLO QUI
             else if (error.code === 'auth/user-disabled') {
-                msg.innerText = '>> ACCESSO REVOCATO: Questo account ha violato i termini di servizio del Kripix Network.';
+                msg.innerText = 'Questo account è stato bloccato perché ha violato i termini d\'uso.';
                 msg.style.display = 'block';
             } 
             // La gestione degli altri errori
             else if (error.message !== "email-not-verified") {
-               msg.innerText = '>> ERRORE CLOUD: EMAIL O PASSWORD NON VALIDE';
+               msg.innerText = 'Email o password non corrette.';
                msg.style.display = 'block';
             }
             
-            btn.innerHTML = 'VERIFICA CREDENZIALI';
+            btn.innerHTML = 'Accedi';
             btn.style.pointerEvents = 'auto';
         }
         });
@@ -337,7 +341,7 @@
                 if (error.code === 'auth/multi-factor-auth-required' && openMfaChallenge(error, dopoGoogle)) return;
 
                 console.error("Errore Google Sign-In:", error);
-                if(window.kripixNotify) window.kripixNotify("ERRORE", "Accesso Google annullato o fallito.", "error");
+                if(window.kripixNotify) window.kripixNotify("Accesso non riuscito", "L'accesso con Google è stato annullato o non è andato a buon fine.", "error");
             }
         });
 
@@ -354,15 +358,15 @@
 
             // Validazione: username obbligatorio
             if (!username) {
-                msgEl.innerText = ">> Inserisci un Nome in Codice.";
+                msgEl.innerText = "Scegli un nome utente.";
                 msgEl.style.display = 'block';
                 return;
             }
 
             // Controllo spazi nel nome in codice
             if (username.indexOf(' ') >= 0) {
-                msgEl.innerText = ">> ERRORE: Il Nome in Codice non può contenere spazi.";
-                msgEl.style.color = '#ff5555';
+                msgEl.innerText = "Il nome utente non può contenere spazi.";
+                msgEl.style.color = 'var(--danger)';
                 msgEl.style.display = 'block';
                 return;
             }
@@ -372,7 +376,7 @@
             const usernameDocSnap = await getDoc(usernameDocRef);
 
             if (usernameDocSnap.exists()) {
-                msgEl.innerText = ">> Questo ID è già in uso nel Network.";
+                msgEl.innerText = "Questo nome utente è già preso. Provane un altro.";
                 msgEl.style.display = 'block';
                 return;
             }
@@ -399,7 +403,7 @@
                 await batch.commit();
                 window.location.href = 'index.html'; // Registrazione completata!
             } catch (error) {
-                msgEl.innerText = ">> Errore di connessione col server. Riprova.";
+                msgEl.innerText = "Non riusciamo a contattare il server. Controlla la connessione e riprova.";
                 msgEl.style.display = 'block';
             }
         });
@@ -420,25 +424,25 @@ document.getElementById('btn-send-reset').addEventListener('click', async () => 
     const btn = document.getElementById('btn-send-reset');
     
     if (!emailInput) {
-        msgEl.innerText = ">> Inserisci un'email valida.";
+        msgEl.innerText = "Inserisci un indirizzo email valido.";
         msgEl.style.display = 'block';
         return;
     }
 
-    btn.innerText = "INVIO IN CORSO...";
+    btn.innerText = "Invio in corso…";
     btn.style.pointerEvents = "none";
 
     try {
         await sendPasswordResetEmail(auth, emailInput);
-        msgEl.innerText = ">> PROTOCOLLO INVIATO. Controlla la casella email (anche nello Spam).";
-        msgEl.style.color = "#4caf50";
+        msgEl.innerText = "Fatto. Controlla la posta (anche lo spam) e apri il link.";
+        msgEl.style.color = "var(--success)";
         msgEl.style.display = "block";
-        btn.innerText = "INVIATO";
+        btn.innerText = "Link inviato";
     } catch (error) {
-        msgEl.innerText = ">> ERRORE: Email non trovata o formato non valido.";
-        msgEl.style.color = "#ff5555";
+        msgEl.innerText = "Non troviamo un account con questa email.";
+        msgEl.style.color = "var(--danger)";
         msgEl.style.display = "block";
-        btn.innerText = "INVIA LINK";
+        btn.innerText = "Invia il link";
         btn.style.pointerEvents = "auto";
     }
 });

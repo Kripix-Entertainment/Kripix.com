@@ -1,74 +1,31 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
- <!-- ========================================== -->
-    <!-- SEO & OPEN GRAPH (CONDIVISIONE SOCIAL)     -->
-    <!-- ========================================== -->
-    
-    <!-- Descrizione base per i motori di ricerca (Max 160 caratteri) -->
-    <meta name="description" content="Kripix Entertainment: A different way to see pixels">
-    
-    <!-- Parole chiave (Keywords) -->
-    <meta name="keywords" content="videogiochi, sviluppo indie, kripix, il filo del dubbio, pixel otros, engine narrativo, thriller psicologico">
-    
-    <!-- Autore -->
-    <meta name="author" content="Kripix Entertainment">
-    
-    <!-- Istruzioni per i Crawler (Permette a Google di indicizzare la pagina) -->
-    <meta name="robots" content="index, follow">
-
-    <!-- TAG OPEN GRAPH (Per Facebook, Discord, LinkedIn, ecc.) -->
-    <!-- Titolo che appare nell'anteprima -->
-    <meta property="og:title" content="Kripix Entertainment | A different way to see pixels">
-    
-    <!-- Descrizione dell'anteprima -->
-    <meta property="og:description" content="Esplora i nostri mondi immersivi. Scopri 'Il Filo del Dubbio' e accedi al network operativo per gli agenti Kripix.">
-    
-    <!-- Immagine di copertina (DEVI METTERE UN URL ASSOLUTO VALIDO) -->
-    <!-- Esempio: "https://kripix-studio.netlify.app/assets/cover-social.jpg" -->
-    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png"> 
-    
-    <!-- URL della pagina principale -->
-    <meta property="og:url" content="https://kripixent.netlify.app/">
-    
-    <!-- Tipo di contenuto -->
-    <meta property="og:type" content="website">
-
-    <!-- TAG TWITTER / X (Specifici per la visualizzazione Card su X) -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kripix Entertainment">
-    <meta name="twitter:description" content="Creatori di esperienze narrative ad alta tensione. Unisciti al network.">
-    <meta name="twitter:image" content="https://kripixent.netlify.app/SocialPreview.png">
-    
-    <!-- Tema colore Browser Mobile (La barra in alto su Chrome per Android diventerà scura) -->
-    <meta name="theme-color" content="#05070a">   
     <meta charset="UTF-8">
-
-    <!-- ========================================== -->
-    <!-- FAVICON (ICONA SULLA TAB DEL BROWSER)      -->
-    <!-- ========================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I miei giochi | Kripix</title>
+    <meta name="description" content="I giochi del tuo account Kripix.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico"> <!-- Fallback per browser vecchi -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Libreria - Kripix</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
 
-    <!-- Libreria per generare PDF -->
-<!-- Libreria jsPDF (PDF Nativo) -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 </head>
 <body>
-    <div class="background-grid"></div>
 
 <nav id="main-nav"></nav>
     <div class="page-header">
-        <h1>ARCHIVIO PERSONALE</h1>
-        <p style="font-family:'Courier Prime'; color:#888;">Licenze attive e software assegnato.</p>
+        <h1 data-i18n="I miei giochi">I miei giochi</h1>
+        <p data-i18n="I giochi del tuo account, con le chiavi e le ricevute.">I giochi del tuo account, con le chiavi e le ricevute.</p>
     </div>
 
     <section class="section-padding">
@@ -81,10 +38,10 @@
             
 
             <!-- Messaggio Libreria Vuota -->
-            <div id="empty-msg" style="display:none; text-align:center; padding: 50px; border: 1px dashed #333;">
-                <h3 style="color:#666; margin-bottom:20px;">NESSUNA LICENZA TROVATA</h3>
-                <p style="margin-bottom:30px;">Non hai ancora acquistato software Kripix.</p>
-                <a href="progetti.html" class="btn-gold">VAI ALLO STORE</a>
+            <div id="empty-msg" class="empty-state" style="display:none;">
+                <h2 data-i18n="Nessun gioco, per ora">Nessun gioco, per ora</h2>
+                <p data-i18n="Quando acquisti un gioco o attivi un codice, lo trovi qui.">Quando acquisti un gioco o attivi un codice, lo trovi qui.</p>
+                <a href="progetti.html" class="btn-gold" data-i18n="Scopri i giochi">Scopri i giochi</a>
             </div>
 
         </div>
@@ -93,17 +50,17 @@
     <!-- MODALE CENTRO DOWNLOAD -->
     <div id="dl-modal" class="modal-overlay">
         <div class="modal-box">
-            <h3 style="color:var(--accent-gold); margin-bottom:5px;">SCELTA PIATTAFORMA</h3>
-            <p style="font-size:0.9rem; opacity:0.7;">Seleziona il sistema operativo per avviare il download.</p>
+            <h3 data-i18n="Scarica il launcher">Scarica il launcher</h3>
+            <p data-i18n="Scegli il tuo sistema operativo.">Scegli il tuo sistema operativo.</p>
             
             <div class="mini-dl-grid">
                 <div class="mini-os-card" onclick="simulateDl(this, 'kripix_setup.exe')">
                     <div class="mini-os-icon">
                         <svg viewBox="0 0 88 88"><path d="M0 12.402l35.687-4.86.016 34.423-35.67.203zm35.67 33.329l-.028 34.553-35.66-4.96-.001-29.601zm5.307-39.117L87.814 0v41.527l-46.837.062zm.022 39.294l46.825.264v41.67l-46.825-6.69z"/></svg>
                     </div>
-                    <div class="mini-os-title">WINDOWS</div>
+                    <div class="mini-os-title">Windows</div>
                     <div class="mini-os-spec">Win 10/11 (64-bit)</div>
-                    <span class="btn-outline full-width" style="font-size:0.7rem; padding:10px;">SCARICA .EXE</span>
+                    <span class="btn-outline full-width" style="font-size:0.7rem; padding:10px;">Scarica .exe</span>
                 </div>
 
                 <div class="mini-os-card" onclick="simulateDl(this, 'kripix_installer.dmg')">
@@ -112,11 +69,11 @@
                     </div>
                     <div class="mini-os-title">macOS</div>
                     <div class="mini-os-spec">Apple Silicon / Intel</div>
-                    <span class="btn-outline full-width" style="font-size:0.7rem; padding:10px;">SCARICA .DMG</span>
+                    <span class="btn-outline full-width" style="font-size:0.7rem; padding:10px;">Scarica .dmg</span>
                 </div>
             </div>
 
-            <button onclick="closeDlModal()" class="btn-outline" style="border:none; color:#666;">ANNULLA</button>
+            <div class="modal-actions" style="margin-top:0"><button onclick="closeDlModal()" class="btn-outline" data-i18n="Annulla">Annulla</button></div>
         </div>
     </div>
 
@@ -125,47 +82,47 @@
         <div class="modal-box" style="padding: 0; overflow: hidden; max-width: 550px;">
             
             <!-- AREA CHE VERRA' TRASFORMATA IN PDF -->
-            <div id="printable-receipt" style="background: #05070a; padding: 40px; text-align: left; color: #fff;">
+            <div id="printable-receipt" style="background: var(--bg); padding: 40px; text-align: left; color: var(--text);">
                 
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <span style="background: var(--accent-gold); color: #000; padding: 5px 15px; font-weight: 900; font-size: 0.7rem; letter-spacing: 2px;">TRANSAZIONE AUTORIZZATA</span>
+                    <span style="background: var(--success-soft); color: var(--success); padding: 5px 14px; font-weight: 700; font-size: 0.8rem; border-radius: 99px;">Pagamento completato</span>
                 </div>
                 
-                <h2 style="font-size: 2.5rem; letter-spacing: 5px; color: var(--text-main); margin-bottom: 5px; text-align: center;">KRIPIX</h2>
-                <p style="font-family: 'Courier Prime'; color: #666; text-align: center; margin-bottom: 30px; border-bottom: 1px dashed #333; padding-bottom: 20px;">RICEVUTA ACQUISTO LICENZA DIGITALE</p>
+                <h2 style="font-size: 2.5rem; letter-spacing: 5px; color: var(--text-main); margin-bottom: 5px; text-align: center;">Kripix</h2>
+                <p style="color: var(--text-muted); text-align: center; margin: 0 auto 26px; border-bottom: 1px solid var(--line); padding-bottom: 20px;">Ricevuta di acquisto</p>
                 
-                <div style="font-family: 'Courier Prime'; font-size: 0.85rem; color: #aaa; margin-bottom: 30px;">
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #111; padding: 10px 0;">
-                        <span style="color: var(--accent-gold);">ID AGENTE:</span> <span id="rec-username" style="color:#fff;">...</span>
+                <div style="font-family: var(--font-body); font-size: 0.85rem; color: var(--text-soft); margin-bottom: 30px;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 10px 0;">
+                        <span style="color: var(--text-muted);">Nome utente:</span> <span id="rec-username" style="color:var(--text);">...</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #111; padding: 10px 0;">
-                        <span style="color: var(--accent-gold);">EMAIL:</span> <span id="rec-email">...</span>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 10px 0;">
+                        <span style="color: var(--text-muted);">Email:</span> <span id="rec-email">...</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #111; padding: 10px 0;">
-                        <span style="color: var(--accent-gold);">SOFTWARE:</span> <span style="color: #fff; font-weight: bold;">LA PAGODA</span>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 10px 0;">
+                        <span style="color: var(--text-muted);">Gioco:</span> <span style="color: var(--text); font-weight: bold;">La Pagoda</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #111; padding: 10px 0;">
-                        <span style="color: var(--accent-gold);">METODO:</span> <span id="rec-method">CARTE/STRIPE</span>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 10px 0;">
+                        <span style="color: var(--text-muted);">Metodo:</span> <span id="rec-method">Carte/Stripe</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #111; padding: 10px 0;">
-                        <span style="color: var(--accent-gold);">IMPORTO:</span> <span>€ 19.99</span>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 10px 0;">
+                        <span style="color: var(--text-muted);">Importo:</span> <span>€19,99</span>
                     </div>
                 </div>
 
-                <div style="background: rgba(227, 198, 108, 0.05); border: 1px dashed var(--accent-gold); padding: 20px; text-align: center;">
-                    <p style="font-size: 0.8rem; color: #888; margin-bottom: 10px;">CHIAVE CRITTOGRAFICA DI ATTIVAZIONE</p>
-                    <div id="rec-key" style="font-size: 1.3rem; font-weight: bold; letter-spacing: 3px; color: var(--accent-gold);">KRPX-XXXX-XXXX-XXXX</div>
+                <div style="background: var(--surface); border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 20px; text-align: center;">
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0 auto 10px;">Chiave di attivazione</p>
+                    <div id="rec-key" style="font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; color: var(--text);">KRPX-XXXX-XXXX-XXXX</div>
                 </div>
             </div>
             <!-- FINE AREA STAMPABILE -->
 
             <!-- BOTTONI FUORI DAL PDF -->
-            <div style="display: flex; gap: 10px; padding: 20px; background: #0a0a0a; border-top: 1px solid #222;">
+            <div style="display: flex; gap: 10px; padding: 20px; background: var(--surface); border-top: 1px solid var(--line);">
                 <button class="btn-outline full-width btn-icon" onclick="downloadPDF()">
                     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M4 17v3h16v-3"/></svg>
-                    <span data-i18n="SCARICA PDF">SCARICA PDF</span>
+                    <span data-i18n="Scarica PDF">Scarica PDF</span>
                 </button>
-                <button class="btn-gold full-width" onclick="document.getElementById('receipt-modal').style.display='none'">CHIUDI</button>
+                <button class="btn-gold full-width" onclick="document.getElementById('receipt-modal').style.display='none'">Chiudi</button>
             </div>
         </div>
     </div>
@@ -176,28 +133,28 @@
     <script type="module" src="script.js"></script>
 
 <!-- AREA NASCOSTA (Usata ESCLUSIVAMENTE per il PDF ad alta risoluzione) -->
-    <div id="pdf-export-zone" style="display: none; width: 800px; padding: 60px; background: #05070a; color: #fff; font-family: 'Courier Prime', monospace; box-sizing: border-box; border: 2px solid #e3c66c;">
+    <div id="pdf-export-zone" style="display: none; width: 800px; padding: 60px; background: var(--bg); color: var(--text); font-family: var(--font-body); box-sizing: border-box; border: 2px solid var(--gold);">
         <div style="text-align: center; margin-bottom: 40px;">
-            <div style="font-family: 'Montserrat', sans-serif; font-size: 4rem; font-weight: 900; letter-spacing: 10px; color: #e3c66c; margin-bottom: 10px;">KRIPIX</div>
-            <div style="font-size: 1.2rem; letter-spacing: 3px; color: #888; border-bottom: 1px dashed #333; padding-bottom: 20px;">RICEVUTA ACQUISTO LICENZA DIGITALE</div>
+            <div style="font-family: var(--font-body); font-size: 4rem; font-weight: 900; letter-spacing: 10px; color: var(--gold); margin-bottom: 10px;">Kripix</div>
+            <div style="font-size: 1.2rem; letter-spacing: 3px; color: var(--text-muted); border-bottom: 1px dashed var(--line); padding-bottom: 20px;">Ricevuta acquisto licenza digitale</div>
         </div>
         
-        <table style="width: 100%; font-size: 1.1rem; color: #aaa; border-collapse: collapse; margin-bottom: 60px;">
-            <tr><td style="padding: 15px 0; border-bottom: 1px solid #222; color: #e3c66c;">ID AGENTE:</td><td id="pdf-user" style="padding: 15px 0; border-bottom: 1px solid #222; text-align: right; color: #fff;">...</td></tr>
-            <tr><td style="padding: 15px 0; border-bottom: 1px solid #222; color: #e3c66c;">EMAIL:</td><td id="pdf-email" style="padding: 15px 0; border-bottom: 1px solid #222; text-align: right; color: #fff;">...</td></tr>
-            <tr><td style="padding: 15px 0; border-bottom: 1px solid #222; color: #e3c66c;">SOFTWARE:</td><td style="padding: 15px 0; border-bottom: 1px solid #222; text-align: right; font-weight: bold; color: #fff;">IL FILO DEL DUBBIO</td></tr>
-            <tr><td style="padding: 15px 0; border-bottom: 1px solid #222; color: #e3c66c;">EDIZIONE:</td><td style="padding: 15px 0; border-bottom: 1px solid #222; text-align: right; color: #fff;">DELUXE EDITION</td></tr>
-            <tr><td style="padding: 15px 0; border-bottom: 1px solid #222; color: #e3c66c;">METODO DI PAGAMENTO:</td><td id="pdf-method" style="padding: 15px 0; border-bottom: 1px solid #222; text-align: right; color: #fff;">...</td></tr>
-            <tr><td style="padding: 15px 0; border-bottom: 1px solid #222; color: #e3c66c;">IMPORTO:</td><td style="padding: 15px 0; border-bottom: 1px solid #222; text-align: right; font-weight: bold; color: #fff;">€ 19.99</td></tr>
+        <table style="width: 100%; font-size: 1.1rem; color: var(--text-soft); border-collapse: collapse; margin-bottom: 60px;">
+            <tr><td style="padding: 15px 0; border-bottom: 1px solid var(--line); color: var(--gold);">Nome utente:</td><td id="pdf-user" style="padding: 15px 0; border-bottom: 1px solid var(--line); text-align: right; color: var(--text);">...</td></tr>
+            <tr><td style="padding: 15px 0; border-bottom: 1px solid var(--line); color: var(--gold);">Email:</td><td id="pdf-email" style="padding: 15px 0; border-bottom: 1px solid var(--line); text-align: right; color: var(--text);">...</td></tr>
+            <tr><td style="padding: 15px 0; border-bottom: 1px solid var(--line); color: var(--gold);">Software:</td><td style="padding: 15px 0; border-bottom: 1px solid var(--line); text-align: right; font-weight: bold; color: var(--text);">Il filo del dubbio</td></tr>
+            <tr><td style="padding: 15px 0; border-bottom: 1px solid var(--line); color: var(--gold);">Edizione:</td><td style="padding: 15px 0; border-bottom: 1px solid var(--line); text-align: right; color: var(--text);">Deluxe Edition</td></tr>
+            <tr><td style="padding: 15px 0; border-bottom: 1px solid var(--line); color: var(--gold);">Metodo di pagamento:</td><td id="pdf-method" style="padding: 15px 0; border-bottom: 1px solid var(--line); text-align: right; color: var(--text);">...</td></tr>
+            <tr><td style="padding: 15px 0; border-bottom: 1px solid var(--line); color: var(--gold);">Importo:</td><td style="padding: 15px 0; border-bottom: 1px solid var(--line); text-align: right; font-weight: bold; color: var(--text);">€ 19.99</td></tr>
         </table>
 
-        <div style="background: rgba(227, 198, 108, 0.1); border: 2px dashed #e3c66c; padding: 40px; text-align: center;">
-            <p style="font-size: 1rem; color: #888; margin-bottom: 15px; letter-spacing: 2px;">CHIAVE CRITTOGRAFICA DI ATTIVAZIONE</p>
-            <div id="pdf-key" style="font-family: 'Montserrat', sans-serif; font-size: 2.5rem; font-weight: 900; letter-spacing: 5px; color: #e3c66c;">KRPX-XXXX-XXXX-XXXX</div>
+        <div style="background: rgba(227, 198, 108, 0.1); border: 2px dashed var(--gold); padding: 40px; text-align: center;">
+            <p style="font-size: 1rem; color: var(--text-muted); margin-bottom: 15px; letter-spacing: 2px;">Chiave di attivazione</p>
+            <div id="pdf-key" style="font-family: var(--font-body); font-size: 2.5rem; font-weight: 900; letter-spacing: 5px; color: var(--gold);">KRPX-XXXX-XXXX-XXXX</div>
         </div>
         
-        <div style="text-align: center; margin-top: 60px; font-size: 0.8rem; color: #444;">
-            Documento generato dal Terminale Kripix. Conservare con cura.
+        <div style="text-align: center; margin-top: 60px; font-size: 0.8rem; color: var(--text-faint);">
+            Ricevuta generata da kripix.com. Conservala insieme alla chiave.
         </div>
     </div>
 
@@ -208,10 +165,10 @@
     import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
     // Variabili Globali
-    let currentGlobalKey = "CHIAVE-IN-ELABORAZIONE";
+    let currentGlobalKey = "Chiave-in-elaborazione";
     let currentUserEmail = "...";
-    let currentUsername = "AGENTE";
-    let currentMethod = "STRIPE SECURE";
+    let currentUsername = "Giocatore";
+    let currentMethod = "Stripe secure";
     let currentLast4 = "****";
 
     // ==========================================
@@ -226,25 +183,25 @@ function injectGameCard() {
     grid.innerHTML = `
         <div class="os-card highlighted" style="text-align:left; padding:0; overflow:hidden; border-color: var(--accent-gold);">
             <!-- SFONDO MINIMALE KRIPIX -->
-            <div style="height:150px; background:#0a0a0a; border-bottom:1px solid #333; display:flex; align-items:center; justify-content:center; text-align:center;">
-                 <span style="font-weight:900; letter-spacing:5px; font-size:2rem; color:#444; font-family:'Montserrat', sans-serif;">LA PAGODA</span>
+            <div style="position:relative; height:190px; background:#050608 url('assets/img/pagoda-door.jpg') center 40% / cover;">
+                 <span style="position:absolute; left:24px; bottom:16px; font-family:var(--font-display); font-weight:900; font-size:2.6rem; line-height:1; text-transform:uppercase; color:#f3f0e6; text-shadow:0 4px 20px rgba(0,0,0,.6);">La Pagoda</span>
             </div>
-            <div style="padding:25px; background: rgba(5,7,10,0.9);">
+            <div style="padding:25px; background: var(--surface);">
                 <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                    <span style="color:#4caf50; font-weight:bold; font-size:0.8rem; font-family:'Courier Prime';">● LICENZA ATTIVA</span>
-                    <span style="font-family:'Courier Prime'; font-size:0.8rem; color:#666;">Ver. 1.0.1</span>
+                    <span class="tag" style="background:var(--success-soft); color:var(--success);">Nel tuo account</span>
+                    <span style="font-size:0.85rem; color:var(--text-muted);">Versione 1.0.1</span>
                 </div>
-                <h3 style="font-size:1.2rem; margin-bottom:10px; color:white;">Deluxe Edition</h3>
+                <h3 style="font-size:1.2rem; margin-bottom:10px; color:var(--text);">Deluxe Edition</h3>
                 <p style="font-size:0.9rem; opacity:0.7; margin-bottom:25px; line-height:1.4;">
-                    Include gioco completo, Dossier Operazione Fornace e Filtri Fotocamera.
+                    Gioco completo, fascicolo «Operazione Fornace» e filtri fotografici.
                 </p>
                 
                 <div style="display:flex; gap:10px;" class="btn-container-relative">
-                    <button class="btn-gold full-width" onclick="openDlModal()">INSTALLA</button>
-                    <button class="btn-outline btn-icon" style="padding:0; width:55px;" title="Visualizza Ricevuta" aria-label="Visualizza Ricevuta" onclick="showReceipt()">
+                    <button class="btn-gold full-width" onclick="openDlModal()">Installa</button>
+                    <button class="btn-outline btn-icon" style="padding:0; width:55px;" title="Vedi la ricevuta" aria-label="Vedi la ricevuta" onclick="showReceipt()">
                         <svg class="icon icon-md" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/><path d="M9 12h6"/><path d="M9 16h4"/></svg>
                     </button>
-                    <button class="btn-outline btn-icon" style="padding:0; width:55px;" title="Copia Chiave" aria-label="Copia Chiave" onclick="copyKey(this, '${currentGlobalKey}')">
+                    <button class="btn-outline btn-icon" style="padding:0; width:55px;" title="Copia la chiave" aria-label="Copia la chiave" onclick="copyKey(this, '${currentGlobalKey}')">
                         <svg class="icon icon-md" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 8-8"/><path d="m17.5 5.5 2 2"/><path d="m14.8 8.2 2 2"/></svg>
                     </button>
                 </div>
@@ -273,7 +230,7 @@ function injectGameCard() {
 
         const checkAndRenderGames = async () => {
             let ownsGame = false;
-            let foundKey = "CHIAVE-IN-ELABORAZIONE";
+            let foundKey = "Chiave-in-elaborazione";
 
             try {
                 // CERCA FURNACE E NON HARROW
@@ -287,12 +244,12 @@ function injectGameCard() {
                     const pData = privateSnap.data();
                     const gameKey = (pData.keys && pData.keys.furnace) || pData['keys.furnace'];
                     
-                    if (gameKey && gameKey !== "ERRORE-LETTURA-CHIAVE") {
+                    if (gameKey && gameKey !== "Errore-lettura-chiave") {
                         ownsGame = true;
                         foundKey = gameKey;
                     }
                     if (pData.lastPurchase) {
-                        currentMethod = pData.lastPurchase.method || "STRIPE SECURE";
+                        currentMethod = pData.lastPurchase.method || "Stripe secure";
                         currentLast4 = pData.lastPurchase.last4 || "****";
                     }
                 }
@@ -311,17 +268,17 @@ function injectGameCard() {
 
         if (isRedirectFromStripe) {
             window.history.replaceState({}, document.title, window.location.pathname);
-            if(window.kripixNotify) window.kripixNotify("TRANSAZIONE", "Sincronizzazione Gateway in corso...", "info");
+            if(window.kripixNotify) window.kripixNotify("Pagamento ricevuto", "Stiamo aggiungendo il gioco al tuo account…", "info");
 
             const unsubscribe = onSnapshot(privateRef, (docSnap) => {
                 if (docSnap.exists()) {
                     const pData = docSnap.data();
                     const gameKey = (pData.keys && pData.keys.furnace) || pData['keys.furnace'];
                     
-                    if (gameKey && gameKey !== "ERRORE-LETTURA-CHIAVE") {
+                    if (gameKey && gameKey !== "Errore-lettura-chiave") {
                         unsubscribe(); 
                         checkAndRenderGames(); 
-                        if(window.kripixNotify) window.kripixNotify("SUCCESSO", "Licenza aggiunta all'archivio.", "success");
+                        if(window.kripixNotify) window.kripixNotify("Fatto", "La Pagoda è nei tuoi giochi.", "success");
                     }
                 }
             });
@@ -342,7 +299,7 @@ function injectGameCard() {
             if(oldTooltip) oldTooltip.remove();
             const tooltip = document.createElement('div');
             tooltip.className = 'copy-tooltip show';
-            tooltip.innerText = 'CHIAVE COPIATA'; 
+            tooltip.innerText = 'Chiave copiata'; 
             container.appendChild(tooltip);
             setTimeout(() => { tooltip.classList.remove('show'); setTimeout(() => tooltip.remove(), 300); }, 3000);
         });
@@ -367,11 +324,11 @@ function injectGameCard() {
 
         docPdf.setTextColor(gold[0], gold[1], gold[2]);
         docPdf.setFontSize(40); docPdf.setFont("helvetica", "bold");
-        docPdf.text("KRIPIX", 105, 40, { align: "center" });
+        docPdf.text("Kripix", 105, 40, { align: "center" });
 
         docPdf.setTextColor(gray[0], gray[1], gray[2]);
         docPdf.setFontSize(12); docPdf.setFont("courier", "normal");
-        docPdf.text("RICEVUTA ACQUISTO LICENZA DIGITALE", 105, 52, { align: "center" });
+        docPdf.text("Ricevuta acquisto licenza digitale", 105, 52, { align: "center" });
         
         docPdf.setDrawColor(50, 50, 50); docPdf.setLineDashPattern([2, 2], 0);
         docPdf.line(20, 60, 190, 60);
@@ -390,25 +347,25 @@ function injectGameCard() {
             startY += lineSpace;
         };
 
-        addRow("ID AGENTE:", currentUsername);
-        addRow("EMAIL:", currentUserEmail);
-        addRow("SOFTWARE:", "LA PAGODA", true);
-        addRow("EDIZIONE:", "DELUXE EDITION");
-        addRow("METODO:", methodString);
-        addRow("IMPORTO PAGATO:", "EUR 19.99", true);
+        addRow("Nome utente:", currentUsername);
+        addRow("Email:", currentUserEmail);
+        addRow("Software:", "La Pagoda", true);
+        addRow("Edizione:", "Deluxe Edition");
+        addRow("Metodo:", methodString);
+        addRow("Importo pagato:", "Eur 19.99", true);
 
         startY += 20;
         docPdf.setDrawColor(gold[0], gold[1], gold[2]); docPdf.setLineDashPattern([2, 2], 0);
         docPdf.setFillColor(15, 15, 15); docPdf.rect(20, startY, 170, 40, "FD"); 
 
         docPdf.setTextColor(gray[0], gray[1], gray[2]); docPdf.setFontSize(9);
-        docPdf.text("CHIAVE CRITTOGRAFICA DI ATTIVAZIONE", 105, startY + 12, { align: "center" });
+        docPdf.text("Chiave di attivazione", 105, startY + 12, { align: "center" });
 
         docPdf.setTextColor(gold[0], gold[1], gold[2]); docPdf.setFontSize(18); docPdf.setFont("helvetica", "bold");
         docPdf.text(currentGlobalKey, 105, startY + 28, { align: "center" });
 
         docPdf.setTextColor(80, 80, 80); docPdf.setFontSize(8); docPdf.setFont("courier", "normal");
-        docPdf.text("Documento generato dal Terminale Kripix OS. Conservare con cura.", 105, 280, { align: "center" });
+        docPdf.text("Ricevuta generata da kripix.com. Conservala insieme alla chiave.", 105, 280, { align: "center" });
 
         docPdf.save(`Ricevuta_Kripix_${currentUsername}.pdf`);
     }

@@ -1,100 +1,58 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
- <!-- ========================================== -->
-    <!-- SEO & OPEN GRAPH (CONDIVISIONE SOCIAL)     -->
-    <!-- ========================================== -->
-    
-    <!-- Descrizione base per i motori di ricerca (Max 160 caratteri) -->
-    <meta name="description" content="Kripix Entertainment: A different way to see pixels">
-    
-    <!-- Parole chiave (Keywords) -->
-    <meta name="keywords" content="videogiochi, sviluppo indie, kripix, il filo del dubbio, pixel otros, engine narrativo, thriller psicologico">
-    
-    <!-- Autore -->
-    <meta name="author" content="Kripix Entertainment">
-    
-    <!-- Istruzioni per i Crawler (Permette a Google di indicizzare la pagina) -->
-    <meta name="robots" content="index, follow">
-
-    <!-- TAG OPEN GRAPH (Per Facebook, Discord, LinkedIn, ecc.) -->
-    <!-- Titolo che appare nell'anteprima -->
-    <meta property="og:title" content="Kripix Entertainment | A different way to see pixels">
-    
-    <!-- Descrizione dell'anteprima -->
-    <meta property="og:description" content="Esplora i nostri mondi immersivi. Scopri 'Il Filo del Dubbio' e accedi al network operativo per gli agenti Kripix.">
-    
-    <!-- Immagine di copertina (DEVI METTERE UN URL ASSOLUTO VALIDO) -->
-    <!-- Esempio: "https://kripix-studio.netlify.app/assets/cover-social.jpg" -->
-    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png"> 
-    
-    <!-- URL della pagina principale -->
-    <meta property="og:url" content="https://kripixent.netlify.app/">
-    
-    <!-- Tipo di contenuto -->
-    <meta property="og:type" content="website">
-
-    <!-- TAG TWITTER / X (Specifici per la visualizzazione Card su X) -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kripix Entertainment">
-    <meta name="twitter:description" content="Creatori di esperienze narrative ad alta tensione. Unisciti al network.">
-    <meta name="twitter:image" content="https://kripixent.netlify.app/SocialPreview.png">
-    
-    <!-- Tema colore Browser Mobile (La barra in alto su Chrome per Android diventerà scura) -->
-    <meta name="theme-color" content="#05070a">   
     <meta charset="UTF-8">
-
-    <!-- ========================================== -->
-    <!-- FAVICON (ICONA SULLA TAB DEL BROWSER)      -->
-    <!-- ========================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuova password | Kripix</title>
+    <meta name="description" content="Scegli una nuova password per il tuo account Kripix.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico"> <!-- Fallback per browser vecchi -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ripristino Protocollo - Kripix</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-grid"></div>
     
-    <nav>
-        <div class="logo-text"><a href="index.html">KRIPIX</a></div>
-        <a href="login.html" class="back-link">← TORNA AL LOGIN</a>
-    </nav>
+    <nav id="main-nav"></nav>
 
     <div class="login-container">
         <div class="login-box">
             <div class="login-header">
-                <h2>RIPRISTINO CHIAVE</h2>
+                <h2 data-i18n="Nuova password">Nuova password</h2>
                 <!-- Qui scriveremo l'email dell'utente una volta verificato il link -->
-                <p id="status-text" style="font-family:'Courier Prime'; font-size:0.8rem; color:#888;">Verifica del canale crittografato in corso...</p>
+                <p id="status-text">Controllo del link…</p>
             </div>
 
             <!-- Il form all'inizio è nascosto. Lo mostriamo solo se il link della mail è valido -->
             <form id="resetForm" class="terminal-form" style="display: none;">
                 
                 <div class="input-group">
-                    <label>NUOVA PASSWORD (Min 8 car. + 1 Numero)</label>
-                    <input type="password" id="new-pass-input" placeholder="Inserisci nuova password" required>
+                    <label for="new-pass-input" data-i18n="Nuova password (almeno 8 caratteri e un numero)">Nuova password (almeno 8 caratteri e un numero)</label>
+                    <input type="password" id="new-pass-input" placeholder="Nuova password" required autocomplete="new-password">
                 </div>
                 
                 <div class="input-group">
-                    <label>CONFERMA NUOVA PASSWORD</label>
-                    <input type="password" id="confirm-pass-input" placeholder="Ripeti password" required>
+                    <label for="confirm-pass-input" data-i18n="Ripeti la password">Ripeti la password</label>
+                    <input type="password" id="confirm-pass-input" placeholder="Ripeti la password" required autocomplete="new-password">
                 </div>
                 
                 <p id="final-reset-msg" class="validation-msg" style="text-align:center; display:none;"></p>
                 
-                <button type="submit" id="btn-submit" class="btn-gold full-width">AGGIORNA CREDENZIALI</button>
+                <button type="submit" id="btn-submit" class="btn-gold full-width" data-i18n="Salva la nuova password">Salva la nuova password</button>
             </form>
 
         </div>
     </div>
 
     <!-- SCRIPT FIREBASE -->
+    <footer id="main-footer" class="kripix-footer"></footer>
+
     <script type="module">
         import { auth } from './script.js';
         import { verifyPasswordResetCode, confirmPasswordReset } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
@@ -109,8 +67,8 @@
 
             // Se uno apre la pagina senza aver cliccato il link della mail:
             if (!actionCode) {
-                statusText.innerText = ">> ERRORE: Nessun token di ripristino rilevato. Usa il link inviato via email.";
-                statusText.style.color = "#ff5555";
+                statusText.innerText = "Questo link non è completo. Apri il link che ti abbiamo mandato via email.";
+                statusText.style.color = "var(--danger)";
                 return;
             }
 
@@ -120,12 +78,12 @@
                 const userEmail = await verifyPasswordResetCode(auth, actionCode);
                 
                 // Link valido! Mostriamo l'email e sblocchiamo il form
-                statusText.innerHTML = `Identità verificata: <span style="color:var(--accent-gold);">${userEmail}</span>`;
+                statusText.textContent = `Scegli una nuova password per ${userEmail}.`;
                 resetForm.style.display = 'block';
                 
             } catch (error) {
-                statusText.innerText = ">> ERRORE: Link crittografato scaduto o già utilizzato.";
-                statusText.style.color = "#ff5555";
+                statusText.innerText = "Il link è scaduto o è già stato usato. Chiedine uno nuovo dalla pagina di accesso.";
+                statusText.style.color = "var(--danger)";
                 return;
             }
 
@@ -141,15 +99,15 @@
 
                 // Controlli base
                 if (newPass.length < 8 || !/\d/.test(newPass)) {
-                    showError(msgEl, "Password troppo debole (min 8 caratteri + 1 numero).");
+                    showError(msgEl, "La password deve avere almeno 8 caratteri e un numero.");
                     return;
                 }
                 if (newPass !== confirmPass) {
-                    showError(msgEl, "Le password non coincidono.");
+                    showError(msgEl, "Le due password non sono uguali.");
                     return;
                 }
 
-                btn.innerText = "SOVRASCRITTURA IN CORSO...";
+                btn.innerText = "Salvataggio…";
                 btn.style.opacity = "0.7";
                 btn.style.pointerEvents = "none";
 
@@ -158,10 +116,10 @@
                     await confirmPasswordReset(auth, actionCode, newPass);
                     
                     // Fatto!
-                    btn.innerText = "PROTOCOLLO COMPLETATO";
-                    btn.style.background = '#4caf50';
-                    btn.style.borderColor = '#4caf50';
-                    btn.style.color = '#000';
+                    btn.innerText = "Password aggiornata";
+                    btn.style.background = 'var(--success)';
+                    btn.style.borderColor = 'var(--success)';
+                    btn.style.color = 'var(--on-gold)';
                     btn.style.opacity = "1";
                     
                     setTimeout(() => {
@@ -169,17 +127,17 @@
                     }, 2000);
 
                 } catch (error) {
-                    btn.innerText = "AGGIORNA CREDENZIALI";
+                    btn.innerText = "Salva la nuova password";
                     btn.style.opacity = "1";
                     btn.style.pointerEvents = "auto";
-                    showError(msgEl, "Errore di connessione col server. Riprova.");
+                    showError(msgEl, "Non riusciamo a contattare il server. Controlla la connessione e riprova.");
                     console.error(error);
                 }
             });
         });
 
         function showError(element, text) {
-            element.innerText = '>> ' + text;
+            element.innerText = text;
             element.style.display = 'block';
         }
     </script>

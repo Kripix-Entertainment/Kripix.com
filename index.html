@@ -1,278 +1,321 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <!-- SEO & OPEN GRAPH -->
-    <meta name="description" content="Kripix Entertainment: A different way to see pixels">
-    <meta name="keywords" content="videogiochi, sviluppo indie, kripix, La Pagoda, pixel otros, engine narrativo, thriller psicologico">
-    <meta name="author" content="Kripix Entertainment">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kripix Entertainment</title>
+    <meta name="description" content="Kripix Entertainment è uno studio indipendente italiano. Il nostro primo gioco è La Pagoda, un survival horror in cui la luce è la tua unica arma.">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Kripix Entertainment | A different way to see pixels">
-    <meta property="og:description" content="Esplora i nostri mondi immersivi. Scopri 'La Pagoda' e accedi al network operativo.">
-    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png"> 
+    <meta property="og:title" content="Kripix Entertainment">
+    <meta property="og:description" content="Kripix Entertainment è uno studio indipendente italiano. Il nostro primo gioco è La Pagoda, un survival horror in cui la luce è la tua unica arma.">
+    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png">
     <meta property="og:url" content="https://kripixent.netlify.app/">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kripix Entertainment">
-    <meta name="twitter:description" content="Creatori di esperienze narrative ad alta tensione. Unisciti al network.">
-    <meta name="twitter:image" content="https://kripixent.netlify.app/SocialPreview.png">
-    <meta name="theme-color" content="#05070a">   
-    
-    <meta charset="UTF-8">
-
-    <!-- FAVICON -->
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico">
-    
-    <!-- FIX DECENTRAMENTO MOBILE (Previene larghezza eccessiva).
-         Lo zoom resta attivo: bloccarlo esclude chi ha bisogno di ingrandire. -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Kripix Entertainment</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
-
-    <style>
-        /* EVITA SCROLL ORIZZONTALE SU MOBILE */
-        body { overflow-x: hidden; }
-
-        /* HERO SECTION A SCHERMATA SINGOLA */
-        .hero { 
-            height: 100vh; /* Esattamente l'altezza dello schermo */
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
-            padding: 80px 5% 0; /* Spazio per la navbar */
-            box-sizing: border-box;
-            overflow: hidden; /* Blocca lo scroll su PC */
-        }
-
-        .brand-title { font-size: clamp(3rem, 6vw, 5rem); font-weight: 900; letter-spacing: 10px; line-height: 1; margin: 0; }
-        .brand-subtitle { font-size: clamp(1rem, 2vw, 1.5rem); font-weight: 300; color: var(--accent-red); letter-spacing: 8px; margin-bottom: 15px; margin-top: -10px; }
-        
-        /* FIX MOBILE PER TYPEWRITER */
-        .tagline { margin-bottom: 30px; color: var(--text-muted); font-size: clamp(0.8rem, 2vw, 1rem); }
-        .typewriter { width: min(34ch, 100%); white-space: nowrap; overflow: hidden; }
-
-        /* DASHBOARD DELLE NEWS: Stretta e vicina ai bottoni */
-        .news-dashboard {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            width: 100%;
-            max-width: 1000px;
-            margin-top: 30px;
-            text-align: left;
-        }
-
-        .news-card {
-            background: rgba(10, 10, 10, 0.6); 
-            backdrop-filter: blur(5px); 
-            border: 1px solid #222;
-            border-top: 2px solid var(--accent-gold);
-            padding: 20px;
-            text-decoration: none; 
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s ease;
-            position: relative;
-            box-sizing: border-box;
-        }
-        
-        .news-card:hover {
-            border-color: var(--accent-gold);
-            background: rgba(227, 198, 108, 0.05);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
-        }
-
-        /* Il padding-right evita che il testo vada sotto l'icona */
-        .news-card-title { color: var(--text-main); font-size: 1rem; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; padding-right: 25px; }
-        .news-card-date { font-family: 'Courier Prime', monospace; font-size: 0.7rem; color: #666; margin-bottom: 10px; }
-        .news-card-body { color: #888; font-size: 0.85rem; line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-
-        /* STILE PRIORITÀ ALTA */
-        .news-card.priority-high {
-            grid-column: 1 / -1; 
-            border-top-color: var(--accent-red);
-            background: rgba(139, 35, 35, 0.05);
-            padding: 25px 20px;
-        }
-        .news-card.priority-high:hover { border-color: var(--accent-red); background: rgba(139, 35, 35, 0.1); }
-        .news-card.priority-high .news-card-title { color: var(--accent-red); font-size: 1.3rem; }
-
-        /* ICONA FRECCIA (Ancorata in alto a destra) */
-        .link-icon { 
-            position: absolute; 
-            top: 20px; 
-            right: 20px; 
-            color: #444; 
-            font-size: 1.2rem; 
-            transition: 0.3s; 
-            line-height: 1;
-        }
-        .news-card:hover .link-icon { color: var(--accent-gold); }
-        .news-card.priority-high:hover .link-icon { color: var(--accent-red); }
-
-        /* MOBILE RESPONSIVE */
-        @media (max-width: 768px) {
-            .news-dashboard { grid-template-columns: 1fr; margin-bottom: 40px; }
-            .hero { 
-                height: auto; /* Su mobile bisogna scorrere per forza */
-                min-height: 100vh;
-                padding-top: 120px; 
-                justify-content: flex-start;
-            }
-        }
-    </style>
 </head>
-<body>
-    
-    <div class="background-grid"></div>
+<body class="has-hero">
+    <nav id="main-nav"></nav>
 
-<nav id="main-nav"></nav>
+    <main>
+        <!-- APERTURA: La Pagoda a tutto schermo -->
+        <header class="home-hero is-dark" id="hero">
+            <video id="hero-video" autoplay muted loop playsinline preload="auto"
+                   poster="assets/img/pagoda-hero-poster.jpg" aria-hidden="true">
+                <source src="assets/video/pagoda-hero.mp4" type="video/mp4">
+            </video>
+            <div class="camera-flash" id="camera-flash" aria-hidden="true"></div>
 
-    <!-- CRUSCOTTO CENTRALE (Tutto in una schermata su PC) -->
-    <header class="hero">
-        <h1 class="brand-title">KRIPIX</h1>
-        <h2 class="brand-subtitle">ENTERTAINMENT</h2>
-        <p class="tagline typewriter">A different way to see pixels.</p>
-        
-        <div class="btn-container">
-            <a href="progetti.html" class="btn-gold">I Nostri Giochi</a>
-            <a href="studio.html" class="btn-outline">La Nostra Visione</a>
+            <div class="hero-inner">
+                <div>
+                    <p class="hero-kicker" id="hero-kicker" data-i18n="Il primo gioco di Kripix Entertainment">Il primo gioco di Kripix Entertainment</p>
+                    <h1 class="display-xl hero-title">La Pagoda</h1>
+                    <p class="hero-sub" data-i18n="Un survival horror in cui la luce è la tua unica arma. Hai una vecchia macchina fotografica, e il suo flash è l'unica cosa che tiene lontani i mostri.">Un survival horror in cui la luce è la tua unica arma. Hai una vecchia macchina fotografica, e il suo flash è l'unica cosa che tiene lontani i mostri.</p>
+                    <div class="btn-container">
+                        <a href="pagoda.html" class="btn-gold" data-i18n="Scopri il gioco">Scopri il gioco</a>
+                        <button type="button" class="btn-outline" id="btn-trailer">
+                            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>
+                            <span data-i18n="Guarda il teaser">Guarda il teaser</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-meta">
+                    <strong>2027</strong>
+                    <span data-i18n="In arrivo su PC">In arrivo su PC</span>
+                    <button type="button" class="icon-btn hero-pause" id="hero-pause" aria-pressed="false" aria-label="Metti in pausa il video" title="Metti in pausa il video">
+                        <svg class="icon i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
+                        <svg class="icon i-play" viewBox="0 0 24 24" aria-hidden="true" style="display:none"><path d="M7 4.5v15l12-7.5z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- NOTIZIE -->
+        <section class="home-section" id="notizie" aria-labelledby="news-title">
+            <div class="container">
+                <div class="section-head">
+                    <h2 id="news-title" data-i18n="Notizie">Notizie</h2>
+                    <a href="https://discord.gg/FwwuYJ4Dn3" class="text-link" target="_blank" rel="noopener noreferrer" data-i18n="Aggiornamenti in tempo reale su Discord">Aggiornamenti in tempo reale su Discord</a>
+                </div>
+                <div class="news-layout" id="news-feed-container">
+                    <p class="news-state" data-i18n="Caricamento delle notizie…">Caricamento delle notizie…</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- GIOCHI -->
+        <section class="home-section" style="padding-top:0" aria-labelledby="games-title">
+            <div class="container">
+                <div class="section-head">
+                    <h2 id="games-title" data-i18n="I nostri giochi">I nostri giochi</h2>
+                    <a href="progetti.html" class="text-link" data-i18n="Tutti i giochi">Tutti i giochi</a>
+                </div>
+                <div class="games-layout">
+                    <a href="pagoda.html" class="game-tile">
+                        <img src="assets/img/pagoda-door.jpg" alt="Stefano Valenti davanti all'ingresso del ristorante La Pagoda, sotto la pioggia" loading="lazy">
+                        <div class="game-tile-body">
+                            <span class="tag red" data-i18n="In sviluppo">In sviluppo</span>
+                            <h3>La Pagoda</h3>
+                            <p data-i18n="Stefano Valenti, giornalista, entra in un ristorante che cambia forma al buio. Ha solo una fotocamera degli anni '40 per uscirne vivo.">Stefano Valenti, giornalista, entra in un ristorante che cambia forma al buio. Ha solo una fotocamera degli anni '40 per uscirne vivo.</p>
+                            <span class="tile-cta" data-i18n="Scopri La Pagoda">Scopri La Pagoda</span>
+                        </div>
+                    </a>
+                    <div class="game-tile is-secret">
+                        <div class="secret-art" aria-hidden="true"><span>?</span></div>
+                        <div class="game-tile-body">
+                            <span class="tag" data-i18n="In pre-produzione">In pre-produzione</span>
+                            <h3 data-i18n="Progetto senza nome">Progetto senza nome</h3>
+                            <p data-i18n="Un nuovo gioco nello stesso universo. Ne parleremo quando sarà pronto.">Un nuovo gioco nello stesso universo. Ne parleremo quando sarà pronto.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STUDIO -->
+        <section class="home-section studio-band" aria-labelledby="studio-title">
+            <div class="container studio-grid">
+                <div>
+                    <h2 class="studio-quote" id="studio-title" data-i18n="Pochi giochi. Fatti bene.">Pochi giochi. Fatti bene.</h2>
+                    <p class="lead" style="margin:28px 0 30px" data-i18n="Kripix Entertainment è uno studio indipendente italiano. Facciamo giochi narrativi in cui l'atmosfera conta quanto le meccaniche, e ogni scelta lascia un segno.">Kripix Entertainment è uno studio indipendente italiano. Facciamo giochi narrativi in cui l'atmosfera conta quanto le meccaniche, e ogni scelta lascia un segno.</p>
+                    <a href="studio.html" class="text-link" data-i18n="Conosci lo studio">Conosci lo studio</a>
+                </div>
+                <ul class="principles">
+                    <li>
+                        <h3 data-i18n="L'atmosfera prima di tutto">L'atmosfera prima di tutto</h3>
+                        <p data-i18n="Ogni ombra e ogni suono servono a rendere il mondo credibile.">Ogni ombra e ogni suono servono a rendere il mondo credibile.</p>
+                    </li>
+                    <li>
+                        <h3 data-i18n="Meccaniche con un senso">Meccaniche con un senso</h3>
+                        <p data-i18n="Quello che fai nel gioco ha conseguenze vere.">Quello che fai nel gioco ha conseguenze vere.</p>
+                    </li>
+                    <li>
+                        <h3 data-i18n="Storie da scoprire">Storie da scoprire</h3>
+                        <p data-i18n="Non ti raccontiamo tutto: ti diamo gli strumenti per capirlo da solo.">Non ti raccontiamo tutto: ti diamo gli strumenti per capirlo da solo.</p>
+                    </li>
+                    <li>
+                        <h3 data-i18n="Qualità prima della quantità">Qualità prima della quantità</h3>
+                        <p data-i18n="Meglio dieci ore che ricordi che cento ore tutte uguali.">Meglio dieci ore che ricordi che cento ore tutte uguali.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- LAUNCHER -->
+        <section class="home-section launcher-band" aria-labelledby="launcher-title">
+            <div class="container launcher-grid">
+                <div>
+                    <h2 class="display-l" id="launcher-title">Kripix Launcher</h2>
+                    <p class="lead" style="margin-top:22px" data-i18n="L'app gratuita per installare e aggiornare i nostri giochi.">L'app gratuita per installare e aggiornare i nostri giochi.</p>
+                    <ul class="launcher-points">
+                        <li data-i18n="Aggiornamenti automatici">Aggiornamenti automatici</li>
+                        <li data-i18n="Salvataggi nel cloud, su ogni computer">Salvataggi nel cloud, su ogni computer</li>
+                        <li data-i18n="Contenuti extra per chi possiede il gioco">Contenuti extra per chi possiede il gioco</li>
+                    </ul>
+                    <div class="btn-container">
+                        <a href="faq.html" class="text-link" data-i18n="Domande sul launcher">Domande sul launcher</a>
+                    </div>
+                </div>
+                <div class="platform-list">
+                    <a href="download.html" class="platform-row">
+                        <svg viewBox="0 0 88 88" aria-hidden="true"><path d="M0 12.402l35.687-4.86.016 34.423-35.67.203zm35.67 33.329l-.028 34.553-35.66-4.96-.001-29.601zm5.307-39.117L87.814 0v41.527l-46.837.062zm.022 39.294l46.825.264v41.67l-46.825-6.69z"/></svg>
+                        <span><strong>Windows</strong><small data-i18n="Windows 10 e 11, 64 bit">Windows 10 e 11, 64 bit</small></span>
+                        <span class="platform-go" data-i18n="Scarica">Scarica</span>
+                    </a>
+                    <a href="download.html" class="platform-row">
+                        <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 52.3-11.4 69.5-34.3z"/></svg>
+                        <span><strong>macOS</strong><small data-i18n="Apple Silicon e Intel">Apple Silicon e Intel</small></span>
+                        <span class="platform-go" data-i18n="Scarica">Scarica</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="main-footer" class="kripix-footer"></footer>
+
+    <!-- TEASER -->
+    <div id="trailer-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Teaser de La Pagoda">
+        <div style="width:min(1100px, 100%);">
+            <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+                <button type="button" class="btn-outline" id="btn-close-trailer" style="color:#ece9df; border-color:rgba(236,233,223,.35);" data-i18n="Chiudi">Chiudi</button>
+            </div>
+            <div style="aspect-ratio:16/9; background:#000; border-radius:var(--radius-lg); overflow:hidden;">
+                <iframe id="trailer-frame" title="La Pagoda, teaser" width="100%" height="100%" style="border:0; display:block;" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+            </div>
         </div>
-
-        <!-- DASHBOARD NEWS -->
-        <div class="news-dashboard" id="news-feed-container">
-            <p style="font-family:'Courier Prime'; color:#666; grid-column: 1/-1; text-align:center; padding: 20px;">
-                >> Intercettazione segnali di rete...
-            </p>
-        </div>
-    </header>
+    </div>
 
     <script type="module" src="script.js"></script>
-    
-   <!-- (Mantieni tutto l'html e lo stile di index.html uguale, cambia solo questo script alla fine del file) -->
 
-    <!-- LOGICA FIREBASE NEWS -->
+    <!-- APERTURA: flash, pausa, teaser -->
+    <script>
+    (function () {
+        const hero = document.getElementById('hero');
+        const video = document.getElementById('hero-video');
+        const flash = document.getElementById('camera-flash');
+        const pauseBtn = document.getElementById('hero-pause');
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Il flash della fotocamera "rivela" la scena: una volta per visita
+        let seen = false;
+        try { seen = sessionStorage.getItem('kripix_flash') === '1'; } catch (e) {}
+
+        const reveal = () => {
+            if (!hero.classList.contains('is-dark')) return;
+            hero.classList.remove('is-dark');
+            if (!reduced && !seen) {
+                flash.classList.add('fire');
+                try { sessionStorage.setItem('kripix_flash', '1'); } catch (e) {}
+            }
+        };
+        if (reduced || seen) {
+            hero.classList.remove('is-dark');
+        } else {
+            if (video.readyState >= 2) setTimeout(reveal, 450);
+            else video.addEventListener('loadeddata', () => setTimeout(reveal, 450), { once: true });
+            setTimeout(reveal, 2200); // se il video tarda, la scena si rivela comunque
+        }
+
+        // Pausa / riproduci
+        const setPaused = (paused) => {
+            if (paused) video.pause(); else video.play().catch(() => {});
+            pauseBtn.setAttribute('aria-pressed', String(paused));
+            const label = paused ? 'Riproduci il video' : 'Metti in pausa il video';
+            pauseBtn.setAttribute('aria-label', label);
+            pauseBtn.title = label;
+            pauseBtn.querySelector('.i-pause').style.display = paused ? 'none' : '';
+            pauseBtn.querySelector('.i-play').style.display = paused ? '' : 'none';
+        };
+        pauseBtn.addEventListener('click', () => setPaused(!video.paused));
+        if (reduced) setPaused(true);
+
+        // Teaser su YouTube (caricato solo quando serve)
+        const modal = document.getElementById('trailer-modal');
+        const frame = document.getElementById('trailer-frame');
+        const openBtn = document.getElementById('btn-trailer');
+        const closeBtn = document.getElementById('btn-close-trailer');
+        const open = () => {
+            frame.src = 'https://www.youtube-nocookie.com/embed/vCAvVx3rznc?autoplay=1&rel=0';
+            modal.style.display = 'flex';
+            if (!video.paused) video.pause();
+            closeBtn.focus();
+        };
+        const close = () => {
+            modal.style.display = 'none';
+            frame.src = '';
+            if (pauseBtn.getAttribute('aria-pressed') !== 'true') video.play().catch(() => {});
+            openBtn.focus();
+        };
+        openBtn.addEventListener('click', open);
+        closeBtn.addEventListener('click', close);
+        modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display === 'flex') close(); });
+
+        // 19 maggio: compleanno dello studio
+        const oggi = new Date();
+        if (oggi.getMonth() === 4 && oggi.getDate() === 19) {
+            document.getElementById('hero-kicker').textContent = 'Habemus Kripix. Oggi lo studio compie gli anni.';
+        }
+    })();
+    </script>
+
+    <!-- NOTIZIE (Firestore) -->
     <script type="module">
         import { db } from './script.js';
+        import { t } from './translator.js';
         import { collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const feedContainer = document.getElementById('news-feed-container');
+        const box = document.getElementById('news-feed-container');
 
-            try {
-                const q = query(collection(db, "news"), orderBy("date", "desc"), limit(6));
-                const querySnapshot = await getDocs(q);
+        const safeLink = (link) => (link && /^https?:\/\//.test(link)) ? link : null;
+        const fmtDate = (iso) => {
+            const d = new Date(iso);
+            if (isNaN(d)) return '';
+            const lang = (localStorage.getItem('kripix_lang') || 'it') === 'en' ? 'en-GB' : 'it-IT';
+            return d.toLocaleDateString(lang, { day: 'numeric', month: 'long', year: 'numeric' });
+        };
+        const el = (tag, cls, text) => {
+            const n = document.createElement(tag);
+            if (cls) n.className = cls;
+            if (text != null) n.textContent = text; // textContent: nessun HTML dal database
+            return n;
+        };
 
-                feedContainer.innerHTML = ''; 
+        const showState = (msg) => {
+            box.innerHTML = '';
+            const p = el('p', 'news-state', msg);
+            p.style.gridColumn = '1 / -1';
+            box.appendChild(p);
+        };
 
-                if (querySnapshot.empty) {
-                    feedContainer.innerHTML = '<p style="font-family:\'Courier Prime\'; color:#666; grid-column: 1/-1; text-align:center;">>> Nessuna comunicazione attiva.</p>';
-                    return;
+        try {
+            const snap = await getDocs(query(collection(db, "news"), orderBy("date", "desc"), limit(8)));
+            if (snap.empty) {
+                showState(t("Ancora nessuna notizia. Seguici su Discord per gli aggiornamenti."));
+            } else {
+                const all = snap.docs.map(d => d.data());
+                // In evidenza: la più recente ad alta priorità, altrimenti la più recente
+                const featured = all.find(n => n.priority === 'high') || all[0];
+                const rest = all.filter(n => n !== featured).slice(0, 3);
+
+                box.innerHTML = '';
+
+                const link = safeLink(featured.link);
+                const card = el(link ? 'a' : 'article', 'news-feature' + (featured.priority === 'high' ? ' is-important' : ''));
+                if (link) { card.href = link; if (!link.includes(location.host)) { card.target = '_blank'; card.rel = 'noopener noreferrer'; } }
+                card.append(el('span', 'news-date', fmtDate(featured.date)), el('h3', '', featured.title), el('p', '', featured.body));
+                box.appendChild(card);
+
+                const list = el('ul', 'news-list');
+                if (rest.length === 0) {
+                    const li = el('li', 'news-state', t("Le notizie precedenti compariranno qui."));
+                    list.appendChild(li);
                 }
-
-                let highPriorityNews = [];
-                let normalNews =[];
-
-                querySnapshot.forEach((doc) => {
-                    const news = doc.data();
-                    if (news.priority === 'high' && highPriorityNews.length === 0) {
-                        highPriorityNews.push(news);
-                    } else if (news.priority !== 'high' && normalNews.length < 3) {
-                        normalNews.push(news);
-                    }
+                rest.forEach(n => {
+                    const li = document.createElement('li');
+                    const l = safeLink(n.link);
+                    const item = el(l ? 'a' : 'div', 'news-item');
+                    if (l) { item.href = l; if (!l.includes(location.host)) { item.target = '_blank'; item.rel = 'noopener noreferrer'; } }
+                    item.append(el('span', 'news-date', fmtDate(n.date)), el('h3', '', n.title), el('p', '', n.body));
+                    li.appendChild(item);
+                    list.appendChild(li);
                 });
-
-                const sortedNews =[...highPriorityNews, ...normalNews];
-
-                // FIX SICUREZZA: Creazione Nodi DOM Sicuri contro attacchi XSS
-                sortedNews.forEach((news) => {
-                    const d = new Date(news.date);
-                    const formattedDate = d.toLocaleDateString('it-IT');
-                    
-                    const cardNode = document.createElement(news.link ? 'a' : 'div');
-                    cardNode.className = `news-card ${news.priority === 'high' ? 'priority-high' : ''}`;
-                    if (news.link) cardNode.href = news.link; // Assicurati che news.link sia validato in futuro!
-
-                    if (news.link) {
-    // FIX SICUREZZA: Controlla che il link sia un vero URL HTTP/HTTPS
-    if (news.link.startsWith('http://') || news.link.startsWith('https://')) {
-        cardNode.href = news.link;
-    } else {
-        cardNode.href = "#"; // Se tenta hack strani, neutralizza il link
-    }
-}
-
-                    const titleDiv = document.createElement('div');
-                    titleDiv.className = 'news-card-title';
-                    titleDiv.textContent = news.title; // SICURO: textContent non esegue script html
-
-                    const dateDiv = document.createElement('div');
-                    dateDiv.className = 'news-card-date';
-                    dateDiv.textContent = `${formattedDate} | Kripix Overseer`;
-
-                    const bodyDiv = document.createElement('div');
-                    bodyDiv.className = 'news-card-body';
-                    bodyDiv.textContent = news.body; // SICURO
-
-                    cardNode.appendChild(titleDiv);
-                    cardNode.appendChild(dateDiv);
-                    cardNode.appendChild(bodyDiv);
-
-                    feedContainer.appendChild(cardNode);
-                });
-
-            } catch (error) {
-                console.error("Errore recupero news:", error);
-                feedContainer.innerHTML = '<p style="font-family:\'Courier Prime\'; color:#ff5555; grid-column: 1/-1; text-align:center;">>> Errore di connessione al terminale news.</p>';
+                box.appendChild(list);
             }
-        });
+        } catch (error) {
+            console.error("Errore recupero notizie:", error);
+            showState(t("Non riusciamo a caricare le notizie. Ricarica la pagina tra qualche minuto."));
+        }
     </script>
 </body>
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const MESE_FONDAZIONE = 4; // Maggio
-        const GIORNO_FONDAZIONE = 19;
-        const oggi = new Date();
-
-        if (oggi.getMonth() === MESE_FONDAZIONE && oggi.getDate() === GIORNO_FONDAZIONE) {
-            const taglineElement = document.querySelector('.typewriter');
-            if (taglineElement) {
-                const easterEggText = "Habemus Kripix";
-                
-                // 1. UCCIDIAMO DEFINITIVAMENTE L'ANIMAZIONE CSS
-                taglineElement.style.animation = 'none';
-                taglineElement.style.width = 'auto';
-                taglineElement.textContent = ''; // Svuotiamo il testo
-
-                // 2. RIACCENDIAMO SOLO IL CURSORE LAMPEGGIANTE
-                taglineElement.classList.add('cursor-blink');
-
-                // 3. LA VERA MACCHINA DA SCRIVERE (PURO JAVASCRIPT)
-                let i = 0;
-                const typingInterval = setInterval(() => {
-                    // Aggiungiamo una lettera alla volta
-                    taglineElement.textContent += easterEggText.charAt(i);
-                    i++;
-                    
-                    // Quando abbiamo finito, fermiamo l'intervallo
-                    if (i > easterEggText.length -1) {
-                        clearInterval(typingInterval);
-                        // Opzionale: puoi far smettere di lampeggiare il cursore togliendo la classe
-                        // taglineElement.classList.remove('cursor-blink');
-                    }
-                }, 100); // 100 millisecondi per lettera (puoi aumentare/diminuire per renderlo più lento/veloce)
-
-                console.log("%c[EASTER EGG ATTIVATO] >> HABEMUS KRIPIX!", "color: #e3c66c;");
-            }
-        }
-    });
-</script>
 </html>

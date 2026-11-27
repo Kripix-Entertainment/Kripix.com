@@ -2,58 +2,65 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impostazioni | Kripix</title>
+    <meta name="description" content="Impostazioni del tuo account Kripix.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurazione - Kripix</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
+
+
     
     <style>
         .settings-grid { display: grid; grid-template-columns: 250px 1fr; gap: 40px; margin-top: 30px; }
-        .settings-nav button { display: block; width: 100%; text-align: left; background: transparent; border: none; color: #888; padding: 15px; font-family: 'Courier Prime'; cursor: pointer; border-left: 2px solid transparent; transition: 0.3s; }
-        .settings-nav button:hover, .settings-nav button.active { color: var(--accent-gold); background: rgba(227, 198, 108, 0.05); border-left-color: var(--accent-gold); }
-        .settings-panel { background: rgba(255,255,255,0.02); border: 1px solid #333; padding: 30px; animation: fadeIn 0.4s ease; }
-        .panel-title { font-size: 1.5rem; color: #fff; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px; }
+        .settings-nav button { display: block; width: 100%; text-align: left; background: transparent; border: none; color: var(--text-muted); padding: 13px 16px; font-family: var(--font-body); font-size: 1rem; font-weight: 600; cursor: pointer; border-left: 2px solid var(--line); transition: 0.2s; }
+        .settings-nav button:hover { color: var(--text); } .settings-nav button.active { color: var(--text); border-left-color: var(--gold); }
+        .settings-panel { padding: 30px; }
+        .panel-title { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 2rem; line-height: 1; color: var(--text); margin-bottom: 24px; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
         .setting-row { margin-bottom: 30px; }
-        .editable-field { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #333; padding-bottom: 5px; }
-        .setting-label { display: block; color: var(--accent-gold); font-size: 0.8rem; margin-bottom: 5px; font-family: 'Courier Prime'; font-weight: bold; }
-        .setting-value { font-size: 1.1rem; color: #fff; }
-        .btn-edit-field { background: transparent; border: 1px solid #444; color: #888; font-size: 0.7rem; padding: 5px 10px; cursor: pointer; transition: 0.3s; font-family: 'Courier Prime'; }
+        .editable-field { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--line); padding-bottom: 5px; }
+        .setting-label { display: block; color: var(--accent-gold); font-size: 0.8rem; margin-bottom: 5px; font-family: var(--font-body); font-weight: bold; }
+        .setting-value { font-size: 1.1rem; color: var(--text); }
+        .btn-edit-field { background: transparent; border: 1px solid var(--line-strong); color: var(--text-muted); font-size: 0.7rem; padding: 5px 10px; cursor: pointer; transition: 0.3s; font-family: var(--font-body); }
         .btn-edit-field:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
         .color-options { display: flex; gap: 15px; margin-bottom: 20px;}
         .color-btn { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
         .color-btn:hover, .color-btn.selected { transform: scale(1.2); border-color: white; }
         .avatar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 15px; margin-top: 15px; }
-        .avatar-option { width: 100%; aspect-ratio: 1; border-radius: 50%; border: 2px solid #333; background: #111; cursor: pointer; transition: 0.3s; overflow: hidden; }
+        .avatar-option { width: 100%; aspect-ratio: 1; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); cursor: pointer; transition: 0.3s; overflow: hidden; }
         .avatar-option img { width: 100%; height: 100%; object-fit: cover; }
-        .avatar-option:hover { border-color: #888; transform: translateY(-3px); }
+        .avatar-option:hover { border-color: var(--line-strong); transform: translateY(-3px); }
         .avatar-option.selected { border-color: var(--accent-gold); box-shadow: 0 0 15px rgba(227, 198, 108, 0.4); }
-        .switch-label { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 15px 0; border-bottom: 1px solid #222; }
-        .switch-text { color: #888; display: block; margin-top: 5px; }
-        .toggle { position: relative; width: 50px; height: 26px; background: #333; border-radius: 20px; transition: 0.3s; flex-shrink: 0; }
+        .switch-label { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 15px 0; border-bottom: 1px solid var(--line); }
+        .switch-text { color: var(--text-muted); display: block; margin-top: 5px; }
+        .toggle { position: relative; width: 50px; height: 26px; background: var(--surface-2); border-radius: 20px; transition: 0.3s; flex-shrink: 0; }
         .toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: #fff; border-radius: 50%; transition: 0.3s; }
         input[type="checkbox"]:checked + .toggle { background: var(--accent-gold); }
-        input[type="checkbox"]:checked + .toggle::after { transform: translateX(24px); background: #000; }
-        .danger-zone { border: 1px solid #8b2323; padding: 20px; background: rgba(139, 35, 35, 0.05); }
-        .danger-text { color: #ff5555; font-size: 0.9rem; margin-bottom: 15px; }
-        .btn-danger { display: inline-block; padding: 15px 30px; border: 1px solid #8b2323; color: #ff5555; background: transparent; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'Montserrat'; text-transform: uppercase; }
-        .btn-danger:hover { background: #8b2323; color: white; box-shadow: 0 0 15px rgba(139, 35, 35, 0.5); }
-        .modal-input { width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: white; font-family: 'Montserrat'; font-size: 1rem; transition: 0.3s; }
+        input[type="checkbox"]:checked + .toggle::after { transform: translateX(24px); background: var(--bg); }
+        .danger-zone { border: 1px solid var(--red); padding: 20px; background: rgba(139, 35, 35, 0.05); }
+        .danger-text { color: var(--danger); font-size: 0.9rem; margin-bottom: 15px; }
+        .btn-danger { display: inline-block; padding: 15px 30px; border: 1px solid var(--red); color: var(--danger); background: transparent; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: var(--font-body); text-transform: uppercase; }
+        .btn-danger:hover { background: var(--red); color: var(--text); box-shadow: 0 0 15px rgba(139, 35, 35, 0.5); }
+        .modal-input { width: 100%; padding: 12px; margin-bottom: 15px; background: var(--bg); border: 1px solid var(--line); color: var(--text); font-family: var(--font-body); font-size: 1rem; transition: 0.3s; }
         .modal-input:focus { outline: none; border-color: var(--accent-gold); background: rgba(227, 198, 108, 0.05); }
-        .error-border { border-color: red !important; animation: shake 0.3s; }
-        .error-msg { color: red; font-size: 0.8rem; margin-bottom: 15px; display: none; font-family: 'Courier Prime'; font-weight: bold; }
+        .error-border { border-color: var(--danger) !important; animation: shake 0.3s; }
+        .error-msg { color: var(--danger); font-size: 0.8rem; margin-bottom: 15px; display: none; font-family: var(--font-body); font-weight: bold; }
         @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Verifica in due passaggi */
-        .mfa-row { border: 1px solid #222; padding: 22px; background: rgba(0,0,0,0.4); transition: 0.3s; }
+        .mfa-row { border: 1px solid var(--line); padding: 22px; background: var(--surface); transition: 0.3s; }
         .mfa-row.is-on { border-color: rgba(76, 175, 80, 0.35); background: rgba(76, 175, 80, 0.03); }
         .mfa-head { display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
-        .mfa-hint { color:#666; font-family:'Courier Prime'; font-size:0.8rem; line-height:1.6; }
+        .mfa-hint { color:var(--text-faint); font-family: var(--font-body); font-size:0.8rem; line-height:1.6; }
         .mfa-hint a { color: var(--accent-gold); text-decoration: none; border-bottom: 1px solid rgba(227,198,108,0.35); }
         .mfa-pane { display: none; }
         .mfa-pane.active { display: block; animation: fadeIn 0.3s ease; }
@@ -62,109 +69,108 @@
     </style>
 </head>
 <body>
-    <div class="background-grid"></div>
 
 <nav id="main-nav"></nav>
 
     <div class="page-header">
-        <h1>CONFIGURAZIONE</h1>
+        <h1>Impostazioni</h1>
     </div>
 
     <section class="section-padding">
         <div class="container settings-grid">
             
             <div class="settings-nav">
-                <button id="btn-tab-profile" class="active" onclick="switchTab('profile')">PROFILO AGENTE</button>
-                <button id="btn-tab-privacy" onclick="switchTab('privacy')">PRIVACY & DATI</button>
-                <button id="btn-tab-legal" onclick="switchTab('legal')">DOCUMENTAZIONE</button>
+                <button id="btn-tab-profile" class="active" onclick="switchTab('profile')">Profilo</button>
+                <button id="btn-tab-privacy" onclick="switchTab('privacy')">Privacy & dati</button>
+                <button id="btn-tab-legal" onclick="switchTab('legal')">Documentazione</button>
             </div>
 
             <!-- PANNELLO PROFILO -->
             <div id="panel-profile" class="settings-panel">
-                <h3 class="panel-title">IDENTITÀ AGENTE</h3>
+                <h3 class="panel-title">Il tuo profilo</h3>
 
                 <div class="setting-row">
-                    <span class="setting-label">NOME IN CODICE</span>
+                    <span class="setting-label">Nome utente</span>
                     <div class="editable-field">
                         <div class="setting-value" id="disp-user">Caricamento...</div>
-                        <button class="btn-edit-field" onclick="openNameModal()">MODIFICA ID</button>
+                        <button class="btn-edit-field" onclick="openNameModal()">Modifica ID</button>
                     </div>
                 </div>
 
                 <div class="setting-row">
-                    <span class="setting-label">EMAIL REGISTRATA</span>
+                    <span class="setting-label">Email registrata</span>
                     <div class="editable-field">
-                        <div class="setting-value" id="disp-email" style="opacity: 0.7;">Connessione al server...</div>
-                        <button class="btn-edit-field" onclick="openEmailModal()">AGGIORNA MAIL</button>
+                        <div class="setting-value" id="disp-email" style="opacity: 0.7;">Caricamento…</div>
+                        <button class="btn-edit-field" onclick="openEmailModal()">Aggiorna mail</button>
                     </div>
                 </div>
 
-                <div class="setting-row" style="border: 1px solid #222; padding: 20px; background: rgba(0,0,0,0.5);">
-                    <span class="setting-label" style="font-size: 1rem; border-bottom: 1px solid #333; padding-bottom: 10px;">ID VISIVO (AVATAR)</span>
+                <div class="setting-row" style="border: 1px solid var(--line); padding: 20px; background: var(--surface);">
+                    <span class="setting-label" style="font-size: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 10px;">Avatar</span>
                     <div class="color-options" style="margin-top:15px;">
-                        <div class="color-btn" style="background:#e3c66c" onclick="changeColor('#e3c66c')"></div>
-                        <div class="color-btn" style="background:#8b2323" onclick="changeColor('#8b2323')"></div>
+                        <div class="color-btn" style="background:var(--gold)" onclick="changeColor('#e3c66c')"></div>
+                        <div class="color-btn" style="background:var(--red)" onclick="changeColor('#8b2323')"></div>
                         <div class="color-btn" style="background:#2a475e" onclick="changeColor('#2a475e')"></div>
-                        <div class="color-btn" style="background:#4caf50" onclick="changeColor('#4caf50')"></div>
+                        <div class="color-btn" style="background:var(--success)" onclick="changeColor('#4caf50')"></div>
                         <div class="color-btn" style="background:#9c27b0" onclick="changeColor('#9c27b0')"></div>
                     </div>
                     <div class="avatar-grid" id="avatar-choices"></div>
                 </div>
-                <h3 class="panel-title" style="margin-top: 50px; color:var(--accent-gold);">LICENZE ESTERNE</h3>
+                <h3 class="panel-title" style="margin-top: 50px;">Codici di attivazione</h3>
                 <div class="setting-row">
-                    <span class="setting-label">RISCATTO CODICE GIOCO</span>
-                    <p style="color:#888; font-size:0.85rem; margin-bottom:10px;">Attiva una licenza acquistata presso fornitori di terze parti (Steam, Retail).</p>
-                    <button class="btn-gold" onclick="openRedeemModal()">INSERISCI CHIAVE</button>
+                    <span class="setting-label">Attiva un codice</span>
+                    <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:10px;">Attiva una licenza acquistata presso fornitori di terze parti (Steam, Retail).</p>
+                    <button class="btn-gold" onclick="openRedeemModal()">Inserisci chiave</button>
                 </div>
-                <h3 class="panel-title" id="sicurezza" style="margin-top: 50px;">SICUREZZA</h3>
+                <h3 class="panel-title" id="sicurezza" style="margin-top: 50px;">Sicurezza</h3>
                 <div class="setting-row">
-                    <span class="setting-label">CODICE D'ACCESSO</span>
-                    <button class="btn-outline" onclick="openPassModal()">MODIFICA PASSWORD</button>
+                    <span class="setting-label">Password</span>
+                    <button class="btn-outline" onclick="openPassModal()">Modifica password</button>
                 </div>
 
                 <!-- VERIFICA IN DUE PASSAGGI -->
                 <div class="setting-row mfa-row">
                     <div class="mfa-head">
-                        <span class="setting-label" style="margin-bottom:0;">VERIFICA IN DUE PASSAGGI</span>
+                        <span class="setting-label" style="margin-bottom:0;">Verifica in due passaggi</span>
                         <span id="mfa-status" class="mfa-status off">
-                            <span class="dot" aria-hidden="true"></span><span id="mfa-status-text">NON ATTIVA</span>
+                            <span class="dot" aria-hidden="true"></span><span id="mfa-status-text">Non attiva</span>
                         </span>
                     </div>
-                    <p style="color:#888; font-size:0.85rem; margin:12px 0 18px; line-height:1.5;">
+                    <p style="color:var(--text-muted); font-size:0.85rem; margin:12px 0 18px; line-height:1.5;">
                         Aggiunge un secondo lucchetto all'account: oltre alla password serve un codice a 6 cifre
                         generato dalla tua app di autenticazione, che cambia ogni 30 secondi.
                     </p>
                     <div id="mfa-actions">
-                        <button id="btn-mfa-enable" class="btn-gold">ATTIVA PROTEZIONE</button>
-                        <button id="btn-mfa-disable" class="btn-danger" style="display:none;">DISATTIVA</button>
+                        <button id="btn-mfa-enable" class="btn-gold">Attiva protezione</button>
+                        <button id="btn-mfa-disable" class="btn-danger" style="display:none;">Disattiva</button>
                     </div>
                 </div>
 
                 <div class="setting-row danger-zone">
-                    <span class="setting-label" style="color:#ff5555;">ZONA ROSSA</span>
+                    <span class="setting-label" style="color:var(--danger);">Zona pericolosa</span>
                     <p class="danger-text">L'eliminazione è irreversibile.</p>
-                    <button class="btn-danger" onclick="openDeleteModal()">ELIMINA ACCOUNT</button>
+                    <button class="btn-danger" onclick="openDeleteModal()">Elimina account</button>
                 </div>
             </div>
 
             <!-- PANNELLO PRIVACY -->
             <div id="panel-privacy" class="settings-panel" style="display:none;">
-                <h3 class="panel-title">COLLEGAMENTI ESTERNI</h3>
+                <h3 class="panel-title">Collegamenti esterni</h3>
                 <div class="setting-row danger-zone" style="background: rgba(88, 101, 242, 0.05); border-color: #5865F2;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div>
-                            <span class="setting-label" style="color:#5865F2;">DISCORD NETWORK</span>
-                            <p id="discord-sync-status" class="danger-text" style="color: #ccc;">Stato: Non collegato</p>
+                            <span class="setting-label" style="color:#5865F2;">Discord</span>
+                            <p id="discord-sync-status" class="danger-text" style="color: var(--text-soft);">Stato: Non collegato</p>
                         </div>
-                        <button id="btn-desync-discord" class="btn-danger" style="border-color: #5865F2; color: #5865F2; display: none;">SCOLLEGA ACCOUNT</button>
+                        <button id="btn-desync-discord" class="btn-danger" style="border-color: #5865F2; color: #5865F2; display: none;">Scollega account</button>
                     </div>
                 </div>
-                <h3 class="panel-title">CONTROLLO DATI & TELEMETRIA</h3>
+                <h3 class="panel-title">Privacy</h3>
                 
                 <label class="switch-label">
                     <div>
-                        <span class="setting-label">VISIBILITÀ RETE</span>
-                        <span class="switch-text" style="font-size:0.85rem;">Permetti ad altri agenti di trovarti tramite la barra di ricerca.</span>
+                        <span class="setting-label">Visibile nella ricerca</span>
+                        <span class="switch-text" style="font-size:0.85rem;">Permetti ad altri giocatori di trovarti tramite la barra di ricerca.</span>
                     </div>
                     <input type="checkbox" id="priv-vis" style="display:none;" onchange="savePrivacy()">
                     <div class="toggle"></div>
@@ -172,8 +178,8 @@
 
                 <label class="switch-label">
                     <div>
-                        <span class="setting-label">MODALITÀ FANTASMA</span>
-                        <span class="switch-text" style="font-size:0.85rem;">Appari sempre offline a tutta la rete.</span>
+                        <span class="setting-label">Modalità invisibile</span>
+                        <span class="switch-text" style="font-size:0.85rem;">Appari sempre offline a tutti.</span>
                     </div>
                     <input type="checkbox" id="priv-inv" style="display:none;" onchange="savePrivacy()">
                     <div class="toggle"></div>
@@ -181,7 +187,7 @@
                 
                 <label class="switch-label">
                     <div>
-                        <span class="setting-label">CONDIVISIONE TELEMETRIA</span>
+                        <span class="setting-label">Dati sui crash</span>
                         <span class="switch-text" style="font-size:0.85rem;">Invia dati di crash e performance a Kripix.</span>
                     </div>
                     <input type="checkbox" id="priv-tel" style="display:none;" onchange="savePrivacy()">
@@ -190,7 +196,7 @@
                 
                 <label class="switch-label" style="border-bottom:none;">
                     <div>
-                        <span class="setting-label">COMUNICAZIONI STUDIO</span>
+                        <span class="setting-label">Email dallo studio</span>
                         <span class="switch-text" style="font-size:0.85rem;">Ricevi aggiornamenti e inviti per le Beta via Email.</span>
                     </div>
                     <input type="checkbox" id="priv-news" style="display:none;" onchange="savePrivacy()">
@@ -200,13 +206,13 @@
 
             <!-- PANNELLO DOCUMENTAZIONE -->
             <div id="panel-legal" class="settings-panel" style="display:none;">
-                <h3 class="panel-title">ARCHIVIO LEGALE</h3>
-                <p style="color:#888; margin-bottom: 30px; font-family: 'Courier Prime'; font-size: 0.9rem;">
-                    Consulta le direttive operative e legali del Kripix Network.
+                <h3 class="panel-title">Documenti legali</h3>
+                <p style="color:var(--text-muted); margin-bottom: 30px; font-family: var(--font-body); font-size: 0.9rem;">
+                    Consulta le direttive operative e legali del Kripix.
                 </p>
                 <div style="display: flex; flex-direction: column; gap: 15px; max-width: 400px;">
-                    <a href="eula.html" class="btn-outline full-width" style="text-align: center;">Dossier E.U.L.A.</a>
-                    <a href="dmr.html" class="btn-outline full-width" style="text-align: center;">Policy DRM</a>
+                    <a href="eula.html" class="btn-outline full-width" style="text-align: center;">Termini d'uso</a>
+                    <a href="dmr.html" class="btn-outline full-width" style="text-align: center;">Politica DRM</a>
                     <a href="cookies.html" class="btn-outline full-width" style="text-align: center;">Gestione Cookie</a>
                 </div>
             </div>
@@ -218,27 +224,27 @@
 
     <!-- Modale Custom per Azioni Pericolose (Es. Discord) -->
     <div id="danger-confirm-modal" class="modal-overlay" style="display:none; background:rgba(20,0,0,0.9);">
-        <div class="modal-box" style="border-top-color:#ff5555; max-width:400px;">
-            <h3 style="color:#ff5555; margin-bottom:15px; font-size:1.5rem; display:flex; align-items:center; justify-content:center; gap:10px;">
+        <div class="modal-box" style="border-top-color:var(--danger); max-width:400px;">
+            <h3 style="color:var(--danger); margin-bottom:15px; font-size:1.5rem; display:flex; align-items:center; justify-content:center; gap:10px;">
                 <svg class="icon icon-md" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-                <span data-i18n="INTERROMPI CONNESSIONE">INTERROMPI CONNESSIONE</span>
+                <span data-i18n="Scollega Discord">Scollega Discord</span>
             </h3>
-            <p id="danger-confirm-text" style="color:#ccc; font-size:0.9rem; margin-bottom: 25px;">
+            <p id="danger-confirm-text" style="color:var(--text-soft); font-size:0.9rem; margin-bottom: 25px;">
                 Stai per scollegare il tuo account Discord. <br>
                 <strong style="color:var(--accent-red);">Perderai istantaneamente tutti i tuoi ruoli sul server Kripix.</strong>
             </p>
             <div style="display:flex; gap:10px; justify-content:center;">
-                <button class="btn-outline" onclick="closeModal('danger-confirm-modal')">ANNULLA</button>
-                <button id="btn-danger-confirm-action" class="btn-danger">SCOLLEGA ORA</button>
+                <button class="btn-outline" onclick="closeModal('danger-confirm-modal')">Annulla</button>
+                <button id="btn-danger-confirm-action" class="btn-danger">Scollega ora</button>
             </div>
         </div>
     </div>
 
-    <div id="name-modal" class="modal-overlay"><div class="modal-box" style="max-width:400px;"><h3 style="color:var(--accent-gold); margin-bottom:10px;">AGGIORNA ID AGENTE</h3><input type="text" id="new-name-input" class="modal-input" placeholder="Nuovo Username..." autocomplete="off"><p id="name-msg" class="error-msg">ERRORE</p><div style="display:flex; gap:10px; justify-content:center; margin-top:10px;"><button class="btn-outline" onclick="closeModal('name-modal')">ANNULLA</button><button id="btn-confirm-name" class="btn-gold" onclick="confirmNameChange()">AGGIORNA ID</button></div></div></div>
-    <div id="email-modal" class="modal-overlay"><div class="modal-box" style="max-width:400px;"><h3 style="color:var(--accent-gold); margin-bottom:15px;">AGGIORNA CANALE (EMAIL)</h3><input type="password" id="auth-pass-input" class="modal-input" placeholder="La tua password attuale..."><input type="email" id="new-email-input" class="modal-input" placeholder="La nuova email..."><p id="email-msg" class="error-msg">ERRORE</p><div style="display:flex; gap:10px; justify-content:center; margin-top:10px;"><button class="btn-outline" onclick="closeModal('email-modal')">ANNULLA</button><button id="btn-confirm-email" class="btn-gold" onclick="confirmEmailChange()">INVIA VERIFICA</button></div></div></div>
-    <div id="pass-modal" class="modal-overlay"><div class="modal-box" style="max-width:400px;"><h3 style="color:var(--accent-gold); margin-bottom:20px;">AGGIORNA PASSWORD</h3><input type="password" id="old-pass" class="modal-input" placeholder="Vecchia Password"><input type="password" id="new-pass" class="modal-input" placeholder="Nuova Password (Min 8 + Num)"><input type="password" id="conf-pass" class="modal-input" placeholder="Conferma Nuova Password"><p id="pass-msg" class="error-msg">ERRORE</p><div style="display:flex; gap:10px; justify-content:center; margin-top:20px;"><button class="btn-outline" onclick="closeModal('pass-modal')">ANNULLA</button><button class="btn-gold" onclick="confirmPassChange()">AGGIORNA</button></div></div></div>
-    <div id="delete-modal" class="modal-overlay" style="display:none; background:rgba(20,0,0,0.9);"><div class="modal-box" style="border-top-color:#ff5555; max-width:400px;"><h3 style="color:#ff5555; margin-bottom:15px; font-size:1.5rem; display:flex; align-items:center; justify-content:center; gap:10px;"><svg class="icon icon-md" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg><span data-i18n="CONFERMA ELIMINAZIONE">CONFERMA ELIMINAZIONE</span></h3><input type="password" id="del-password" class="modal-input" placeholder="Password attuale"><p id="del-error" class="error-msg">PASSWORD ERRATA</p><div style="display:flex; gap:10px; justify-content:center;"><button class="btn-outline" onclick="closeModal('delete-modal')">ANNULLA</button><button class="btn-danger" onclick="confirmDelete()">CONFERMA</button></div></div></div>
-    <div id="success-modal" class="modal-overlay"><div class="modal-box" style="max-width:400px; border-top-color:#4caf50;"><h3 style="color:#4caf50; margin-bottom:15px;">OPERAZIONE RIUSCITA</h3><p id="success-text" style="color:#ccc;">Dati aggiornati correttamente.</p><button class="btn-outline" style="margin-top:20px;" onclick="location.reload()">CHIUDI</button></div></div>
+    <div id="name-modal" class="modal-overlay"><div class="modal-box" style="max-width:400px;"><h3 style="color:var(--accent-gold); margin-bottom:10px;">Aggiorna nome utente</h3><input type="text" id="new-name-input" class="modal-input" placeholder="Nuovo Username..." autocomplete="off"><p id="name-msg" class="error-msg">Errore</p><div style="display:flex; gap:10px; justify-content:center; margin-top:10px;"><button class="btn-outline" onclick="closeModal('name-modal')">Annulla</button><button id="btn-confirm-name" class="btn-gold" onclick="confirmNameChange()">Aggiorna ID</button></div></div></div>
+    <div id="email-modal" class="modal-overlay"><div class="modal-box" style="max-width:400px;"><h3 style="color:var(--accent-gold); margin-bottom:15px;">Cambia email</h3><input type="password" id="auth-pass-input" class="modal-input" placeholder="La tua password attuale..."><input type="email" id="new-email-input" class="modal-input" placeholder="La nuova email..."><p id="email-msg" class="error-msg">Errore</p><div style="display:flex; gap:10px; justify-content:center; margin-top:10px;"><button class="btn-outline" onclick="closeModal('email-modal')">Annulla</button><button id="btn-confirm-email" class="btn-gold" onclick="confirmEmailChange()">Invia verifica</button></div></div></div>
+    <div id="pass-modal" class="modal-overlay"><div class="modal-box" style="max-width:400px;"><h3 style="color:var(--accent-gold); margin-bottom:20px;">Aggiorna password</h3><input type="password" id="old-pass" class="modal-input" placeholder="Vecchia Password"><input type="password" id="new-pass" class="modal-input" placeholder="Nuova Password (Min 8 + Num)"><input type="password" id="conf-pass" class="modal-input" placeholder="Conferma Nuova Password"><p id="pass-msg" class="error-msg">Errore</p><div style="display:flex; gap:10px; justify-content:center; margin-top:20px;"><button class="btn-outline" onclick="closeModal('pass-modal')">Annulla</button><button class="btn-gold" onclick="confirmPassChange()">Aggiorna</button></div></div></div>
+    <div id="delete-modal" class="modal-overlay" style="display:none; background:rgba(20,0,0,0.9);"><div class="modal-box" style="border-top-color:var(--danger); max-width:400px;"><h3 style="color:var(--danger); margin-bottom:15px; font-size:1.5rem; display:flex; align-items:center; justify-content:center; gap:10px;"><svg class="icon icon-md" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg><span data-i18n="Conferma eliminazione">Conferma eliminazione</span></h3><input type="password" id="del-password" class="modal-input" placeholder="Password attuale"><p id="del-error" class="error-msg">Password errata</p><div style="display:flex; gap:10px; justify-content:center;"><button class="btn-outline" onclick="closeModal('delete-modal')">Annulla</button><button class="btn-danger" onclick="confirmDelete()">Conferma</button></div></div></div>
+    <div id="success-modal" class="modal-overlay"><div class="modal-box" style="max-width:400px; border-top-color:var(--success);"><h3 style="color:var(--success); margin-bottom:15px;">Operazione riuscita</h3><p id="success-text" style="color:var(--text-soft);">Dati aggiornati correttamente.</p><button class="btn-outline" style="margin-top:20px;" onclick="location.reload()">Chiudi</button></div></div>
 
     <!-- ============ ATTIVAZIONE VERIFICA IN DUE PASSAGGI ============ -->
     <div id="mfa-modal" class="modal-overlay">
@@ -252,8 +258,8 @@
 
             <!-- Passo 1: conferma identità -->
             <div class="mfa-pane active" id="mfa-pane-1">
-                <h3 style="color:var(--accent-gold); margin-bottom:12px; text-align:center;">CONFERMA LA TUA IDENTITÀ</h3>
-                <p style="color:#888; font-size:0.88rem; margin-bottom:20px; line-height:1.6;">
+                <h3 style="color:var(--accent-gold); margin-bottom:12px; text-align:center;">Conferma la tua identità</h3>
+                <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:20px; line-height:1.6;">
                     Prima di aggiungere un secondo fattore dobbiamo essere sicuri che sia davvero tu.
                 </p>
 
@@ -261,22 +267,22 @@
                     <input type="password" id="mfa-pass-input" class="modal-input" placeholder="La tua password attuale..." autocomplete="current-password">
                 </div>
                 <div id="mfa-reauth-google" style="display:none;">
-                    <p style="color:#ccc; font-size:0.85rem; margin-bottom:18px;">
+                    <p style="color:var(--text-soft); font-size:0.85rem; margin-bottom:18px;">
                         Il tuo account usa l'accesso Google: si aprirà una finestra per confermare.
                     </p>
                 </div>
 
-                <p id="mfa-msg-1" class="error-msg">ERRORE</p>
+                <p id="mfa-msg-1" class="error-msg">Errore</p>
                 <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
-                    <button class="btn-outline" onclick="closeModal('mfa-modal')">ANNULLA</button>
-                    <button id="btn-mfa-step1" class="btn-gold">PROSEGUI</button>
+                    <button class="btn-outline" onclick="closeModal('mfa-modal')">Annulla</button>
+                    <button id="btn-mfa-step1" class="btn-gold">Prosegui</button>
                 </div>
             </div>
 
             <!-- Passo 2: QR / chiave manuale -->
             <div class="mfa-pane" id="mfa-pane-2">
-                <h3 style="color:var(--accent-gold); margin-bottom:12px; text-align:center;">COLLEGA L'APP</h3>
-                <p style="color:#888; font-size:0.88rem; margin-bottom:20px; line-height:1.6;">
+                <h3 style="color:var(--accent-gold); margin-bottom:12px; text-align:center;">Collega l'app</h3>
+                <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:20px; line-height:1.6;">
                     Apri la tua app di autenticazione (Google Authenticator, Authy, 1Password, Bitwarden…)
                     e inquadra questo codice.
                 </p>
@@ -291,43 +297,43 @@
                     </button>
                 </div>
 
-                <p id="mfa-msg-2" class="error-msg">ERRORE</p>
+                <p id="mfa-msg-2" class="error-msg">Errore</p>
                 <div style="display:flex; gap:10px; justify-content:center; margin-top:18px;">
-                    <button class="btn-outline" onclick="closeModal('mfa-modal')">ANNULLA</button>
-                    <button id="btn-mfa-step2" class="btn-gold">HO COLLEGATO L'APP</button>
+                    <button class="btn-outline" onclick="closeModal('mfa-modal')">Annulla</button>
+                    <button id="btn-mfa-step2" class="btn-gold">Ho collegato l'app</button>
                 </div>
             </div>
 
             <!-- Passo 3: verifica codice -->
             <div class="mfa-pane" id="mfa-pane-3">
-                <h3 style="color:var(--accent-gold); margin-bottom:12px; text-align:center;">INSERISCI IL CODICE</h3>
-                <p style="color:#888; font-size:0.88rem; margin-bottom:18px; line-height:1.6; text-align:center;">
+                <h3 style="color:var(--accent-gold); margin-bottom:12px; text-align:center;">Inserisci il codice</h3>
+                <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:18px; line-height:1.6; text-align:center;">
                     Digita le 6 cifre che vedi nell'app. Cambiano ogni 30 secondi.
                 </p>
 
                 <div id="mfa-code"></div>
 
-                <p id="mfa-msg-3" class="error-msg">ERRORE</p>
+                <p id="mfa-msg-3" class="error-msg">Errore</p>
                 <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
-                    <button class="btn-outline" onclick="closeModal('mfa-modal')">ANNULLA</button>
-                    <button id="btn-mfa-step3" class="btn-gold">ATTIVA PROTEZIONE</button>
+                    <button class="btn-outline" onclick="closeModal('mfa-modal')">Annulla</button>
+                    <button id="btn-mfa-step3" class="btn-gold">Attiva protezione</button>
                 </div>
             </div>
 
             <!-- Esito -->
             <div class="mfa-pane" id="mfa-pane-done" style="text-align:center;">
-                <span style="display:flex; justify-content:center; color:#4caf50; margin-bottom:15px;" aria-hidden="true">
+                <span style="display:flex; justify-content:center; color:var(--success); margin-bottom:15px;" aria-hidden="true">
                     <svg class="icon" style="width:3rem; height:3rem;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.2 2.8 2.8L16 9.8"/></svg>
                 </span>
-                <h3 style="color:#4caf50; margin-bottom:12px;">PROTEZIONE ATTIVA</h3>
-                <p style="color:#ccc; font-size:0.9rem; line-height:1.6; margin-bottom:20px;">
+                <h3 style="color:var(--success); margin-bottom:12px;">Protezione attiva</h3>
+                <p style="color:var(--text-soft); font-size:0.9rem; line-height:1.6; margin-bottom:20px;">
                     Da adesso, a ogni accesso ti verrà chiesto il codice a 6 cifre.
                 </p>
-                <p class="mfa-hint" style="border:1px dashed #333; padding:14px; text-align:left;">
+                <p class="mfa-hint" style="border:1px dashed var(--line); padding:14px; text-align:left;">
                     Tieni l'app installata e, se puoi, salva la chiave in un posto sicuro:
                     perdere il telefono senza backup significa perdere l'accesso all'account.
                 </p>
-                <button class="btn-gold" style="margin-top:20px;" onclick="location.reload()">HO CAPITO</button>
+                <button class="btn-gold" style="margin-top:20px;" onclick="location.reload()">Ho capito</button>
             </div>
 
         </div>
@@ -342,30 +348,30 @@
             <span style="display:flex; justify-content:center; color:var(--accent-gold); margin-bottom:15px;" aria-hidden="true">
                 <svg class="icon" style="width:2.4rem; height:2.4rem;" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2.5"/></svg>
             </span>
-            <h3 style="color:var(--accent-gold); margin-bottom:12px;">CODICE DI VERIFICA</h3>
-            <p style="color:#888; font-size:0.88rem; margin-bottom:18px; line-height:1.6;">
+            <h3 style="color:var(--accent-gold); margin-bottom:12px;">Codice di verifica</h3>
+            <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:18px; line-height:1.6;">
                 Questa operazione tocca la sicurezza dell'account.
                 Inserisci il codice della tua app di autenticazione.
             </p>
 
             <div id="reauth-mfa-code"></div>
 
-            <p id="reauth-mfa-msg" class="error-msg">ERRORE</p>
+            <p id="reauth-mfa-msg" class="error-msg">Errore</p>
             <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
-                <button class="btn-outline" id="btn-reauth-cancel">ANNULLA</button>
-                <button class="btn-gold" id="btn-reauth-confirm">CONFERMA</button>
+                <button class="btn-outline" id="btn-reauth-cancel">Annulla</button>
+                <button class="btn-gold" id="btn-reauth-confirm">Conferma</button>
             </div>
         </div>
     </div>
 
     <!-- ============ DISATTIVAZIONE ============ -->
     <div id="mfa-disable-modal" class="modal-overlay" style="background:rgba(20,0,0,0.9);">
-        <div class="modal-box" style="border-top-color:#ff5555; max-width:420px;">
-            <h3 style="color:#ff5555; margin-bottom:15px; font-size:1.4rem; display:flex; align-items:center; justify-content:center; gap:10px;">
+        <div class="modal-box" style="border-top-color:var(--danger); max-width:420px;">
+            <h3 style="color:var(--danger); margin-bottom:15px; font-size:1.4rem; display:flex; align-items:center; justify-content:center; gap:10px;">
                 <svg class="icon icon-md" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-                <span>DISATTIVA LA PROTEZIONE</span>
+                <span>Disattiva la protezione</span>
             </h3>
-            <p style="color:#ccc; font-size:0.9rem; margin-bottom:20px; line-height:1.6;">
+            <p style="color:var(--text-soft); font-size:0.9rem; margin-bottom:20px; line-height:1.6;">
                 L'account tornerà protetto dalla sola password.
                 Conferma la tua identità per procedere.
             </p>
@@ -374,28 +380,28 @@
             </div>
             <!-- Con la 2FA già attiva, riautenticarsi richiede a sua volta il codice -->
             <div id="mfa-disable-code-step" style="display:none;">
-                <p style="color:#888; font-size:0.85rem; margin-bottom:12px;">Inserisci il codice dell'app per confermare.</p>
+                <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:12px;">Inserisci il codice dell'app per confermare.</p>
                 <div id="mfa-disable-code"></div>
             </div>
-            <p id="mfa-disable-msg" class="error-msg">ERRORE</p>
+            <p id="mfa-disable-msg" class="error-msg">Errore</p>
             <div style="display:flex; gap:10px; justify-content:center;">
-                <button class="btn-outline" onclick="closeModal('mfa-disable-modal')">ANNULLA</button>
-                <button id="btn-mfa-disable-confirm" class="btn-danger">DISATTIVA</button>
+                <button class="btn-outline" onclick="closeModal('mfa-disable-modal')">Annulla</button>
+                <button id="btn-mfa-disable-confirm" class="btn-danger">Disattiva</button>
             </div>
         </div>
     </div>
     <div id="redeem-modal" class="modal-overlay">
     <div class="modal-box" style="max-width:450px;">
-        <h3 style="color:var(--accent-gold); margin-bottom:10px;">ATTIVAZIONE LICENZA</h3>
-        <p style="color:#ccc; font-size:0.9rem; margin-bottom:20px;">
-            Inserisci il codice criptato a 16 o 20 cifre.
+        <h3 style="color:var(--accent-gold); margin-bottom:10px;">Attiva un codice</h3>
+        <p style="color:var(--text-soft); font-size:0.9rem; margin-bottom:20px;">
+            Inserisci il codice a 16 o 20 cifre.
         </p>
-        <input type="text" id="redeem-key-input" class="modal-input" placeholder="KRPX-XXXX-XXXX-XXXX" style="text-align:center; font-family:'Courier Prime'; font-size:1.2rem; letter-spacing:2px; text-transform:uppercase;" autocomplete="off">
-        <p id="redeem-msg" class="error-msg">ERRORE</p>
+        <input type="text" id="redeem-key-input" class="modal-input" placeholder="KRPX-XXXX-XXXX-XXXX" style="text-align:center; font-family: var(--font-body); font-size:1.2rem; letter-spacing:2px; text-transform:uppercase;" autocomplete="off">
+        <p id="redeem-msg" class="error-msg">Errore</p>
         
         <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
-            <button class="btn-outline" onclick="closeModal('redeem-modal')">ANNULLA</button>
-            <button id="btn-confirm-redeem" class="btn-gold">DECRIPTA CHIAVE</button>
+            <button class="btn-outline" onclick="closeModal('redeem-modal')">Annulla</button>
+            <button id="btn-confirm-redeem" class="btn-gold">Attiva il codice</button>
         </div>
     </div>
 </div>
@@ -441,7 +447,7 @@
                     
                     if (userDataCache.discordId) {
                         dStatus.innerText = `Stato: Sincronizzato come ${userDataCache.discordUsername}`;
-                        dStatus.style.color = '#4caf50';
+                        dStatus.style.color = 'var(--success)';
                         dBtn.style.display = 'inline-block';
 
                         // LOGICA CLICK DESYNC
@@ -458,7 +464,7 @@
                                 // Chiudiamo il modale per pulizia visiva
                                 closeModal('danger-confirm-modal');
                                 
-                                dBtn.innerText = "SCOLLEGAMENTO...";
+                                dBtn.innerText = "Scollegamento...";
                                 dBtn.style.pointerEvents = "none";
                                 
                                 try {
@@ -466,18 +472,18 @@
                                     const unlinkDiscord = httpsCallable(functions, 'unlinkDiscord');
                                     await unlinkDiscord();
                                     
-                                    window.kripixNotify("SISTEMA", "Account Discord scollegato con successo.", "info");
+                                    window.kripixNotify("Sistema", "Account Discord scollegato con successo.", "info");
                                     setTimeout(() => location.reload(), 1500);
                                 } catch (e) {
-                                    window.kripixNotify("ERRORE", "Impossibile contattare i server Discord.", "error");
-                                    dBtn.innerText = "SCOLLEGA ACCOUNT";
+                                    window.kripixNotify("Errore", "Impossibile contattare i server Discord.", "error");
+                                    dBtn.innerText = "Scollega account";
                                     dBtn.style.pointerEvents = "auto";
                                 }
                             };
                         };
                     } else {
                         dStatus.innerText = `Stato: Non collegato`;
-                        dStatus.style.color = '#ccc';
+                        dStatus.style.color = 'var(--text-soft)';
                         dBtn.style.display = 'none';
                     }
                 }
@@ -514,7 +520,7 @@
             document.getElementById(modalId).querySelectorAll('.error-msg').forEach(msg => msg.style.display = 'none');
         }
 
-        function showError(input, msgEl, text) { input.classList.add('error-border'); msgEl.textContent = '>> ' + text; msgEl.style.display = 'block'; setTimeout(() => input.classList.remove('error-border'), 500); }
+        function showError(input, msgEl, text) { input.classList.add('error-border'); msgEl.textContent = text; msgEl.style.display = 'block'; setTimeout(() => input.classList.remove('error-border'), 500); }
         function showSuccess(msg) { document.getElementById('success-text').textContent = msg; document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); document.getElementById('success-modal').style.display = 'flex'; }
 
         /**
@@ -539,7 +545,7 @@
                     'privacy.newsletter': document.getElementById('priv-news').checked,
                     'privacy.invisible': document.getElementById('priv-inv').checked
                 }); 
-                if(window.kripixNotify) window.kripixNotify("SISTEMA", "Impostazioni Privacy sincronizzate.", "success"); 
+                if(window.kripixNotify) window.kripixNotify("Sistema", "Impostazioni Privacy sincronizzate.", "success"); 
                 
                 if(document.getElementById('priv-inv').checked) {
                     await updateDoc(userDocRef, { onlineStatus: "offline" });
@@ -550,8 +556,8 @@
         }
 
         // Cambio Colori / Avatar
-        window.changeColor = async function(newColor) { try { await updateDoc(userDocRef, { color: newColor, avatar_img: null }); if(window.updateNavbarAvatarDisplay) window.updateNavbarAvatarDisplay(auth.currentUser); if(window.kripixNotify) window.kripixNotify("SISTEMA", "Segnale cromatico impostato.", "success"); } catch (e) { console.error(e); } };
-        window.selectAvatarImage = async function(imgUrl) { try { await updateDoc(userDocRef, { avatar_img: imgUrl }); if(window.updateNavbarAvatarDisplay) window.updateNavbarAvatarDisplay(auth.currentUser); if(window.kripixNotify) window.kripixNotify("SISTEMA", "ID Visivo aggiornato.", "success"); } catch (e) { console.error(e); } };
+        window.changeColor = async function(newColor) { try { await updateDoc(userDocRef, { color: newColor, avatar_img: null }); if(window.updateNavbarAvatarDisplay) window.updateNavbarAvatarDisplay(auth.currentUser); if(window.kripixNotify) window.kripixNotify("Sistema", "Segnale cromatico impostato.", "success"); } catch (e) { console.error(e); } };
+        window.selectAvatarImage = async function(imgUrl) { try { await updateDoc(userDocRef, { avatar_img: imgUrl }); if(window.updateNavbarAvatarDisplay) window.updateNavbarAvatarDisplay(auth.currentUser); if(window.kripixNotify) window.kripixNotify("Sistema", "ID Visivo aggiornato.", "success"); } catch (e) { console.error(e); } };
 
         // ==========================================
         // LE FUNZIONI DEI MODALI
@@ -572,7 +578,7 @@
                 if(newNameLower === oldNameLower) { showError(input, msg, "È già il tuo nome."); return; }
 
                 const nameCheck = await getDoc(doc(db, "usernames", newNameLower));
-                if(nameCheck.exists()) { showError(input, msg, "ID già in uso nel Network."); return; }
+                if(nameCheck.exists()) { showError(input, msg, "ID già in uso su Kripix."); return; }
 
                 const batch = writeBatch(db);
                 batch.set(doc(db, "usernames", newNameLower), { uid: auth.currentUser.uid });
@@ -584,7 +590,7 @@
                 document.getElementById('disp-user').textContent = newName;
                 if(window.updateNavbarAvatarDisplay) window.updateNavbarAvatarDisplay(auth.currentUser);
                 closeModal('name-modal');
-                if(window.kripixNotify) window.kripixNotify("AGGIORNAMENTO", "ID Agente modificato.", "success");
+                if(window.kripixNotify) window.kripixNotify("Aggiornamento", "nome utente modificato.", "success");
             } catch(e) { showError(input, msg, "Errore di rete."); }
         };
 
@@ -604,7 +610,7 @@
                 await window.kripixReauth(oldPass.value);
                 await updatePassword(auth.currentUser, newPass.value);
                 closeModal('pass-modal');
-                if(window.kripixNotify) window.kripixNotify("SICUREZZA", "Password aggiornata.", "success");
+                if(window.kripixNotify) window.kripixNotify("Sicurezza", "Password aggiornata.", "success");
             } catch(e) {
                 if (e.code === 'kripix/reauth-cancelled') return;
                 console.error('Cambio password fallito:', e);
@@ -667,7 +673,7 @@
                 return;
             }
 
-            btn.innerText = "CONNESSIONE AL NETWORK...";
+            btn.innerText = "Caricamento…";
             btn.style.pointerEvents = "none";
             msgEl.style.display = 'none';
 
@@ -680,7 +686,7 @@
                 showSuccess("Licenza attivata con successo. Il software è stato aggiunto alla tua Libreria.");
                 
             } catch (error) {
-                btn.innerText = "DECRIPTA CHIAVE";
+                btn.innerText = "Attiva il codice";
                 btn.style.pointerEvents = "auto";
                 showError(keyInput, msgEl, error.message);
             }
@@ -755,7 +761,7 @@
             const active = factors.some(f => f.factorId === TOTP_ID);
 
             $('mfa-status').className = 'mfa-status ' + (active ? 'on' : 'off');
-            $('mfa-status-text').textContent = active ? 'ATTIVA' : 'NON ATTIVA';
+            $('mfa-status-text').textContent = active ? 'Attiva' : 'Non attiva';
             $('btn-mfa-enable').style.display = active ? 'none' : 'inline-block';
             $('btn-mfa-disable').style.display = active ? 'inline-block' : 'none';
             document.querySelector('.mfa-row').classList.toggle('is-on', active);
@@ -803,11 +809,11 @@
                     if (working) return;
                     const code = reauthCode.value();
                     if (code.length !== 6) {
-                        paneError('reauth-mfa-msg', '>> SERVONO TUTTE E 6 LE CIFRE.');
+                        paneError('reauth-mfa-msg', 'Servono tutte e 6 le cifre.');
                         return;
                     }
                     working = true;
-                    busy(confirm, 'VERIFICA...');
+                    busy(confirm, 'Verifica...');
                     try {
                         const assertion = TotpMultiFactorGenerator.assertionForSignIn(hint.uid, code);
                         await resolver.resolveSignIn(assertion);
@@ -884,11 +890,11 @@
 
             const password = $('mfa-pass-input').value;
             if (usesPassword && !password) {
-                paneError('mfa-msg-1', '>> INSERISCI LA PASSWORD.');
+                paneError('mfa-msg-1', 'Inserisci la password.');
                 return;
             }
 
-            busy(btn, 'VERIFICA...');
+            busy(btn, 'Verifica...');
             try {
                 await reauthenticate(password);
 
@@ -946,12 +952,12 @@
 
             const code = enrollCode.value();
             if (code.length !== 6) {
-                paneError('mfa-msg-3', '>> SERVONO TUTTE E 6 LE CIFRE.');
+                paneError('mfa-msg-3', 'Servono tutte e 6 le cifre.');
                 return;
             }
 
             enrolling = true;
-            busy(btn, 'ATTIVAZIONE...');
+            busy(btn, 'Attivazione...');
             enrollCode.setDisabled(true);
 
             try {
@@ -965,7 +971,7 @@
                     d.classList.add('done');
                 });
                 refreshStatus();
-                if (window.kripixNotify) window.kripixNotify('SICUREZZA', 'Verifica in due passaggi attiva.', 'success');
+                if (window.kripixNotify) window.kripixNotify('Sicurezza', 'Verifica in due passaggi attiva.', 'success');
             } catch (error) {
                 console.error('2FA — attivazione fallita:', error);
                 paneError('mfa-msg-3', describeAuthError(error));
@@ -984,9 +990,9 @@
             const key = $('mfa-secret').textContent.replace(/\s/g, '');
             try {
                 await navigator.clipboard.writeText(key);
-                if (window.kripixNotify) window.kripixNotify('SISTEMA', 'Chiave copiata negli appunti.', 'success');
+                if (window.kripixNotify) window.kripixNotify('Sistema', 'Chiave copiata negli appunti.', 'success');
             } catch (e) {
-                paneError('mfa-msg-2', '>> COPIA NON RIUSCITA. Selezionala a mano.');
+                paneError('mfa-msg-2', 'Copia non riuscita. Selezionala a mano.');
             }
         });
 
@@ -1011,14 +1017,14 @@
             const btn = $('btn-mfa-disable-confirm');
             clearError('mfa-disable-msg');
             disabling = true;
-            busy(btn, 'VERIFICA...');
+            busy(btn, 'Verifica...');
 
             try {
                 // Secondo giro: l'utente ha già inserito il codice richiesto dalla sfida MFA
                 if (disableResolver) {
                     const code = disableCode.value();
                     if (code.length !== 6) {
-                        paneError('mfa-disable-msg', '>> SERVONO TUTTE E 6 LE CIFRE.');
+                        paneError('mfa-disable-msg', 'Servono tutte e 6 le cifre.');
                         return;
                     }
                     const hint = disableResolver.hints.find(h => h.factorId === TOTP_ID);
@@ -1034,7 +1040,7 @@
 
                 closeModal('mfa-disable-modal');
                 refreshStatus();
-                if (window.kripixNotify) window.kripixNotify('SICUREZZA', 'Verifica in due passaggi disattivata.', 'info');
+                if (window.kripixNotify) window.kripixNotify('Sicurezza', 'Verifica in due passaggi disattivata.', 'info');
 
             } catch (error) {
                 // Con la 2FA attiva, la riautenticazione stessa chiede il codice

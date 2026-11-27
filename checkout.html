@@ -3,79 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminale di Pagamento - Kripix</title>
-    
-    <!-- CSS e Font Kripix -->
+    <title>Acquisto | Kripix</title>
+    <meta name="description" content="Completa l'acquisto de La Pagoda.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#07080b">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
-    <link rel="icon" href="favicon.ico">
-    
-    <!-- LIBRERIA UFFICIALE STRIPE (FONDAMENTALE) -->
+
+
     <script src="https://js.stripe.com/v3/"></script>
     
     <style>
-        body { background-color: #020202; overflow-x: hidden; }
-        
-        /* Contenitore animato */
         .checkout-wrapper {
-            max-width: 1000px;
-            margin: 120px auto 80px;
-            display: grid;
-            grid-template-columns: 1.3fr 1fr;
-            gap: 50px;
-            padding: 0 5%;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: bootSequence 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            max-width: 1040px; margin: 0 auto; padding: clamp(40px, 6vw, 80px) var(--gutter);
+            display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(24px, 4vw, 48px); align-items: start;
         }
-
-        @keyframes bootSequence {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Moduli Kripix */
-        .module-box {
-            background: rgba(10, 10, 10, 0.8);
-            border: 1px solid #333;
-            padding: 30px;
-            margin-bottom: 25px;
-            border-top: 2px solid var(--text-muted);
-            transition: 0.3s;
-        }
-        .module-box:hover { border-top-color: var(--accent-gold); box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
-
-        .module-title {
-            color: var(--text-main);
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-bottom: 1px dashed #333;
-            padding-bottom: 10px;
-        }
-
-        /* Riepilogo Destra */
-        .summary-box { background: #05070a; border: 1px solid var(--accent-gold); padding: 30px; height: fit-content; position: sticky; top: 100px;}
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; color: #aaa; font-size: 0.9rem; }
-        .summary-total { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 20px; border-top: 1px solid #333; color: white; font-size: 1.5rem; font-weight: 900; }
-        .game-thumb { width: 60px; height: 80px; background: #0a0a0a; border: 1px solid var(--accent-red); display: flex; align-items: center; justify-content: center; font-family: 'Courier Prime'; color: var(--accent-red); font-weight: bold; }
-
-        /* Messaggi e Terminale */
-        .error-msg { color: #ff5555; font-family: 'Courier Prime'; font-size: 0.8rem; margin-top: 15px; display: none; text-align: center; font-weight: bold; animation: shake 0.3s;}
-        .terminal-loader { display: none; font-family: 'Courier Prime'; font-size: 0.9rem; text-align: center; margin-top: 20px; color: var(--accent-gold); }
-
-        @media(max-width: 900px) { 
-            .checkout-wrapper { grid-template-columns: 1fr; } 
-        }
+        .module-box { padding: 26px; margin-bottom: 20px; }
+        .module-title { font-size: 2rem; margin-bottom: 20px; }
+        .summary-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 26px; position: sticky; top: calc(var(--nav-h) + 24px); }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--text-soft); font-size: .95rem; }
+        .summary-total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--text); font-family: var(--font-display); font-size: 2rem; font-weight: 800; text-transform: uppercase; }
+        .game-thumb { width: 64px; height: 96px; object-fit: cover; border-radius: var(--radius); }
+        .error-msg { text-align: center; margin-top: 14px; }
+        .terminal-loader { display: none; font-size: .95rem; text-align: center; margin-top: 18px; color: var(--text-muted); }
+        @media (max-width: 900px) { .checkout-wrapper { grid-template-columns: 1fr; } .summary-box { position: static; } }
     </style>
 </head>
 <body>
-    <div class="background-grid"></div>
-
-    <nav style="border-bottom: 1px solid #111; background: #05070a; z-index: 100; position: fixed;">
-        <div class="logo-text"><a href="index.html">KRIPIX</a></div>
-        <a href="pagoda.html" class="back-link">← ANNULLA TRANSAZIONE</a>
-    </nav>
+    <nav id="main-nav"></nav>
 
     <div class="checkout-wrapper">
         
@@ -83,30 +45,28 @@
         <div>
             <!-- Box Identità -->
             <div class="module-box" style="padding: 20px 30px;">
-                <p style="color:#666; font-size:0.85rem; font-family: 'Courier Prime';">
-                    CONCESSIONE LICENZA PER: <br>
-                    <span id="checkout-email" style="color:var(--text-main); font-size: 1rem; display: block; margin-top: 5px;">Attendere sincronizzazione...</span>
+                <p style="color:var(--text-muted); font-size:0.92rem;">
+                    Il gioco verrà aggiunto all'account:
+                    <span id="checkout-email" style="color:var(--text); font-size: 1rem; font-weight:600; display: block; margin-top: 4px;">Caricamento…</span>
                 </p>
             </div>
 
             <!-- Box Pagamento Stripe -->
             <div class="module-box">
-                <h2 class="module-title">TERMINALE BANCARIO CRITTOGRAFATO</h2>
+                <h2 class="module-title">Pagamento</h2>
                 
                 <!-- Qui Stripe inietterà il form con Carte, Apple Pay, PayPal ecc. -->
                 <div id="payment-element" style="margin-bottom: 20px; min-height: 150px;">
                     <div style="text-align: center; margin-top: 40px;">
-                        <span style="color:var(--accent-gold); font-family:'Courier Prime'; animation: pulse 1.5s infinite;">
-                            >> Inizializzazione Gateway di Pagamento...
-                        </span>
+                        <span style="color:var(--text-muted);">Caricamento dei metodi di pagamento…</span>
                     </div>
                 </div>
 
-                <button id="btn-pay" class="btn-gold full-width" style="padding: 20px; font-size: 1.1rem; margin-top: 10px; display: none;">AUTORIZZA TRANSAZIONE</button>
+                <button id="btn-pay" class="btn-gold full-width" style="padding: 18px; margin-top: 10px; display: none;">Paga €19,99</button>
                 <div id="error-alert" class="error-msg"></div>
                 
                 <div id="terminal-loader" class="terminal-loader">
-                    <span id="loader-text">> ELABORAZIONE IN CORSO. NON SPEGNERE IL TERMINALE...</span>
+                    <span id="loader-text">Pagamento in corso. Non chiudere questa pagina…</span>
                 </div>
             </div>
         </div>
@@ -116,25 +76,24 @@
             <div class="summary-box">
                 
                 <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 30px;">
-                    <!-- HW (Harrow) diventa FN (Furnace) -->
-                    <div class="game-thumb">FN</div>
+                    <img class="game-thumb" src="assets/img/pagoda-poster.jpg" alt="">
                     <div>
-                        <h4 style="color: white; font-size: 1.1rem; margin-bottom: 2px;">La Pagoda</h4>
-                        <p style="color: var(--accent-gold); font-family: 'Courier Prime'; font-size: 0.7rem;">DELUXE EDITION (PC)</p>
+                        <h4 style="color: var(--text); font-size: 1.1rem; margin-bottom: 2px;">La Pagoda</h4>
+                        <p style="color: var(--text-muted); font-size: 0.88rem;">Deluxe Edition, PC</p>
                     </div>
                 </div>
 
                 <!-- Prezzi aggiornati a 19.99€ totali -->
-                <div class="summary-row"><span>Subtotale</span><span>€ 16.38</span></div>
-                <div class="summary-row"><span>Tasse (IVA 22%)</span><span>€ 3.61</span></div>
+                <div class="summary-row"><span>Subtotale</span><span>€16,38</span></div>
+                <div class="summary-row"><span>IVA (22%)</span><span>€3,61</span></div>
                 
                 <div class="summary-total">
-                    <span>TOTALE</span>
-                    <span style="color: var(--accent-gold);">€ 19.99</span>
+                    <span>Totale</span>
+                    <span>€19,99</span>
                 </div>
                 
-                <p style="color: #666; font-size: 0.75rem; margin-top: 30px; line-height: 1.5;">
-                    La transazione è protetta dai server Stripe. Apple Pay, Google Pay e PayPal sono supportati. La licenza digitale verrà assegnata istantaneamente.
+                <p style="color: var(--text-faint); font-size: 0.75rem; margin-top: 30px; line-height: 1.5;">
+                    Il pagamento è gestito da Stripe: i dati della carta non passano dai nostri server. Accettiamo anche Apple Pay, Google Pay e PayPal. Il gioco compare nel tuo account appena il pagamento va a buon fine.
                 </p>
             </div>
         </div>
@@ -142,7 +101,10 @@
     </div>
 
     <!-- SCRIPT LOGICA PAGAMENTO STRIPE -->
+    <footer id="main-footer" class="kripix-footer"></footer>
+
     <script type="module">
+        const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || undefined;
         import { app, auth, db } from './script.js';
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-functions.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
@@ -166,25 +128,25 @@
                 const clientSecret = result.data.clientSecret;
 
                 const appearance = {
-                    theme: 'night',
+                    theme: document.documentElement.dataset.theme === 'light' ? 'stripe' : 'night',
                     variables: {
-                        fontFamily: 'Montserrat, sans-serif',
-                        colorBackground: '#0a0a0a',
-                        colorPrimary: '#e3c66c',
-                        colorText: '#ffffff',
-                        colorDanger: '#ff5555',
+                        fontFamily: 'Archivo, system-ui, sans-serif',
+                        colorBackground: css('--bg'),
+                        colorPrimary: css('--gold'),
+                        colorText: css('--text'),
+                        colorDanger: css('--danger'),
                         spacingUnit: '4px',
-                        borderRadius: '2px',
-                        colorIcon: '#e3c66c',
-                        colorIconTab: '#ffffff'
+                        borderRadius: '4px',
+                        colorIcon: css('--text-muted'),
+                        colorIconTab: css('--text')
                     },
                     rules: {
-                        '.Input': { border: '1px solid #333', outline: 'none', backgroundColor: '#000000', color: '#ffffff' },
-                        '.Input:focus': { borderColor: '#e3c66c', boxShadow: '0 0 10px rgba(227, 198, 108, 0.1)' },
-                        '.Tab': { border: '1px solid #222', backgroundColor: '#05070a', display: 'flex' },
-                        '.Tab:hover': { borderColor: '#555' },
-                        '.Tab--selected': { borderColor: '#e3c66c', backgroundColor: 'rgba(227, 198, 108, 0.05)' },
-                        '.TabIcon': { fill: '#e3c66c' }
+                        '.Input': { border: '1px solid ' + css('--line-strong'), outline: 'none', backgroundColor: css('--bg'), color: css('--text') },
+                        '.Input:focus': { borderColor: css('--gold'), boxShadow: 'none' },
+                        '.Tab': { border: '1px solid ' + css('--line'), backgroundColor: css('--surface'), display: 'flex' },
+                        '.Tab:hover': { borderColor: css('--line-strong') },
+                        '.Tab--selected': { borderColor: css('--gold') },
+                        '.TabIcon': { fill: css('--text-muted') }
                     }
                 };
 
@@ -204,15 +166,15 @@
                 
                 // Se la Cloud Function risponde che lo possiede già
                 if (error.message === 'GIOCO_GIA_POSSEDUTO') {
-                    document.getElementById('error-alert').innerText = ">> ERRORE: Questa licenza è già assegnata al tuo ID Agente.";
-                    document.getElementById('error-alert').style.color = "#4caf50";
-                    document.getElementById('error-alert').style.borderColor = "#4caf50";
+                    document.getElementById('error-alert').innerText = "Hai già questo gioco nel tuo account.";
+                    document.getElementById('error-alert').style.color = "var(--success)";
+                    document.getElementById('error-alert').style.borderColor = "var(--success)";
                     document.getElementById('error-alert').style.display = 'block';
                     
                     // Aggiungiamo un bottone per rimandarlo alla libreria
                     setTimeout(() => { window.location.href = "libreria.html"; }, 3000);
                 } else {
-                    document.getElementById('error-alert').innerText = ">> ERRORE DI CONNESSIONE AL GATEWAY BANCARIO: " + error.message;
+                    document.getElementById('error-alert').innerText = "Non riusciamo a caricare il pagamento. Riprova tra poco. (" + error.message + ")";
                     document.getElementById('error-alert').style.display = 'block';
                 }
             }
@@ -240,7 +202,7 @@
             if (error) {
                 loader.style.display = 'none';
                 btn.style.display = 'block';
-                errorMsg.innerText = ">> ERRORE: " + error.message;
+                errorMsg.innerText = "Il pagamento non è andato a buon fine: " + error.message;
                 errorMsg.style.display = 'block';
             }
         });

@@ -1,82 +1,41 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
- <!-- ========================================== -->
-    <!-- SEO & OPEN GRAPH (CONDIVISIONE SOCIAL)     -->
-    <!-- ========================================== -->
-    
-    <!-- Descrizione base per i motori di ricerca (Max 160 caratteri) -->
-    <meta name="description" content="Kripix Entertainment: A different way to see pixels">
-    
-    <!-- Parole chiave (Keywords) -->
-    <meta name="keywords" content="videogiochi, sviluppo indie, kripix, il filo del dubbio, pixel otros, engine narrativo, thriller psicologico">
-    
-    <!-- Autore -->
-    <meta name="author" content="Kripix Entertainment">
-    
-    <!-- Istruzioni per i Crawler (Permette a Google di indicizzare la pagina) -->
-    <meta name="robots" content="index, follow">
-
-    <!-- TAG OPEN GRAPH (Per Facebook, Discord, LinkedIn, ecc.) -->
-    <!-- Titolo che appare nell'anteprima -->
-    <meta property="og:title" content="Kripix Entertainment | A different way to see pixels">
-    
-    <!-- Descrizione dell'anteprima -->
-    <meta property="og:description" content="Esplora i nostri mondi immersivi. Scopri 'Il Filo del Dubbio' e accedi al network operativo per gli agenti Kripix.">
-    
-    <!-- Immagine di copertina (DEVI METTERE UN URL ASSOLUTO VALIDO) -->
-    <!-- Esempio: "https://kripix-studio.netlify.app/assets/cover-social.jpg" -->
-    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png"> 
-    
-    <!-- URL della pagina principale -->
-    <meta property="og:url" content="https://kripixent.netlify.app/">
-    
-    <!-- Tipo di contenuto -->
-    <meta property="og:type" content="website">
-
-    <!-- TAG TWITTER / X (Specifici per la visualizzazione Card su X) -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kripix Entertainment">
-    <meta name="twitter:description" content="Creatori di esperienze narrative ad alta tensione. Unisciti al network.">
-    <meta name="twitter:image" content="https://kripixent.netlify.app/SocialPreview.png">
-    
-    <!-- Tema colore Browser Mobile (La barra in alto su Chrome per Android diventerà scura) -->
-    <meta name="theme-color" content="#05070a">   
     <meta charset="UTF-8">
-
-    <!-- ========================================== -->
-    <!-- FAVICON (ICONA SULLA TAB DEL BROWSER)      -->
-    <!-- ========================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifica email | Kripix</title>
+    <meta name="description" content="Conferma il tuo indirizzo email.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico"> <!-- Fallback per browser vecchi -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verifica Canale - Kripix</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-grid"></div>
     
-    <nav>
-        <div class="logo-text"><a href="index.html">KRIPIX</a></div>
-    </nav>
+    <nav id="main-nav"></nav>
 
     <div class="login-container">
         <div class="login-box" style="text-align: center;">
             <div class="login-header">
-                <h2>VERIFICA IN CORSO</h2>
+                <h2 data-i18n="Conferma email">Conferma email</h2>
             </div>
             
-            <p id="verify-msg" style="font-family:'Courier Prime'; font-size:1rem; color:var(--accent-gold); margin-bottom: 30px;">
-                >> Decrittazione del token...
+            <p id="verify-msg" style="font-family: var(--font-body); font-size:1rem; color:var(--accent-gold); margin-bottom: 30px;">
+                Stiamo confermando il tuo indirizzo…
             </p>
             
-            <a href="login.html" id="btn-return" class="btn-outline full-width" style="display:none;">ACCEDI AL TERMINALE</a>
+            <a href="login.html" id="btn-return" class="btn-outline full-width" style="display:none;" data-i18n="Accedi">Accedi</a>
         </div>
     </div>
+
+    <footer id="main-footer" class="kripix-footer"></footer>
 
     <script type="module">
         import { auth } from './script.js';
@@ -91,8 +50,8 @@
             const actionCode = params.get('oobCode');
 
             if (!actionCode) {
-                msgEl.innerText = ">> ERRORE CRITICO: Token mancante.";
-                msgEl.style.color = "#ff5555";
+                msgEl.innerText = "Questo link non è completo. Apri il link che ti abbiamo mandato via email.";
+                msgEl.style.color = "var(--danger)";
                 return;
             }
 
@@ -100,17 +59,17 @@
                 // Comunichiamo a Firebase che l'email è confermata!
                 await applyActionCode(auth, actionCode);
                 
-                msgEl.innerText = ">> PROTOCOLLO ACCETTATO. Identità confermata.";
-                msgEl.style.color = "#4caf50";
+                msgEl.innerText = "Email confermata. Ora puoi accedere.";
+                msgEl.style.color = "var(--success)";
                 btn.style.display = "inline-block";
-                btn.innerText = "ACCEDI AL TERMINALE";
+                btn.innerText = "Accedi";
                 btn.className = "btn-gold full-width";
                 
             } catch (error) {
-                msgEl.innerText = ">> ERRORE: Link scaduto o canale già verificato.";
-                msgEl.style.color = "#ff5555";
+                msgEl.innerText = "Il link è scaduto oppure l'email è già confermata. Prova ad accedere.";
+                msgEl.style.color = "var(--danger)";
                 btn.style.display = "inline-block";
-                btn.innerText = "VAI AL LOGIN";
+                btn.innerText = "Vai all'accesso";
             }
         });
     </script>

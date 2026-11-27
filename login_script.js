@@ -20,7 +20,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             document.getElementById('loginForm').innerHTML = `
                 <div style="text-align: center; margin-bottom: 20px;">
                     <h3 style="color:var(--accent-gold);">AUTORIZZAZIONE IN SOSPESO</h3>
-                    <p style="color:#888;">L'email ${email} non è verificata.</p>
+                    <p style="color:var(--text-muted);">L'email ${email} non è verificata.</p>
                     <button id="btn-resend" class="btn-outline full-width">RE-INVIA MAIL DI VERIFICA</button>
                     <p id="limbo-msg" style="margin-top:15px; display:none;"></p>
                 </div>
@@ -36,14 +36,14 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
         // SUCCESSO
         btn.innerHTML = 'ACCESSO CONSENTITO';
-        btn.style.background = '#4caf50';
+        btn.style.background = 'var(--success)';
         setTimeout(() => { window.location.href = 'index.html'; }, 1000);
 
     } catch (error) {
         if(error.message === "email-limbo") return;
         
         const msg = document.getElementById('err-login');
-        msg.innerText = '>> ERRORE CLOUD: EMAIL O PASSWORD NON VALIDE';
+        msg.innerText = 'Email o password non corrette.';
         msg.style.display = 'block';
         btn.innerHTML = 'VERIFICA CREDENZIALI';
         btn.style.pointerEvents = 'auto';

@@ -1,200 +1,125 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
- <!-- ========================================== -->
-    <!-- SEO & OPEN GRAPH (CONDIVISIONE SOCIAL)     -->
-    <!-- ========================================== -->
-    
-    <!-- Descrizione base per i motori di ricerca (Max 160 caratteri) -->
-    <meta name="description" content="Kripix Entertainment: A different way to see pixels">
-    
-    <!-- Parole chiave (Keywords) -->
-    <meta name="keywords" content="videogiochi, sviluppo indie, kripix, il filo del dubbio, pixel otros, engine narrativo, thriller psicologico">
-    
-    <!-- Autore -->
-    <meta name="author" content="Kripix Entertainment">
-    
-    <!-- Istruzioni per i Crawler (Permette a Google di indicizzare la pagina) -->
-    <meta name="robots" content="index, follow">
-
-    <!-- TAG OPEN GRAPH (Per Facebook, Discord, LinkedIn, ecc.) -->
-    <!-- Titolo che appare nell'anteprima -->
-    <meta property="og:title" content="Kripix Entertainment | A different way to see pixels">
-    
-    <!-- Descrizione dell'anteprima -->
-    <meta property="og:description" content="Esplora i nostri mondi immersivi. Scopri 'Il Filo del Dubbio' e accedi al network operativo per gli agenti Kripix.">
-    
-    <!-- Immagine di copertina (DEVI METTERE UN URL ASSOLUTO VALIDO) -->
-    <!-- Esempio: "https://kripix-studio.netlify.app/assets/cover-social.jpg" -->
-    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png"> 
-    
-    <!-- URL della pagina principale -->
-    <meta property="og:url" content="https://kripixent.netlify.app/">
-    
-    <!-- Tipo di contenuto -->
-    <meta property="og:type" content="website">
-
-    <!-- TAG TWITTER / X (Specifici per la visualizzazione Card su X) -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kripix Entertainment">
-    <meta name="twitter:description" content="Creatori di esperienze narrative ad alta tensione. Unisciti al network.">
-    <meta name="twitter:image" content="https://kripixent.netlify.app/SocialPreview.png">
-    
-    <!-- Tema colore Browser Mobile (La barra in alto su Chrome per Android diventerà scura) -->
-    <meta name="theme-color" content="#05070a">   
     <meta charset="UTF-8">
-
-    <!-- ========================================== -->
-    <!-- FAVICON (ICONA SULLA TAB DEL BROWSER)      -->
-    <!-- ========================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giochi | Kripix Entertainment</title>
+    <meta name="description" content="I giochi di Kripix Entertainment.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Giochi | Kripix Entertainment">
+    <meta property="og:description" content="I giochi di Kripix Entertainment.">
+    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png">
+    <meta property="og:url" content="https://kripixent.netlify.app/progetti.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico"> <!-- Fallback per browser vecchi -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progetti - Kripix Entertainment</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
-    
-    <style>
-        .modal-overlay, .lightbox-overlay {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 10000;
-            align-items: center; justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-        
-        .modal-box {
-            background: #0a0a0a; border: 1px solid #333; border-top: 3px solid var(--accent-gold);
-            padding: 40px; max-width: 500px; width: 90%; text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8); animation: slideUp 0.3s ease-out;
-        }
-        .modal-title { font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 15px; font-weight: 800; }
-        .success-icon { margin-bottom: 20px; display: flex; justify-content: center; color: #4caf50; }
-        .success-icon .icon { width: 3rem; height: 3rem; }
-        .modal-actions { display: flex; gap: 15px; justify-content: center; }
-
-        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
-        .gallery-thumb {
-            width: 100%; aspect-ratio: 16/9; background: #1a1a1a; border: 1px solid #333;
-            cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;
-            font-family: 'Courier Prime'; color: #666; font-size: 0.7rem;
-        }
-        .gallery-thumb:hover { border-color: var(--accent-gold); transform: translateY(-3px); color: var(--accent-gold); }
-
-        .lightbox-overlay { z-index: 11000; flex-direction: column; }
-        .lightbox-caption { margin-top: 15px; color: var(--accent-gold); font-family: 'Courier Prime'; letter-spacing: 2px; }
-        .close-lightbox { position: absolute; top: 30px; right: 40px; font-size: 3rem; color: #666; cursor: pointer; transition: 0.3s; }
-        .close-lightbox:hover { color: white; transform: rotate(90deg); }
-
-        @keyframes slideUp { from {transform: translateY(20px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
-    </style>
 </head>
 <body>
-    <div class="background-grid"></div>
-
     <nav id="main-nav"></nav>
 
-    <div class="page-header">
-        <h1>CATALOGO PROGETTI</h1>
-    </div>
+    <header class="page-header">
+        <h1 data-i18n="Giochi">Giochi</h1>
+        <p data-i18n="Facciamo un gioco alla volta. Questo è quello a cui stiamo lavorando adesso.">Facciamo un gioco alla volta. Questo è quello a cui stiamo lavorando adesso.</p>
+    </header>
 
     <section class="section-padding">
         <div class="container">
-            
-            <div class="project-card">
+
+            <article class="project-card">
                 <div class="project-visual">
-                    <!-- Poster -->
-                    <a href="pagoda.html" style="text-decoration: none;">
-                        <div class="poster-placeholder" style="transition: 0.3s; cursor: pointer;" onmouseover="this.style.borderColor='var(--accent-gold)'" onmouseout="this.style.borderColor='#333'">
-                            POSTER<br>LA PAGODA
-                        </div>
+                    <a href="pagoda.html" class="poster-placeholder" aria-label="Scopri La Pagoda">
+                        <img src="assets/img/pagoda-poster.jpg" alt="Locandina de La Pagoda: il ristorante sotto la pioggia, di notte">
                     </a>
-                    
-                    <div class="gallery-grid">
-                        <div class="gallery-thumb" onclick="openLightbox('SCREENSHOT_1', 'SCENA DEL CRIMINE - PORTO')"><span>IMG 01</span></div>
-                        <div class="gallery-thumb" onclick="openLightbox('SCREENSHOT_2', 'INTERROGATORIO')"><span>IMG 02</span></div>
-                        <div class="gallery-thumb" onclick="openLightbox('SCREENSHOT_3', 'UFFICIO INVESTIGATIVO')"><span>IMG 03</span></div>
-                        <div class="gallery-thumb" onclick="openLightbox('SCREENSHOT_4', 'IL MACELLAIO')"><span>IMG 04</span></div>
+                    <div class="gallery-grid" aria-label="Immagini">
+                        <button type="button" class="gallery-thumb" data-src="assets/img/pagoda-street.jpg" data-caption="La strada davanti alla Pagoda"><img src="assets/img/pagoda-street.jpg" alt="La strada davanti alla Pagoda" loading="lazy"></button>
+                        <button type="button" class="gallery-thumb" data-src="assets/img/pagoda-walk.jpg" data-caption="Stefano Valenti si avvicina all'ingresso"><img src="assets/img/pagoda-walk.jpg" alt="Stefano Valenti si avvicina all'ingresso" loading="lazy"></button>
+                        <button type="button" class="gallery-thumb" data-src="assets/img/pagoda-entrance.jpg" data-caption="La porta si apre da sola"><img src="assets/img/pagoda-entrance.jpg" alt="La porta si apre da sola" loading="lazy"></button>
+                        <button type="button" class="gallery-thumb" data-src="assets/img/pagoda-facade.jpg" data-caption="Dopo, la porta è chiusa"><img src="assets/img/pagoda-facade.jpg" alt="La facciata con la porta chiusa" loading="lazy"></button>
                     </div>
                 </div>
 
                 <div class="project-info">
-                    <h3 class="project-title"><a href="pagoda.html" style="color:white; text-decoration:none; transition:0.3s;" onmouseover="this.style.color='var(--accent-gold)'" onmouseout="this.style.color='white'">LA PAGODA</a></h3>
-                    <p class="project-meta">IN SVILUPPO | PC | 2027</p>
-                    <p class="project-desc">
-                        Un survival horror psicologico in cui la luce è la tua unica arma e 
-                        l'architettura cambia nell'oscurità.
-                    </p>
-                    
+                    <div class="project-meta">
+                        <span class="tag red" data-i18n="In sviluppo">In sviluppo</span>
+                        <span class="tag">PC</span>
+                        <span class="tag">2027</span>
+                    </div>
+                    <h2 class="project-title"><a href="pagoda.html">La Pagoda</a></h2>
+                    <p class="project-desc" data-i18n="Un survival horror psicologico. La luce è la tua unica arma, e l'edificio cambia forma quando è buio.">Un survival horror psicologico. La luce è la tua unica arma, e l'edificio cambia forma quando è buio.</p>
+
                     <div class="purchase-options">
                         <div class="purchase-card steam-option">
-                            <div class="option-header"><span class="platform-icon">STEAM</span><span class="price">€19.99</span></div>
-                            <p class="option-desc">Edizione Standard</p>
-                            <a href="#" class="btn-steam full-width">Wishlist</a>
+                            <div class="option-header"><span class="platform-icon">Steam</span><span class="price">€19,99</span></div>
+                            <p class="option-desc" data-i18n="Edizione standard">Edizione standard</p>
+                            <a href="#" class="btn-steam" data-i18n="Aggiungi alla wishlist">Aggiungi alla wishlist</a>
                         </div>
                         <div class="purchase-card kripix-option">
-                            <div class="best-value-tag">MIGLIORE OFFERTA</div>
-                            <div class="option-header"><span class="platform-icon">KRIPIX STORE</span><span class="price">€19.99</span></div>
-                            <p class="option-desc" style="color: var(--accent-gold);">
-                                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" style="fill:var(--accent-gold); stroke:none;"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.2-5.4-3-5.4 3 1-6.2L3.2 9.5l6.1-.9z"/></svg>
-                                <span data-i18n="Include DELUXE EDITION">Include DELUXE EDITION</span><br>
-                                <span style="font-size: 0.8rem; color: #ccc;">(Artbook + Dossier + Filtri Vintage)</span>
-                            </p>
-                            <!-- Bottone Acquisto -->
-                            <a href="#" class="btn-gold full-width" id="btn-buy-kripix">Acquista Ora</a>
-                            <p class="drm-note">Key Kripix inclusa • 100% Supporto Sviluppatori</p>
+                            <div class="best-value-tag" data-i18n="Stesso prezzo, più contenuti">Stesso prezzo, più contenuti</div>
+                            <div class="option-header"><span class="platform-icon">Kripix Store</span><span class="price">€19,99</span></div>
+                            <p class="option-desc"><strong data-i18n="Include la Deluxe Edition">Include la Deluxe Edition</strong><br><span data-i18n="Artbook, documenti del caso e filtri fotografici d'epoca.">Artbook, documenti del caso e filtri fotografici d'epoca.</span></p>
+                            <a href="#" class="btn-gold full-width" id="btn-buy-kripix" data-i18n="Acquista">Acquista</a>
+                            <p class="drm-note" data-i18n="Ricevi una chiave Kripix. L'intero prezzo va allo studio.">Ricevi una chiave Kripix. L'intero prezzo va allo studio.</p>
                         </div>
                     </div>
                 </div>
-            </div>
+            </article>
 
-            <div class="project-card coming-soon">
-                <div class="project-visual grayscale">
-                    <div class="poster-placeholder">ANNUNCIO<br>2026</div>
+            <article class="project-card coming-soon">
+                <div class="project-visual">
+                    <div class="poster-placeholder" aria-hidden="true" style="font-family:var(--font-display); font-size:8rem; color:transparent; -webkit-text-stroke:1px var(--line-strong);">?</div>
                 </div>
                 <div class="project-info">
-                    <h3 class="project-title">PROGETTO SEGRETO</h3>
-                    <p class="project-meta">PRE-PRODUZIONE</p>
-                    <p class="project-desc">Un nuovo capitolo nell'universo Kripix.</p>
+                    <div class="project-meta"><span class="tag" data-i18n="In pre-produzione">In pre-produzione</span></div>
+                    <h2 class="project-title" data-i18n="Progetto senza nome">Progetto senza nome</h2>
+                    <p class="project-desc" data-i18n="Un nuovo gioco nello stesso universo. Ne parleremo quando sarà pronto.">Un nuovo gioco nello stesso universo. Ne parleremo quando sarà pronto.</p>
                 </div>
-            </div>
+            </article>
 
         </div>
     </section>
 
     <footer id="main-footer" class="kripix-footer"></footer>
 
-    <!-- MODALE ACQUISTO -->
-    <div id="custom-modal" class="modal-overlay">
-        <div class="modal-box">
-            <span class="success-icon" aria-hidden="true">
-                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.2 2.8 2.8L16 9.8"/></svg>
-            </span>
-            <h3 class="modal-title">ACQUISTO COMPLETATO</h3>
-            <p style="color:#ccc; margin-bottom:30px;">La licenza per "La Pagoda" è stata aggiunta al tuo account.</p>
-            <div class="modal-actions">
-                <button class="btn-outline" onclick="closeModal()">Resta Qui</button>
-                <a href="libreria.html" class="btn-gold">VAI ALLA LIBRERIA</a>
-            </div>
-        </div>
+    <!-- GALLERIA -->
+    <div id="lightbox" class="lightbox-overlay" role="dialog" aria-modal="true" aria-label="Immagine ingrandita">
+        <button type="button" class="close-lightbox" aria-label="Chiudi">&times;</button>
+        <img id="lightbox-img" src="" alt="" style="max-width:min(1200px, 92vw); max-height:80vh; border-radius:var(--radius-lg);">
+        <p id="lightbox-caption" class="lightbox-caption"></p>
     </div>
-
-    <!-- LIGHTBOX GALLERIA -->
-    <div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
-        <span class="close-lightbox">&times;</span>
-        <div id="lightbox-img" style="width: 800px; height: 450px; background: #222; display: flex; align-items: center; justify-content: center; color: #555; font-size: 2rem; border: 1px solid var(--accent-gold);">
-            IMG PREVIEW
-        </div>
-        <div id="lightbox-caption" class="lightbox-caption">DESCRIZIONE</div>
-    </div>
+    <script>
+        (function () {
+            const box = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const cap = document.getElementById('lightbox-caption');
+            let last = null;
+            const close = () => { box.style.display = 'none'; if (last) last.focus(); };
+            document.querySelectorAll('.gallery-thumb').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    last = btn;
+                    img.src = btn.dataset.src;
+                    img.alt = btn.dataset.caption;
+                    cap.textContent = btn.dataset.caption;
+                    box.style.display = 'flex';
+                    box.querySelector('.close-lightbox').focus();
+                });
+            });
+            box.addEventListener('click', (e) => { if (e.target !== img) close(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && box.style.display === 'flex') close(); });
+        })();
+    </script>
 
     <script type="module" src="script.js"></script>
 
-<!-- LOGICA ACQUISTO SICURA (FIXATA PER FURNACE) -->
+<!-- ACQUISTO: se il gioco è già nell'account porta a I miei giochi -->
 <script type="module">
     import { app, auth, db } from './script.js';
     import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
@@ -228,10 +153,10 @@
                 }
 
                 if (hasGame) {
-                    buyBtn.innerText = 'GIÀ NELLA LIBRERIA';
-                    buyBtn.style.background = '#4caf50'; 
-                    buyBtn.style.color = '#000';
-                    buyBtn.style.borderColor = '#4caf50';
+                    buyBtn.innerText = 'Già nei tuoi giochi';
+                    buyBtn.style.background = 'var(--success)'; 
+                    buyBtn.style.color = 'var(--on-gold)';
+                    buyBtn.style.borderColor = 'var(--success)';
                     buyBtn.onclick = (e) => { 
                         e.preventDefault(); 
                         window.location.href = 'libreria.html'; 

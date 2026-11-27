@@ -1,195 +1,126 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
- <!-- ========================================== -->
-    <!-- SEO & OPEN GRAPH (CONDIVISIONE SOCIAL)     -->
-    <!-- ========================================== -->
-    
-    <!-- Descrizione base per i motori di ricerca (Max 160 caratteri) -->
-    <meta name="description" content="Kripix Entertainment: A different way to see pixels">
-    
-    <!-- Parole chiave (Keywords) -->
-    <meta name="keywords" content="videogiochi, sviluppo indie, kripix, La Pagoda, pixel otros, engine narrativo, thriller psicologico">
-    
-    <!-- Autore -->
-    <meta name="author" content="Kripix Entertainment">
-    
-    <!-- Istruzioni per i Crawler (Permette a Google di indicizzare la pagina) -->
-    <meta name="robots" content="index, follow">
-
-    <!-- TAG OPEN GRAPH (Per Facebook, Discord, LinkedIn, ecc.) -->
-    <!-- Titolo che appare nell'anteprima -->
-    <meta property="og:title" content="Kripix Entertainment | A different way to see pixels">
-    
-    <!-- Descrizione dell'anteprima -->
-    <meta property="og:description" content="Esplora i nostri mondi immersivi. Scopri 'La Pagoda' e accedi al network operativo per gli agenti Kripix.">
-    
-    <!-- Immagine di copertina (DEVI METTERE UN URL ASSOLUTO VALIDO) -->
-    <!-- Esempio: "https://kripix-studio.netlify.app/assets/cover-social.jpg" -->
-    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png"> 
-    
-    <!-- URL della pagina principale -->
-    <meta property="og:url" content="https://kripixent.netlify.app/">
-    
-    <!-- Tipo di contenuto -->
-    <meta property="og:type" content="website">
-
-    <!-- TAG TWITTER / X (Specifici per la visualizzazione Card su X) -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kripix Entertainment">
-    <meta name="twitter:description" content="Creatori di esperienze narrative ad alta tensione. Unisciti al network.">
-    <meta name="twitter:image" content="https://kripixent.netlify.app/SocialPreview.png">
-    
-    <!-- Tema colore Browser Mobile (La barra in alto su Chrome per Android diventerà scura) -->
-    <meta name="theme-color" content="#05070a">   
     <meta charset="UTF-8">
-
-    <!-- ========================================== -->
-    <!-- FAVICON (ICONA SULLA TAB DEL BROWSER)      -->
-    <!-- ========================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kripix Launcher | Kripix Entertainment</title>
+    <meta name="description" content="Scarica il Kripix Launcher per Windows e macOS.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Kripix Launcher | Kripix Entertainment">
+    <meta property="og:description" content="Scarica il Kripix Launcher per Windows e macOS.">
+    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png">
+    <meta property="og:url" content="https://kripixent.netlify.app/download.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico"> <!-- Fallback per browser vecchi -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scarica Launcher - Kripix</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-grid"></div>
+    <nav id="main-nav"></nav>
 
-<nav id="main-nav"></nav>
-
-
-    <div class="page-header">
-        <h1>KRIPIX LAUNCHER</h1>
-        <p style="opacity: 0.7; font-family: 'Courier Prime'; margin-top: 10px;">Il tuo portale per la Pagoda e oltre.</p>
-    </div>
+    <header class="page-header">
+        <h1>Kripix Launcher</h1>
+        <p data-i18n="L'app gratuita per installare, aggiornare e avviare i nostri giochi.">L'app gratuita per installare, aggiornare e avviare i nostri giochi.</p>
+    </header>
 
     <section class="section-padding">
         <div class="container">
-            
-            <!-- GRIGLIA DOWNLOAD (Solo Win e Mac) -->
-            <div class="download-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 800px; margin: 0 auto 80px;">
-                
-                <!-- WINDOWS CARD -->
+            <div class="download-grid" style="max-width:860px;">
                 <div class="os-card" id="card-win">
-                    <div class="os-tag">Rilevato</div>
-                    <div class="os-icon">
-                        <svg viewBox="0 0 88 88" fill="currentColor"><path d="M0 12.402l35.687-4.86.016 34.423-35.67.203zm35.67 33.329l-.028 34.553-35.66-4.96-.001-29.601zm5.307-39.117L87.814 0v41.527l-46.837.062zm.022 39.294l46.825.264v41.67l-46.825-6.69z"/></svg>
-                    </div>
-                    <h3>WINDOWS</h3>
-                    <p class="os-specs">Windows 10/11 (64-bit)</p>
-                    <a href="#" class="btn-outline full-width js-download" data-file="kripix-setup.exe">SCARICA .EXE</a>
-                    <p class="download-msg" style="display:none; color: var(--accent-gold); margin-top: 10px; font-size: 0.8rem;">Grazie! Il download è iniziato.</p>
+                    <div class="os-tag" data-i18n="Il tuo sistema">Il tuo sistema</div>
+                    <div class="os-icon"><svg viewBox="0 0 88 88" fill="currentColor"><path d="M0 12.402l35.687-4.86.016 34.423-35.67.203zm35.67 33.329l-.028 34.553-35.66-4.96-.001-29.601zm5.307-39.117L87.814 0v41.527l-46.837.062zm.022 39.294l46.825.264v41.67l-46.825-6.69z"/></svg></div>
+                    <h3>Windows</h3>
+                    <p class="os-specs" data-i18n="Windows 10 e 11, 64 bit">Windows 10 e 11, 64 bit</p>
+                    <a href="#" class="btn-outline full-width js-download" data-os="win" data-i18n="Scarica per Windows">Scarica per Windows</a>
+                    <p class="download-msg" style="display:none; color:var(--text-muted); margin-top:12px; font-size:.9rem;" data-i18n="Il download è partito. Apri il file per installare il launcher.">Il download è partito. Apri il file per installare il launcher.</p>
                 </div>
-
-                <!-- MAC CARD -->
                 <div class="os-card" id="card-mac">
-                    <div class="os-tag">Rilevato</div>
-                    <div class="os-icon">
-                        <svg viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 52.3-11.4 69.5-34.3z"/></svg>
-                    </div>
+                    <div class="os-tag" data-i18n="Il tuo sistema">Il tuo sistema</div>
+                    <div class="os-icon"><svg viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 52.3-11.4 69.5-34.3z"/></svg></div>
                     <h3>macOS</h3>
-                    <p class="os-specs">Apple Silicon / Intel</p>
-                    <a href="#" class="btn-outline full-width js-download" data-file="kripix-installer.dmg">SCARICA .DMG</a>
-                    <p class="download-msg" style="display:none; color: var(--accent-gold); margin-top: 10px; font-size: 0.8rem;">Grazie! Il download è iniziato.</p>
+                    <p class="os-specs" data-i18n="Apple Silicon e Intel">Apple Silicon e Intel</p>
+                    <a href="#" class="btn-outline full-width js-download" data-os="mac" data-i18n="Scarica per macOS">Scarica per macOS</a>
+                    <p class="download-msg" style="display:none; color:var(--text-muted); margin-top:12px; font-size:.9rem;" data-i18n="Il download è partito. Apri il file per installare il launcher.">Il download è partito. Apri il file per installare il launcher.</p>
                 </div>
             </div>
 
             <div class="launcher-features">
                 <div class="feature-item">
-                    <span class="f-icon" aria-hidden="true">
-                        <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-.6 3.5"/><path d="M20 5v6h-6"/></svg>
-                    </span>
-                    <h4>Aggiornamenti Rapidi</h4><p>Ultima versione sempre disponibile.</p>
+                    <span class="f-icon" aria-hidden="true"><svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-.6 3.5"/><path d="M20 5v6h-6"/></svg></span>
+                    <h4 data-i18n="Aggiornamenti automatici">Aggiornamenti automatici</h4>
+                    <p data-i18n="Hai sempre l'ultima versione, senza fare niente.">Hai sempre l'ultima versione, senza fare niente.</p>
                 </div>
                 <div class="feature-item">
-                    <span class="f-icon" aria-hidden="true">
-                        <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M6.5 18.5a4.5 4.5 0 0 1-.5-8.97A6 6 0 0 1 17.7 9.2a3.65 3.65 0 0 1-.2 9.3z"/><path d="M12 11v6"/><path d="m9.5 14.5 2.5 2.5 2.5-2.5"/></svg>
-                    </span>
-                    <h4>Cloud Save</h4><p>Progressi al sicuro nel cloud.</p>
+                    <span class="f-icon" aria-hidden="true"><svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M6.5 18.5a4.5 4.5 0 0 1-.5-8.97A6 6 0 0 1 17.7 9.2a3.65 3.65 0 0 1-.2 9.3z"/><path d="M12 11v6"/><path d="m9.5 14.5 2.5 2.5 2.5-2.5"/></svg></span>
+                    <h4 data-i18n="Salvataggi nel cloud">Salvataggi nel cloud</h4>
+                    <p data-i18n="Riprendi la partita da qualsiasi computer.">Riprendi la partita da qualsiasi computer.</p>
                 </div>
                 <div class="feature-item">
-                    <span class="f-icon" aria-hidden="true">
-                        <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M3 8.5h18V12H3z"/><path d="M4.5 12v8.5h15V12"/><path d="M12 8.5v12"/><path d="M12 8.5S10.8 4 8.4 4a2.4 2.4 0 0 0 0 4.5z"/><path d="M12 8.5S13.2 4 15.6 4a2.4 2.4 0 0 1 0 4.5z"/></svg>
-                    </span>
-                    <h4>Bonus Esclusivi</h4><p>Contenuti extra per gli utenti.</p>
+                    <span class="f-icon" aria-hidden="true"><svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M3 8.5h18V12H3z"/><path d="M4.5 12v8.5h15V12"/><path d="M12 8.5v12"/><path d="M12 8.5S10.8 4 8.4 4a2.4 2.4 0 0 0 0 4.5z"/><path d="M12 8.5S13.2 4 15.6 4a2.4 2.4 0 0 1 0 4.5z"/></svg></span>
+                    <h4 data-i18n="Contenuti extra">Contenuti extra</h4>
+                    <p data-i18n="Chi possiede un gioco riceve i bonus direttamente nel launcher.">Chi possiede un gioco riceve i bonus direttamente nel launcher.</p>
                 </div>
             </div>
         </div>
     </section>
-    <!-- ... fine della sezione launcher-features ... -->
 
-    <!-- SEZIONE DEVELOPER (Il Gancio) -->
-    <section id="dev-teaser-section" class="dev-teaser" style="display: none; margin-top: 100px; border-top: 1px solid #222; padding: 80px 0; background: linear-gradient(to bottom, var(--bg-main), #080808);">
-        <div class="container" style="text-align: center;">
-            <p style="font-family: 'Courier Prime'; color: var(--accent-red); margin-bottom: 10px; letter-spacing: 2px;">ACCESSO SVILUPPATORI</p>
-            <h2 style="font-size: 3rem; color: #fff; margin-bottom: 20px;">FORGIARE LA REALTÀ</h2>
-            <p style="color: #888; max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem;">
-                Non cerchiamo creatori di giochi. Cerchiamo architetti di mondi.
-                Scopri <strong>Pixel Otros</strong>, il nostro motore proprietario basato su streaming SSD e rendering Nanovoxel.
-            </p>
-            <a href="engine.html" class="btn-outline">ENTRA NEL PROGRAMMA DEV</a>
+    <!-- Area sviluppatori: visibile solo agli admin -->
+    <section id="dev-teaser-section" class="section-padding bg-darker" style="display:none;">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:end; gap:24px; flex-wrap:wrap;">
+            <div>
+                <span class="tag red" data-i18n="Solo staff">Solo staff</span>
+                <h2 class="display-l" style="margin-top:14px">Pixel Otros</h2>
+                <p class="muted" style="margin-top:14px; max-width:52ch" data-i18n="Il nostro motore grafico. Qui trovi l'SDK e la licenza d'uso.">Il nostro motore grafico. Qui trovi l'SDK e la licenza d'uso.</p>
+            </div>
+            <a href="engine.html" class="btn-outline" data-i18n="Apri l'area sviluppatori">Apri l'area sviluppatori</a>
         </div>
     </section>
 
-    <!-- footer... -->
-
     <footer id="main-footer" class="kripix-footer"></footer>
 
-    <!-- SCRIPT INCLUSO DIRETTAMENTE QUI PER LA LOGICA DOWNLOAD -->
-    <!-- SCRIPT AGGIORNATO PER IL DOWNLOAD REALE -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // 1. Rilevamento OS
-            let os = "Unknown";
-            if (navigator.appVersion.indexOf("Win") != -1) os = "Windows";
-            if (navigator.appVersion.indexOf("Mac") != -1) os = "MacOS";
+        document.addEventListener("DOMContentLoaded", function () {
+            const ua = navigator.userAgent;
+            const os = /Win/.test(ua) ? 'win' : /Mac/.test(ua) && !/iPhone|iPad/.test(ua) ? 'mac' : null;
 
-            // --- INSERISCI QUI I TUOI LINK ---
-            const WIN_LINK = "https://github.com/LolotrackerGit/Kripix.com/releases/download/ciao/Kripix_Launcher_Installer.exe";
-            const MAC_LINK = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+            // Link ai file di installazione. Se un link è vuoto il bottone
+            // mostra "In arrivo" invece di mandare chissà dove.
+            const LINKS = {
+                win: "https://github.com/LolotrackerGit/Kripix.com/releases/download/ciao/Kripix_Launcher_Installer.exe",
+                mac: "" // il launcher per macOS non è ancora pubblicato
+            };
 
-            function highlightCard(id) {
-                const card = document.getElementById(id);
-                if(card) {
-                    card.classList.add('highlighted');
-                    const btn = card.querySelector('a');
-                    btn.className = 'btn-gold full-width js-download';
-                    btn.innerText = 'SCARICA ORA';
+            document.querySelectorAll('.js-download').forEach(btn => {
+                const card = btn.closest('.os-card');
+                const target = btn.dataset.os;
+
+                if (!LINKS[target]) {
+                    btn.textContent = 'In arrivo';
+                    btn.setAttribute('data-i18n', 'In arrivo');
+                    btn.setAttribute('aria-disabled', 'true');
+                    btn.style.opacity = '.55';
+                    btn.style.pointerEvents = 'none';
+                    return;
                 }
-            }
 
-            if (os === "Windows") highlightCard('card-win');
-            else if (os === "MacOS") highlightCard('card-mac');
+                if (target === os) {
+                    card.classList.add('highlighted');
+                    btn.classList.replace('btn-outline', 'btn-gold');
+                }
 
-            // 2. Logica Bottone Download (IDENTICA ALLA TUA + DOWNLOAD REALE)
-            const downloadBtns = document.querySelectorAll('.js-download');
-            downloadBtns.forEach(btn => {
-                btn.addEventListener('click', function(e) {
+                btn.addEventListener('click', function (e) {
                     e.preventDefault();
-                    
-                    // TESTO ORIGINALE
-                    this.innerText = "SCARICANDO...";
-                    this.style.opacity = "0.7";
-                    this.style.pointerEvents = "none";
-                    
-                    const msg = this.parentElement.querySelector('.download-msg');
-                    if(msg) msg.style.display = "block";
-
-                    // --- PARTE AGGIUNTA PER IL DOWNLOAD REALE ---
-                    const isWin = this.closest('.os-card').id === 'card-win';
-                    const link = isWin ? WIN_LINK : MAC_LINK;
-                    window.location.href = link; 
-                    // --------------------------------------------
-
-                    setTimeout(() => {
-                        this.innerText = "GRAZIE!";
-                        this.style.opacity = "1";
-                    }, 1500);
+                    const msg = card.querySelector('.download-msg');
+                    if (msg) msg.style.display = 'block';
+                    window.location.href = LINKS[target];
                 });
             });
         });

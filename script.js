@@ -12,7 +12,7 @@ import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/fi
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-functions.js";
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
 
-import { injectNavbar, injectFooter, injectPageLoader, injectBackToTop } from './components.js';
+import { injectNavbar, injectFooter, injectBackToTop } from './components.js';
 import { initTranslator, switchLanguage } from './translator.js';
 
 
@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ─ A. Iniezione componenti (deve essere la prima cosa) ──
     injectNavbar();
     injectFooter();
-    injectPageLoader();
     injectBackToTop();
 
     // Widget Kripix AI: si monta da solo, e solo per chi ha la beta attiva.
@@ -82,36 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(m => m.initAssistant())
         .catch(e => console.debug('Assistente non caricato:', e.message));
 
-    // ─ B. Menu hamburger e traduttore ───────────────────────
-    const hamburger = document.querySelector(".hamburger");
-    const navMenu = document.querySelector(".nav-menu");
-
-    if (hamburger && navMenu) {
-        const setMenu = (open) => {
-            hamburger.classList.toggle("active", open);
-            navMenu.classList.toggle("active", open);
-            hamburger.setAttribute("aria-expanded", String(open));
-            document.body.classList.toggle("no-scroll", open);
-        };
-
-        hamburger.addEventListener("click", () => {
-            setMenu(!navMenu.classList.contains("active"));
-        });
-
-        // Chiudi il menu dopo aver scelto una voce
-        navMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => setMenu(false));
-        });
-
-        // Esc chiude il menu mobile
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-                setMenu(false);
-                hamburger.focus();
-            }
-        });
-    }
-
+    // ─ B. Traduttore ─────────────────────────────────────
     // Inizializzazione traduttore e funzione globale per i bottoni HTML
     initTranslator();
     window.cambiaLingua = switchLanguage;
@@ -124,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key !== 'Enter' || e.shiftKey || e.isComposing) return;
 
         const el = e.target;
-        if (!el || el.tagName !== 'INPUT') return;
+        if (!el || el.tagName !== 'Input') return;
         if (['checkbox', 'radio', 'button', 'submit', 'file'].includes(el.type)) return;
 
         // Dentro un <form> ci pensa il browser
@@ -155,13 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.kripixNotify = function(title, message, type = 'info') {
         const toast = document.createElement('div');
         toast.className = 'kripix-toast';
-        const borderColor = type === 'success' ? '#4caf50' : type === 'error' ? '#ff5555' : 'var(--accent-gold)';
+        const borderColor = type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--gold)';
         toast.style.borderLeftColor = borderColor;
 
         const titleDiv = document.createElement('div');
         titleDiv.className = 'kripix-toast-title';
-        titleDiv.style.color = borderColor;
-        titleDiv.textContent = `>> ${title}`;
+        titleDiv.textContent = title;
 
         const msgDiv = document.createElement('div');
         // SICUREZZA: sanitizziamo l'HTML per prevenire XSS
@@ -178,26 +147,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     };
 
-    // ─ D. Logica avatar navbar e protezione ghost account ───
-    const navbarList = document.querySelector('.nav-menu') || document.querySelector('.nav-links');
+    // ─ D. Accesso / avatar nella barra di navigazione ──────
+    const li = document.getElementById('nav-auth');
 
-    // Se la pagina non ha una navbar standard (es. Login), ci fermiamo
-    if (!navbarList) return;
-
-    const dlBtnLi = navbarList.querySelector('.btn-launcher');
-    const targetNode = dlBtnLi ? dlBtnLi.closest('li') : null;
-
-    const li = document.createElement('li');
+    // Se la pagina non ha la barra standard ci fermiamo
+    if (!li) return;
     li.id = 'auth-item';
-    li.className = 'nav-user-container';
 
     window.updateNavbarAvatarDisplay = async function(user) {
         if (!user) {
-            li.innerHTML = `<a href="login.html" class="btn-login-nav" data-i18n="ACCEDI">ACCEDI</a>`;
-            if (!document.getElementById('auth-item')) {
-                if (targetNode) navbarList.insertBefore(li, targetNode);
-                else navbarList.appendChild(li);
-            }
+            li.innerHTML = `<a href="login.html" class="btn-login-nav" data-i18n="Accedi">Accedi</a>`;
             return;
         }
 
@@ -205,11 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const userRef = doc(db, "users", user.uid);
             const userSnap = await getDoc(userRef);
 
-            // Protezione ghost account (registrazione Google interrotta)
+            // Registrazione con Google lasciata a metà: manca il profilo
             if (!userSnap.exists()) {
-                console.warn(">> PROTOCOLLO INCOMPLETO: Profilo database mancante.");
+                console.warn("Profilo mancante nel database.");
                 if (!window.location.href.includes("login.html") && !window.location.href.includes("register.html")) {
-                    alert("ATTENZIONE: Devi completare la registrazione scegliendo un Nome in Codice.");
+                    alert("Per finire la registrazione devi scegliere un nome utente.");
                     await signOut(auth);
                     window.location.href = "login.html";
                     return;
@@ -220,88 +179,77 @@ document.addEventListener('DOMContentLoaded', () => {
             const me = userSnap.data();
             li.innerHTML = '';
 
-            // Avatar
-            const avatarDiv = document.createElement('div');
-            avatarDiv.className = 'user-avatar';
+            // Avatar (bottone: si apre anche da tastiera)
+            const avatarBtn = document.createElement('button');
+            avatarBtn.type = 'button';
+            avatarBtn.className = 'user-avatar';
+            avatarBtn.setAttribute('aria-haspopup', 'true');
+            avatarBtn.setAttribute('aria-expanded', 'false');
+            avatarBtn.setAttribute('aria-label', 'Menu account');
             if (me.avatar_img) {
-                avatarDiv.style.backgroundColor = 'transparent';
-                avatarDiv.style.border = 'none';
                 const img = document.createElement('img');
                 img.src = me.avatar_img;
-                img.alt = 'Avatar';
-                img.style.cssText = 'width:100%; height:100%; border-radius:50%; object-fit:cover;';
-                avatarDiv.appendChild(img);
+                img.alt = '';
+                avatarBtn.appendChild(img);
             } else {
-                avatarDiv.style.backgroundColor = me.color || '#e3c66c';
-                avatarDiv.style.border = 'none';
-                avatarDiv.textContent = me.username.charAt(0).toUpperCase();
+                avatarBtn.style.backgroundColor = me.color || '#e3c66c';
+                avatarBtn.textContent = (me.username || '?').charAt(0).toUpperCase();
             }
 
-            // Dropdown menu
             const dropdown = document.createElement('div');
             dropdown.className = 'user-dropdown';
 
             const header = document.createElement('div');
             header.className = 'user-header';
-
             const userNameSpan = document.createElement('span');
             userNameSpan.className = 'user-name';
             userNameSpan.textContent = me.username;
-
             const userRoleSpan = document.createElement('span');
             userRoleSpan.className = 'user-role';
-            userRoleSpan.textContent = me.isAdmin ? 'OVERSEER' : 'Agente Operativo';
-
-            header.appendChild(userNameSpan);
-            header.appendChild(userRoleSpan);
+            userRoleSpan.textContent = me.isAdmin ? 'Amministratore' : 'Giocatore';
+            userRoleSpan.setAttribute('data-i18n', userRoleSpan.textContent);
+            header.append(userNameSpan, userRoleSpan);
             dropdown.appendChild(header);
 
-            // Link dropdown (costruiti in sicurezza)
             const links = [
-                { href: 'profilo.html', text: 'IL MIO PROFILO' },
-                { href: 'libreria.html', text: 'Libreria Giochi' },
-                { href: 'impostazioni.html', text: 'Configurazione' },
+                { href: 'profilo.html', text: 'Profilo' },
+                { href: 'libreria.html', text: 'I miei giochi' },
+                { href: 'terminale.html', text: 'Messaggi' },
+                { href: 'impostazioni.html', text: 'Impostazioni' },
             ];
-            if (me.isAdmin) {
-                links.push({ href: 'admin.html', text: 'Terminale Overseer', style: 'color:var(--accent-gold)' });
-            }
-            links.push({ href: '#', text: 'Disconnetti', id: 'action-logout', style: 'color:#ff5555' });
+            if (me.isAdmin) links.push({ href: 'admin.html', text: 'Pannello admin', cls: 'is-admin' });
+            links.push({ href: '#', text: 'Esci', id: 'action-logout' });
 
+            const current = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
             links.forEach(l => {
                 const a = document.createElement('a');
                 a.href = l.href;
                 a.textContent = l.text;
                 a.setAttribute('data-i18n', l.text);
                 if (l.id) a.id = l.id;
-                if (l.style) a.style.cssText = l.style;
+                if (l.cls) a.className = l.cls;
+                if (l.href === current) { a.classList.add('active'); a.setAttribute('aria-current', 'page'); }
                 dropdown.appendChild(a);
             });
 
-            li.appendChild(avatarDiv);
-            li.appendChild(dropdown);
+            li.append(avatarBtn, dropdown);
 
-            if (!document.getElementById('auth-item')) {
-                if (targetNode) navbarList.insertBefore(li, targetNode);
-                else navbarList.appendChild(li);
-            }
-
-            // Toggle dropdown
-            avatarDiv.onclick = (e) => {
-                dropdown.classList.toggle('show');
-                e.stopPropagation();
+            const setOpen = (open) => {
+                dropdown.classList.toggle('show', open);
+                avatarBtn.setAttribute('aria-expanded', String(open));
             };
+            avatarBtn.onclick = (e) => {
+                e.stopPropagation();
+                setOpen(!dropdown.classList.contains('show'));
+            };
+            document.addEventListener('click', (e) => { if (!li.contains(e.target)) setOpen(false); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
 
-            // Logout
             li.querySelector('#action-logout').onclick = async (e) => {
                 e.preventDefault();
                 await signOut(auth);
                 window.location.href = 'index.html';
             };
-
-            // Chiudi dropdown cliccando fuori
-            document.addEventListener('click', (e) => {
-                if (dropdown && !li.contains(e.target)) dropdown.classList.remove('show');
-            });
 
         } catch (error) {
             console.error("Errore Auth State:", error);
@@ -363,13 +311,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (cData[`unread_${user.uid}`] === true && (!knownChatTimes[chatId] || lastTime > knownChatTimes[chatId])) {
                             knownChatTimes[chatId] = lastTime;
 
-                            // Non disturbare se l'utente è già nel terminale
+                            // Non disturbare se l'utente è già nella pagina dei messaggi
                             if (window.location.href.includes("terminale.html")) return;
 
                             if (cData.isSystemChat) {
                                 window.kripixNotify(
-                                    "DIRETTIVA DI SISTEMA",
-                                    `Messaggio critico dal Kripix Admin. <br><a href="terminale.html" style="color:#ff5555; text-decoration:underline; font-weight:bold; margin-top:5px; display:inline-block;">APRI TERMINALE</a>`,
+                                    "Messaggio dallo staff",
+                                    `Lo staff di Kripix ti ha scritto. <br><a href="terminale.html" style="text-decoration:underline; margin-top:5px; display:inline-block;">Leggi il messaggio</a>`,
                                     "error"
                                 );
                             } else {
@@ -379,8 +327,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                         if (!uSnap.exists()) return;
                                         const senderName = uSnap.data().username;
                                         window.kripixNotify(
-                                            "TRASMISSIONE IN ENTRATA",
-                                            `Messaggio da ${senderName}. <br><a href="terminale.html?agent=${encodeURIComponent(otherGuy)}" style="color:var(--accent-gold); text-decoration:underline; font-weight:bold; margin-top:5px; display:inline-block;">APRI TERMINALE</a>`,
+                                            "Nuovo messaggio",
+                                            `${senderName} ti ha scritto. <br><a href="terminale.html?agent=${encodeURIComponent(otherGuy)}" style="text-decoration:underline; margin-top:5px; display:inline-block;">Apri i messaggi</a>`,
                                             "info"
                                         );
                                     });
@@ -463,14 +411,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const cookieBanner = document.createElement('div');
         cookieBanner.id = 'kripix-cookie-banner';
         cookieBanner.innerHTML = `
-            <div class="cookie-title" data-i18n="cookie_title">> INIZIALIZZAZIONE COOKIE</div>
+            <div class="cookie-title" data-i18n="Cookie">Cookie</div>
             <div class="cookie-text" data-i18n="cookie_text" data-i18n-html>
-                Il Network Operativo Kripix utilizza pacchetti di tracciamento (Cookie) essenziali per mantenere la connessione stabile e salvare le tue preferenze. Non vendiamo i tuoi dati ai corporati.
-                <br><br>Puoi leggere il <a href="cookies.html">Dossier Privacy</a> per i dettagli completi.
+                Usiamo cookie tecnici per tenerti connesso e ricordare le tue preferenze. Se accetti, registriamo anche browser, sistema operativo e dimensione dello schermo, per capire su quali dispositivi gira il sito. Non vendiamo i tuoi dati.
+                <a href="cookies.html">Leggi la privacy</a>.
             </div>
             <div class="cookie-buttons">
-                <button id="btn-cookie-accept" class="btn-cookie btn-cookie-accept" data-i18n="ACCETTA TUTTI">ACCETTA TUTTI</button>
-                <button id="btn-cookie-reject" class="btn-cookie btn-cookie-reject" data-i18n="SOLO ESSENZIALI">SOLO ESSENZIALI</button>
+                <button id="btn-cookie-accept" class="btn-cookie btn-cookie-accept" data-i18n="Accetta tutti">Accetta tutti</button>
+                <button id="btn-cookie-reject" class="btn-cookie btn-cookie-reject" data-i18n="Solo essenziali">Solo essenziali</button>
             </div>
         `;
         document.body.appendChild(cookieBanner);
@@ -480,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('kripix_cookie_consent', 'accepted');
             cookieBanner.classList.remove('show');
             setTimeout(() => cookieBanner.remove(), 600);
-            if (window.kripixNotify) window.kripixNotify("SISTEMA", "Tracciamento completo autorizzato.", "success");
+            if (window.kripixNotify) window.kripixNotify("Preferenze salvate", "Hai accettato tutti i cookie.", "success");
             dispatchTelemetry("accepted");
         });
 
@@ -488,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('kripix_cookie_consent', 'rejected');
             cookieBanner.classList.remove('show');
             setTimeout(() => cookieBanner.remove(), 600);
-            if (window.kripixNotify) window.kripixNotify("SISTEMA", "Tracciamento limitato ai pacchetti essenziali.", "info");
+            if (window.kripixNotify) window.kripixNotify("Preferenze salvate", "Useremo solo i cookie essenziali.", "info");
             dispatchTelemetry("rejected");
         });
 

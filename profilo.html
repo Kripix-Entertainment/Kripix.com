@@ -2,240 +2,199 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilo | Kripix</title>
+    <meta name="description" content="Il tuo profilo Kripix.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profilo - Kripix</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
+
+
     
     <style>
-        .profile-layout { display: grid; grid-template-columns: 300px 1fr; gap: 40px; margin-top: 40px; }
-        .id-card { background: rgba(255,255,255,0.02); border: 1px solid #333; padding: 30px; text-align: center; position: relative; }
-        .id-card::before { content: 'CLASSIFIED'; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 0.6rem; letter-spacing: 3px; color: #444; font-family: 'Courier Prime'; border: 1px solid #444; padding: 2px 5px; }
-        .big-avatar { width: 120px; height: 120px; border-radius: 50%; margin: 20px auto; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 900; color: white; border: 4px solid rgba(255,255,255,0.1); box-shadow: 0 0 30px rgba(0,0,0,0.5); overflow: hidden; transition: all 0.3s ease; }
-        .agent-rank { color: var(--accent-gold); font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; }
-        .agent-name { font-size: 1.8rem; font-weight: 900; color: white; margin-bottom: 20px; line-height: 1; }
-        .stat-row { display: flex; justify-content: space-between; border-bottom: 1px solid #222; padding: 10px 0; font-size: 0.9rem; font-family: 'Courier Prime'; }
-        .stat-row span:last-child { color: white; }
+        .profile-layout { display: grid; grid-template-columns: 300px 1fr; gap: clamp(28px, 4vw, 48px); align-items: start; }
+        .id-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 28px; text-align: center; position: sticky; top: calc(var(--nav-h) + 24px); }
+        .big-avatar { width: 112px; height: 112px; border-radius: 50%; margin: 4px auto 18px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; font-weight: 800; color: #fff; overflow: hidden; }
+        .agent-name { font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; text-transform: uppercase; color: var(--text); line-height: 1; margin-bottom: 6px; word-break: break-word; }
+        .agent-rank { font-size: .92rem; font-weight: 600; margin-bottom: 18px; }
+        .stat-list { text-align: left; }
+        .stat-row { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding: 10px 0; font-size: .92rem; }
+        .stat-row dt { color: var(--text-muted); }
+        .stat-row dd { color: var(--text); font-weight: 600; }
         .section-box { margin-bottom: 40px; }
-        .box-header { font-size: 1.2rem; border-left: 3px solid var(--accent-gold); padding-left: 15px; margin-bottom: 20px; color: white; }
+        .box-header { font-family: var(--font-display); font-weight: 800; font-size: 1.9rem; text-transform: uppercase; line-height: 1; margin-bottom: 18px; color: var(--text); }
         .badges-grid { display: flex; gap: 20px; flex-wrap: wrap; }
-        .badge-item { background: #0f0f0f; border: 1px solid #333; width: 100px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 4px; transition: 0.3s; cursor: help; opacity: 1; }
+        .badge-item { background: var(--surface); border: 1px solid var(--line); width: 100px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 4px; transition: 0.3s; cursor: help; opacity: 1; }
         .badge-item:not(.unlocked) .badge-icon, .badge-item:not(.unlocked) .badge-name { opacity: 0.3; filter: grayscale(100%); }
         .badge-item.unlocked { border-color: var(--accent-gold); background: rgba(227, 198, 108, 0.05); box-shadow: 0 0 15px rgba(227, 198, 108, 0.1); }
         .badge-icon { display: flex; margin-bottom: 8px; transition: 0.3s; color: var(--accent-gold); }
         .badge-icon .icon { width: 2rem; height: 2rem; stroke-width: 1.25; }
         .badge-item:not(.unlocked) .badge-icon { color: var(--text-muted); }
-        .badge-name { font-size: 0.6rem; text-transform: uppercase; color: #888; text-align: center; transition: 0.3s; }
+        .badge-name { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); text-align: center; transition: 0.3s; }
         .custom-tooltip { position: relative; }
-        .custom-tooltip::after { content: attr(data-tooltip); position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%) translateY(10px); background: #05070a; border: 1px solid var(--accent-gold); color: var(--text-main); padding: 8px 12px; font-family: 'Courier Prime', monospace; font-size: 0.8rem; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.2s ease; z-index: 100; box-shadow: 0 5px 20px rgba(0,0,0,0.9); }
+        .custom-tooltip::after { content: attr(data-tooltip); position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%) translateY(10px); background: var(--bg); border: 1px solid var(--accent-gold); color: var(--text-main); padding: 8px 12px; font-family: var(--font-body); font-size: 0.8rem; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.2s ease; z-index: 100; box-shadow: 0 5px 20px rgba(0,0,0,0.9); }
         .custom-tooltip:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
         .level-container { margin-bottom: 30px; }
-        .level-info { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; color: #ccc; }
-        .progress-bar-bg { width: 100%; height: 10px; background: #222; border-radius: 5px; overflow: hidden; }
+        .level-info { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-soft); }
+        .progress-bar-bg { width: 100%; height: 10px; background: var(--surface-2); border-radius: 5px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--accent-gold); width: 0%; transition: width 1s ease-out; }
-        .network-section { background: rgba(10, 10, 10, 0.8); border: 1px solid #333; border-top: 3px solid var(--accent-gold); padding: 30px; margin-bottom: 40px; position: relative; }
+        .network-section { padding: 26px; margin-bottom: 36px; }
         /* ── Accessi beta ── */
-        .beta-access-card { border-color: #444; background: linear-gradient(45deg, rgba(255,255,255,0.03), transparent); }
-        .beta-loading { color:#666; font-family:'Courier Prime'; text-align:center; padding:20px; }
+        .beta-loading { color:var(--text-faint); font-family: var(--font-body); text-align:center; padding:20px; }
         .beta-item {
-            border: 1px solid #222; border-left: 2px solid #333;
+            border: 1px solid var(--line); border-left: 2px solid var(--line);
             padding: 20px; margin-bottom: 14px; transition: 0.3s;
         }
-        .beta-item:hover { border-color: #333; border-left-color: #555; }
-        .beta-item.is-active { border-left-color: #4caf50; background: rgba(76,175,80,0.03); }
+        .beta-item:hover { border-color: var(--line); border-left-color: var(--line-strong); }
+        .beta-item.is-active { border-left-color: var(--success); background: rgba(76,175,80,0.03); }
         .beta-item.is-pending { border-left-color: var(--accent-gold); background: rgba(227,198,108,0.03); }
         .beta-item.is-rejected { opacity: 0.55; }
         .beta-item-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 6px; }
-        .beta-item h4 { color: #fff; font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
-        .beta-item .beta-tagline { color: var(--accent-gold); font-family: 'Courier Prime', monospace; font-size: 0.75rem; margin-bottom: 12px; }
-        .beta-item p.beta-desc { color: #999; font-family: 'Montserrat', sans-serif; font-size: 0.87rem; line-height: 1.6; margin-bottom: 16px; }
+        .beta-item h4 { color: var(--text); font-family: var(--font-body); font-size: 1.05rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        .beta-item .beta-tagline { color: var(--accent-gold); font-family: var(--font-body); font-size: 0.75rem; margin-bottom: 12px; }
+        .beta-item p.beta-desc { color: var(--text-muted); font-family: var(--font-body); font-size: 0.87rem; line-height: 1.6; margin-bottom: 16px; }
         .beta-state {
-            flex-shrink: 0; font-family: 'Courier Prime', monospace; font-size: 0.7rem;
+            flex-shrink: 0; font-family: var(--font-body); font-size: 0.7rem;
             font-weight: bold; letter-spacing: 1px; padding: 4px 10px; border: 1px solid; border-radius: 2px;
         }
-        .beta-state.active   { color:#4caf50; border-color:rgba(76,175,80,.5);  background:rgba(76,175,80,.08); }
+        .beta-state.active   { color:var(--success); border-color:rgba(76,175,80,.5);  background:rgba(76,175,80,.08); }
         .beta-state.pending  { color:var(--accent-gold); border-color:rgba(227,198,108,.5); background:rgba(227,198,108,.08); }
-        .beta-state.rejected { color:#ff5555; border-color:rgba(255,85,85,.4); background:rgba(255,85,85,.06); }
-        .beta-state.none     { color:#777; border-color:#333; }
-        .beta-note { font-family:'Courier Prime'; font-size:0.78rem; color:#777; line-height:1.6; }
+        .beta-state.rejected { color:var(--danger); border-color:rgba(255,85,85,.4); background:rgba(255,85,85,.06); }
+        .beta-state.none     { color:var(--text-muted); border-color:var(--line); }
+        .beta-note { font-family: var(--font-body); font-size:0.78rem; color:var(--text-muted); line-height:1.6; }
 
-        .network-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-        .network-header h3 { font-size: 1.2rem; color: white; }
-        .add-friend-box { display: flex; gap: 0; margin-bottom: 15px; border: 1px solid #333; background: #000; padding: 5px; border-radius: 2px; }
-        .add-friend-box input { flex: 1; background: transparent; border: none; color: white; padding: 12px 15px; font-family: 'Courier Prime'; font-size: 1rem; }
+        .network-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 18px; }
+        .network-header h3 { font-size: 1.2rem; color: var(--text); }
+        .add-friend-box { display: flex; gap: 0; margin-bottom: 15px; border: 1px solid var(--line); background: var(--bg); padding: 5px; border-radius: 2px; }
+        .add-friend-box input { flex: 1; background: transparent; border: none; color: var(--text); padding: 12px 15px; font-family: var(--font-body); font-size: 1rem; }
         .add-friend-box input:focus { outline: none; border-color: var(--accent-gold); }
-        .btn-add { padding: 10px 25px; font-size: 0.8rem; border: 1px solid #444; background: transparent; color: #888; font-weight: bold; font-family: 'Montserrat'; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; }
-        .btn-add.ready { background: var(--accent-gold); color: #000; border-color: var(--accent-gold); box-shadow: 0 0 15px rgba(227, 198, 108, 0.3); }
+        .btn-add { padding: 10px 25px; font-size: 0.8rem; border: 1px solid var(--line-strong); background: transparent; color: var(--text-muted); font-weight: bold; font-family: var(--font-body); cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; }
+        .btn-add.ready { background: var(--accent-gold); color: var(--on-gold); border-color: var(--accent-gold); box-shadow: 0 0 15px rgba(227, 198, 108, 0.3); }
         .friend-list { display: flex; flex-direction: column; gap: 10px; }
-        .friend-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); padding: 15px 20px; border: 1px solid #222; transition: 0.3s; }
-        .friend-item:hover { border-color: #444; background: rgba(255,255,255,0.04); transform: translateX(5px); }
+        .friend-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); padding: 15px 20px; border: 1px solid var(--line); transition: 0.3s; }
+        .friend-item:hover { border-color: var(--line-strong); background: rgba(255,255,255,0.04); transform: translateX(5px); }
         .friend-info { display: flex; align-items: center; gap: 15px; }
-        .friend-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; color: white; box-shadow: 0 0 10px rgba(0,0,0,0.5); overflow: hidden; }
-        .friend-name { font-size: 1.1rem; font-weight: bold; color: white; line-height: 1; margin-bottom: 3px; }
-        .friend-status { font-family: 'Courier Prime'; font-size: 0.7rem; color: #4caf50; }
-        .btn-mini { padding: 5px 10px; font-size: 0.7rem; cursor: pointer; border: 1px solid #444; background: transparent; color: white; margin-left: 5px; font-weight: bold;}
-        .btn-accept { border-color: #4caf50; color: #4caf50; }
-        .btn-accept:hover { background: #4caf50; color: black; }
-        .btn-reject { border-color: #8b2323; color: #8b2323; }
-        .btn-reject:hover { background: #8b2323; color: white; }
-        .btn-danger { display: inline-block; padding: 10px 25px; font-size: 0.8rem; border: 1px solid #8b2323; color: #ff5555; background: transparent; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'Montserrat'; text-transform: uppercase; }
-        .btn-danger:hover { background: #8b2323; color: white; box-shadow: 0 0 15px rgba(139, 35, 35, 0.5); }
-        .dev-access-card { background: linear-gradient(45deg, rgba(227, 198, 108, 0.05), transparent); border: 1px dashed var(--accent-gold); padding: 25px; margin-bottom: 40px; display: flex; align-items: center; justify-content: space-between; transition: 0.3s; }
-        .dev-access-card:hover { background: rgba(227, 198, 108, 0.1); box-shadow: 0 0 20px rgba(227, 198, 108, 0.1); border-style: solid; }
-        .dev-text h4 { color: var(--accent-gold); margin-bottom: 5px; font-size: 1.1rem; letter-spacing: 1px; }
-        .dev-text p { color: #888; font-size: 0.85rem; font-family: 'Courier Prime', monospace; }
-        .btn-dev-action { background: var(--bg-darker); border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 10px 20px; font-weight: bold; text-decoration: none; font-size: 0.8rem; transition: 0.3s; }
-        .btn-dev-action:hover { background: var(--accent-gold); color: #000; }
-        @media(max-width:768px) { .profile-layout { grid-template-columns: 1fr; } .dev-access-card { flex-direction: column; text-align: center; gap: 20px; } }
+        .friend-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; color: var(--text); box-shadow: 0 0 10px rgba(0,0,0,0.5); overflow: hidden; }
+        .friend-name { font-size: 1.1rem; font-weight: bold; color: var(--text); line-height: 1; margin-bottom: 3px; }
+        .friend-status { font-family: var(--font-body); font-size: 0.7rem; color: var(--success); }
+        .btn-mini { padding: 5px 10px; font-size: 0.7rem; cursor: pointer; border: 1px solid var(--line-strong); background: transparent; color: var(--text); margin-left: 5px; font-weight: bold;}
+        .btn-accept { border-color: var(--success); color: var(--success); }
+        .btn-accept:hover { background: var(--success); color: var(--on-gold); }
+        .btn-reject { border-color: var(--red); color: var(--red); }
+        .btn-reject:hover { background: var(--red); color: var(--text); }
+        .btn-danger { display: inline-block; padding: 10px 25px; font-size: 0.8rem; border: 1px solid var(--red); color: var(--danger); background: transparent; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: var(--font-body); text-transform: uppercase; }
+        .btn-danger:hover { background: var(--red); color: var(--text); box-shadow: 0 0 15px rgba(139, 35, 35, 0.5); }
+        @media(max-width:768px) { .profile-layout { grid-template-columns: 1fr; } .id-card { position: static; } .dev-access-card { flex-direction: column; text-align: center; gap: 20px; } }
     </style>
 </head>
 <body>
-    <div class="background-grid"></div>
+    <nav id="main-nav"></nav>
 
-<nav id="main-nav"></nav>
+    <header class="page-header">
+        <h1 data-i18n="Profilo">Profilo</h1>
+    </header>
 
-    <div class="page-header">
-        <h1>Il mio Profilo</h1>
-    </div>
+    <div id="suspension-slot"></div>
 
     <section class="section-padding">
         <div class="container profile-layout">
-            
-            <div class="id-card">
-                <div class="big-avatar" id="p-avatar">...</div>
-                <div class="agent-rank" id="p-rank">LIVELLO 1</div>
-                <div class="agent-name" id="p-username">AGENTE</div>
-                
-                <div style="margin-top: 30px; text-align: left;">
-                    <div class="stat-row">
-                        <span style="color:#666">ID DATABASE</span>
-                        <span id="p-id-num">#0000</span>
-                    </div>
-                    <div class="stat-row">
-                        <span style="color:#666">STATO</span>
-                        <span id="p-status" style="color:#4caf50">ATTIVO</span>
-                    </div>
-                    <div class="stat-row">
-                        <span style="color:#666">GIOCHI</span>
-                        <span id="p-games-count">0</span>
-                    </div>
-                    <div class="stat-row">
-                        <span style="color:#666">DATA REG.</span>
-                        <span id="p-reg-date">2026</span>
-                    </div>
-                </div>
-                
-                <a href="impostazioni.html" class="btn-outline full-width" style="margin-top:30px; font-size:0.8rem;">MODIFICA DATI & AVATAR</a>
-            </div>
+
+            <aside class="id-card">
+                <div class="big-avatar" id="p-avatar">…</div>
+                <div class="agent-name" id="p-username">…</div>
+                <div class="agent-rank" id="p-rank"></div>
+
+                <dl class="stat-list">
+                    <div class="stat-row"><dt data-i18n="Stato">Stato</dt><dd id="p-status">…</dd></div>
+                    <div class="stat-row"><dt data-i18n="Giochi">Giochi</dt><dd id="p-games-count">0</dd></div>
+                    <div class="stat-row"><dt data-i18n="Iscritto dal">Iscritto dal</dt><dd id="p-reg-date">…</dd></div>
+                    <div class="stat-row"><dt data-i18n="Codice utente">Codice utente</dt><dd id="p-id-num">#0000</dd></div>
+                </dl>
+
+                <a href="impostazioni.html" class="btn-outline full-width" style="margin-top:24px;" data-i18n="Modifica profilo">Modifica profilo</a>
+            </aside>
 
             <div>
                 <div class="section-box">
                     <div class="level-container">
                         <div class="level-info">
-                            <span>ESPERIENZA OPERATIVA</span>
+                            <span data-i18n="Livello">Livello</span>
                             <span id="xp-text">0 / 100 XP</span>
                         </div>
-                        <div class="progress-bar-bg">
-                            <div class="progress-fill" id="xp-bar"></div>
-                        </div>
+                        <div class="progress-bar-bg"><div class="progress-fill" id="xp-bar"></div></div>
                     </div>
                 </div>
 
                 <div class="section-box">
-                    <h3 class="box-header">MEDAGLIERE & OBIETTIVI</h3>
+                    <h2 class="box-header" data-i18n="Traguardi">Traguardi</h2>
                     <div class="badges-grid">
-                        <div class="badge-item unlocked custom-tooltip" data-tooltip="Reclutamento completato con successo.">
-                            <span class="badge-icon" aria-hidden="true">
-                                <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-                            </span>
-                            <span class="badge-name">RECLUTA</span>
+                        <div class="badge-item unlocked custom-tooltip" data-tooltip="Hai creato il tuo account.">
+                            <span class="badge-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+                            <span class="badge-name" data-i18n="Benvenuto">Benvenuto</span>
                         </div>
-                        <div class="badge-item custom-tooltip" id="badge-pagoda" data-tooltip="Possiedi 'La Pagoda'.">
-                            <span class="badge-icon" aria-hidden="true">
-                                <svg class="icon" viewBox="0 0 24 24"><path d="M3 8h3.5l1.6-2.4A1 1 0 0 1 9 5h6a1 1 0 0 1 .9.6L17.5 8H21v11H3z"/><circle cx="12" cy="13.5" r="3.5"/></svg>
-                            </span>
-                            <span class="badge-name">FOTOREPORTER</span>
+                        <div class="badge-item custom-tooltip" id="badge-pagoda" data-tooltip="Possiedi La Pagoda.">
+                            <span class="badge-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M3 8h3.5l1.6-2.4A1 1 0 0 1 9 5h6a1 1 0 0 1 .9.6L17.5 8H21v11H3z"/><circle cx="12" cy="13.5" r="3.5"/></svg></span>
+                            <span class="badge-name" data-i18n="Fotoreporter">Fotoreporter</span>
                         </div>
-                        <div class="badge-item custom-tooltip" id="badge-beta" data-tooltip="Partecipazione alla Closed Beta. (Bloccato)">
-                            <span class="badge-icon" aria-hidden="true">
-                                <svg class="icon" viewBox="0 0 24 24"><path d="M9.5 2v6.2L4.6 17a2.5 2.5 0 0 0 2.2 3.8h10.4a2.5 2.5 0 0 0 2.2-3.8l-4.9-8.8V2"/><path d="M8 2h8"/><path d="M7.2 14h9.6"/></svg>
-                            </span>
-                            <span class="badge-name">BETA TESTER</span>
+                        <div class="badge-item custom-tooltip" id="badge-beta" data-tooltip="Partecipi a una beta.">
+                            <span class="badge-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M9.5 2v6.2L4.6 17a2.5 2.5 0 0 0 2.2 3.8h10.4a2.5 2.5 0 0 0 2.2-3.8l-4.9-8.8V2"/><path d="M8 2h8"/><path d="M7.2 14h9.6"/></svg></span>
+                            <span class="badge-name">Beta tester</span>
                         </div>
-                        <div class="badge-item custom-tooltip" data-tooltip="Finanziatore del progetto originale. (Bloccato)">
-                            <span class="badge-icon" aria-hidden="true">
-                                <svg class="icon" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.2-5.4-3-5.4 3 1-6.2L3.2 9.5l6.1-.9z"/></svg>
-                            </span>
-                            <span class="badge-name">GOLD MEMBER</span>
+                        <div class="badge-item custom-tooltip" data-tooltip="Hai sostenuto il progetto fin dall'inizio.">
+                            <span class="badge-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.2-5.4-3-5.4 3 1-6.2L3.2 9.5l6.1-.9z"/></svg></span>
+                            <span class="badge-name" data-i18n="Sostenitore">Sostenitore</span>
                         </div>
                     </div>
-                </div> 
+                </div>
 
                 <div class="network-section">
                     <div class="network-header">
-    <span style="display:flex; color:var(--accent-gold);" aria-hidden="true">
-        <svg class="icon icon-md" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></svg>
-    </span>
-    <a href="terminale.html" style="text-decoration: none; color: white; display: flex; align-items: center; gap: 10px; transition: 0.3s;" onmouseover="this.style.color='var(--accent-gold)'" onmouseout="this.style.color='white'">
-        <h3>RETE OPERATIVA</h3>
-        <span data-i18n="profilo_badge_accedi" style="font-family: 'Courier Prime'; font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 8px; font-weight: bold; border-radius: 2px;">ACCEDI</span>
-    </a>
-</div>
-                    
-                    <div class="add-friend-box">
-                        <input type="text" id="friend-id-input" placeholder="Ricerca: Inserire Nome Agente..." autocomplete="off">
-                        <button id="btn-add-friend" class="btn-add" onclick="sendRequest()">CERCA E INVIA</button>
+                        <h2 class="box-header" style="margin:0" data-i18n="Amici">Amici</h2>
+                        <a href="terminale.html" class="text-link" data-i18n="Apri i messaggi">Apri i messaggi</a>
                     </div>
-                    
-                    <!-- Aree Liste Amici -->
-                    <div id="requests-area" style="margin-bottom: 20px;"></div>
-                    <div id="sent-requests-area" style="margin-bottom: 20px;"></div>
+                    <div class="add-friend-box">
+                        <label for="friend-id-input" class="visually-hidden" data-i18n="Nome utente dell'amico">Nome utente dell'amico</label>
+                        <input type="text" id="friend-id-input" placeholder="Nome utente dell'amico" autocomplete="off">
+                        <button id="btn-add-friend" class="btn-add" onclick="sendRequest()" data-i18n="Invia richiesta">Invia richiesta</button>
+                    </div>
+                    <div id="requests-area" style="margin-bottom: 16px;"></div>
+                    <div id="sent-requests-area" style="margin-bottom: 16px;"></div>
                     <div class="friend-list" id="friends-list-container"></div>
                 </div>
 
-<!-- Modulo Accessi Beta -->
-    <div class="section-box dev-access-card beta-access-card">
-        <div class="dev-text">
-            <h4>ACCESSI BETA</h4>
-            <p>> Programmi sperimentali riservati agli agenti selezionati.</p>
-        </div>
-        <button id="btn-open-beta" class="btn-dev-action" type="button">APRI ELENCO</button>
-    </div>
-
-<!-- Modulo Programma DEV -->
-    <div id="pixel-otros-card" class="section-box dev-access-card" style="display: none;">
-        <div class="dev-text">
-            <h4>PROGRAMMA PIXEL OTROS</h4>
-            <p>> Accesso al motore grafico sperimentale.</p>
-        </div>
-        <a href="engine.html" class="btn-dev-action">SCARICA DEV-KIT</a>
-    </div>
-
-<!-- Modulo Discord OAuth -->
-<!-- Modulo Discord OAuth -->
-<div class="section-box dev-access-card" style="border-color: #5865F2; background: rgba(88, 101, 242, 0.05);">
-    <div class="dev-text">
-        <h4 style="color: #5865F2;">INTEGRAZIONE DISCORD</h4>
-        <p id="discord-status-text">> Sincronizza il tuo Dossier per ottenere i ruoli sul server.</p>
-    </div>
-    <!-- FIX: Sostituito btn-dev-action con btn-discord -->
-    <button id="btn-sync-discord" class="btn-discord">COLLEGA ACCOUNT</button>
-</div>
-
-                <div class="section-box">
-                    <h3 class="box-header">LOG ATTIVITÀ RECENTI</h3>
-                    <div style="font-family: 'Courier Prime'; font-size: 0.85rem; color: #888;">
-                        <p style="margin-bottom: 10px;">>  [OGGI] Accesso al terminale effettuato.</p>
-                        <p style="margin-bottom: 10px; display:none;" id="log-purchase">> [SISTEMA] Acquisizione licenza "Harrow".</p>
-                        <p>> [SYSTEM] Profilo sincronizzato con il server centrale.</p>
+                <div class="section-box dev-access-card">
+                    <div class="dev-text">
+                        <h4 data-i18n="Programmi beta">Programmi beta</h4>
+                        <p data-i18n="Funzioni in prova, aperte a pochi giocatori alla volta.">Funzioni in prova, aperte a pochi giocatori alla volta.</p>
                     </div>
+                    <button id="btn-open-beta" class="btn-dev-action" type="button" data-i18n="Vedi i programmi">Vedi i programmi</button>
                 </div>
 
+                <div id="pixel-otros-card" class="section-box dev-access-card" style="display: none;">
+                    <div class="dev-text">
+                        <h4>Pixel Otros</h4>
+                        <p data-i18n="Il motore grafico dello studio, riservato allo staff.">Il motore grafico dello studio, riservato allo staff.</p>
+                    </div>
+                    <a href="engine.html" class="btn-dev-action" data-i18n="Apri l'area sviluppatori">Apri l'area sviluppatori</a>
+                </div>
+
+                <div class="section-box dev-access-card" style="border-left-color:#5865F2;">
+                    <div class="dev-text">
+                        <h4>Discord</h4>
+                        <p id="discord-status-text" data-i18n="Collega Discord per ricevere i ruoli sul nostro server.">Collega Discord per ricevere i ruoli sul nostro server.</p>
+                    </div>
+                    <button id="btn-sync-discord" class="btn-discord" data-i18n="Collega Discord">Collega Discord</button>
+                </div>
+
+                <p id="log-purchase" hidden></p>
             </div>
         </div>
     </section>
@@ -243,35 +202,32 @@
     <!-- ============ ACCESSI BETA ============ -->
     <div id="beta-modal" class="modal-overlay">
         <div class="modal-box" style="max-width:560px; text-align:left;">
-            <h3 style="color:var(--accent-gold); margin-bottom:8px; text-align:center;">ACCESSI BETA</h3>
-            <p style="color:#888; font-size:0.85rem; text-align:center; margin-bottom:25px; font-family:'Courier Prime';">
-                Funzioni in prova, aperte a pochi agenti per volta.
-            </p>
+            <h3>Programmi beta</h3>
+            <p style="color:var(--text-muted); margin-bottom:24px;">Funzioni in prova, aperte a pochi giocatori alla volta.</p>
 
             <div id="beta-list">
-                <p class="beta-loading">&gt;&gt; Interrogazione del registro programmi...</p>
+                <p class="beta-loading">Caricamento…</p>
             </div>
 
             <div style="text-align:center; margin-top:25px;">
-                <button class="btn-outline" onclick="closeBetaModal()">CHIUDI</button>
+                <button class="btn-outline" onclick="closeBetaModal()">Chiudi</button>
             </div>
         </div>
     </div>
 
     <!-- Modale Rimuovi Amico -->
     <div id="remove-friend-modal" class="modal-overlay">
-        <div class="modal-box" style="border-top-color: #ff5555; max-width: 450px;">
-            <h3 style="color: #ff5555; margin-bottom: 15px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
+        <div class="modal-box" style="border-top-color: var(--danger); max-width: 450px;">
+            <h3 style="color: var(--danger); margin-bottom: 15px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
                 <svg class="icon icon-md" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-                <span data-i18n="INTERROMPI CONNESSIONE">INTERROMPI CONNESSIONE</span>
+                <span data-i18n="Rimuovi amico">Rimuovi amico</span>
             </h3>
-            <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 25px;">
-                Stai per rimuovere l'Agente <strong id="remove-target-name" style="color:white; font-family:'Courier Prime';"></strong> dalla tua rete.<br>
-                Questa azione è irreversibile.
+            <p style="font-size: 0.9rem; color: var(--text-soft); margin-bottom: 25px;">
+                Vuoi togliere <strong id="remove-target-name"></strong> dai tuoi amici? Per tornare amici dovrete mandarvi una nuova richiesta.
             </p>
             <div style="display: flex; gap: 15px; justify-content: center;">
-                <button class="btn-outline" onclick="closeRemoveModal()">ANNULLA</button>
-                <button class="btn-danger" onclick="confirmRemoveFriend()">RIMUOVI</button>
+                <button class="btn-outline" onclick="closeRemoveModal()">Annulla</button>
+                <button class="btn-danger" onclick="confirmRemoveFriend()">Rimuovi</button>
             </div>
         </div>
     </div>
@@ -352,17 +308,17 @@
                     const targetData = docSnap.data();
                     const el = document.createElement('div');
                     el.className = 'friend-item';
-                    el.style.borderColor = '#666'; el.style.opacity = '0.8';
+                    el.style.borderColor = 'var(--line-strong)'; el.style.opacity = '0.8';
                     
                     el.innerHTML = `
                         <div class="friend-info">
-                            <div class="friend-avatar" style="background-color: ${targetData.color || '#e3c66c'}">${targetData.username.charAt(0).toUpperCase()}</div>
+                            <div class="friend-avatar" style="background-color: ${(targetData.color || '#e3c66c').replace(/[^#a-fA-F0-9]/g, '')}">${(targetData.username || '?').charAt(0).toUpperCase().replace(/[<>&"']/g, '?')}</div>
                             <div>
                                 <div class="friend-name safe-name"></div>
-                                <div class="friend-status" style="color:#888">>> IN ATTESA DI RISPOSTA</div>
+                                <div class="friend-status" style="color:var(--text-muted)">Richiesta inviata, in attesa</div>
                             </div>
                         </div>
-                        <button class="btn-mini cancel-btn" style="border-color: #666; color: #aaa; transition: 0.3s;" onmouseover="this.style.color='#fff'; this.style.borderColor='#fff';" onmouseout="this.style.color='#aaa'; this.style.borderColor='#666';">ANNULLA INVIO</button>
+                        <button class="btn-mini cancel-btn" style="border-color: var(--line-strong); color: var(--text-soft); transition: 0.3s;" ">Annulla</button>
                     `;
                     el.querySelector('.safe-name').textContent = targetData.username;
                     el.querySelector('.cancel-btn').onclick = () => window.cancelSentRequest(docSnap.id);
@@ -403,12 +359,12 @@
             document.getElementById('p-reg-date').textContent = regDate;
 
             const rankEl = document.getElementById('p-rank');
-            if (userData.isAdmin) { rankEl.textContent = "OVERSEER - LIV. 5"; rankEl.style.color = "#ff5555"; } 
-            else { rankEl.textContent = "AGENTE - LIV. 1"; rankEl.style.color = "var(--accent-gold)"; }
+            if (userData.isAdmin) { rankEl.textContent = "Staff Kripix"; rankEl.style.color = "var(--red)"; } 
+            else { rankEl.textContent = "Giocatore"; rankEl.style.color = "var(--text-muted)"; }
 
             const xp = (userData.games ? userData.games.length * 50 : 0) + (userData.friends ? userData.friends.length * 10 : 0);
             const xpNeeded = 100;
-            document.getElementById('xp-text').textContent = `${xp} / ${xpNeeded} XP`;
+            document.getElementById('xp-text').textContent = `${xp} / ${xpNeeded} Xp`;
             document.getElementById('xp-bar').style.width = `${(xp / xpNeeded) * 100}%`;
 
             const badgePagoda = document.getElementById('badge-pagoda');
@@ -416,7 +372,7 @@
             badgePagoda.classList.add('unlocked'); 
             document.getElementById('log-purchase').style.display = 'block'; 
             // Opzionale: puoi cambiare il testo del log per la Pagoda
-            document.getElementById('log-purchase').innerText = '> [SISTEMA] Acquisizione licenza "La Pagoda".';
+            
             } else { 
             badgePagoda.classList.remove('unlocked'); 
             }
@@ -425,11 +381,11 @@
             const isGhost = userData.privacy && userData.privacy.invisible === true;
             
             if (isGhost) {
-                statusEl.textContent = "OFFLINE (FANTASMA)"; statusEl.style.color = "#666";
+                statusEl.textContent = "Invisibile"; statusEl.style.color = "var(--text-faint)";
             } else if (userData.onlineStatus === "online") {
-                statusEl.textContent = "ATTIVO (ONLINE)"; statusEl.style.color = "#4caf50";
+                statusEl.textContent = "Online"; statusEl.style.color = "var(--success)";
             } else {
-                statusEl.textContent = "OFFLINE"; statusEl.style.color = "#666";
+                statusEl.textContent = "Offline"; statusEl.style.color = "var(--text-faint)";
             }
             const discordText = document.getElementById('discord-status-text');
             const dBtn = document.getElementById('btn-sync-discord');
@@ -445,14 +401,14 @@
             if (userData.accountStatus && userData.accountStatus.isSuspended) {
                 const suspensionBanner = document.createElement('div');
                 suspensionBanner.id = 'suspension-banner-alert'; // Assegniamo un ID per riconoscerlo
-                suspensionBanner.style = "background: rgba(139, 35, 35, 0.2); border: 1px solid var(--accent-red); padding: 20px; margin-bottom: 40px; text-align: center;";
+                suspensionBanner.style = "background: var(--danger-soft); border-bottom: 1px solid var(--danger); padding: 20px var(--gutter);";
                 // Costruzione DOM sicura (anti-XSS: reason potrebbe contenere HTML malevolo)
                 const bannerTitle = document.createElement('h4');
-                bannerTitle.style.cssText = 'color:#ff5555; margin-bottom:10px; font-size:1.1rem; text-transform:uppercase;';
-                bannerTitle.textContent = 'ACCOUNT SOSPESO';
+                bannerTitle.style.cssText = 'color:var(--danger); margin-bottom:10px; font-size:1.1rem; text-transform:uppercase;';
+                bannerTitle.textContent = 'Account sospeso';
 
                 const bannerText = document.createElement('p');
-                bannerText.style.cssText = "color:#ccc; font-family:'Courier Prime'; font-size:0.9rem;";
+                bannerText.style.cssText = "color:var(--text-soft); font-family: var(--font-body); font-size:0.9rem;";
                 const boldLabel = document.createElement('strong');
                 boldLabel.textContent = 'Motivo: ';
                 bannerText.appendChild(boldLabel);
@@ -462,21 +418,19 @@
                 suspensionBanner.appendChild(bannerText);
                 
                 // Inseriamo il banner sopra il blocco del devkit
-                const devCard = document.querySelector('.dev-access-card');
-                if (devCard) {
-                    devCard.parentNode.insertBefore(suspensionBanner, devCard);
-                }
+                const slot = document.getElementById('suspension-slot');
+                if (slot) slot.appendChild(suspensionBanner);
             }
            
             if (userData.discordUsername && dBtn && discordText) {
-                discordText.innerText = `> Collegato come: ${userData.discordUsername}`;
-                discordText.style.color = '#4caf50';
+                discordText.innerText = `Collegato come: ${userData.discordUsername}`;
+                discordText.style.color = 'var(--success)';
                 
-                dBtn.innerText = "SINCRONIZZATO";
+                dBtn.innerText = "Collegato";
                 dBtn.style.pointerEvents = "none";
                 dBtn.style.background = "rgba(76, 175, 80, 0.1)"; // Leggero sfondino verde
-                dBtn.style.borderColor = "#4caf50";
-                dBtn.style.color = "#4caf50";
+                dBtn.style.borderColor = "var(--success)";
+                dBtn.style.color = "var(--success)";
                 // Mostra il modulo DevKit solo se è Overseer
                 if (userData.isAdmin) {
                     document.getElementById('pixel-otros-card').style.display = 'flex';
@@ -504,12 +458,12 @@
                                 <div class="friend-avatar req-avatar"></div>
                                 <div>
                                     <div class="friend-name safe-name"></div>
-                                    <div class="friend-status" style="color:var(--accent-gold)">>> RICHIESTA CONNESSIONE</div>
+                                    <div class="friend-status" style="color:var(--accent-gold)">Vuole essere tuo amico</div>
                                 </div>
                             </div>
                             <div>
-                                <button class="btn-mini btn-accept acc-btn">ACCETTA</button>
-                                <button class="btn-mini btn-reject rej-btn">RIFIUTA</button>
+                                <button class="btn-mini btn-accept acc-btn">Accetta</button>
+                                <button class="btn-mini btn-reject rej-btn">Rifiuta</button>
                             </div>
                         `;
                         // Anti-XSS: sanitizza color e username
@@ -557,12 +511,12 @@
                                 <div class="avatar-slot"></div>
                                 <div>
                                     <div class="friend-name safe-name"></div>
-                                    <div class="friend-status" style="color:${isOnline ? '#4caf50' : '#666'};">${isOnline ? '● ONLINE' : '○ OFFLINE'}</div>
+                                    <div class="friend-status" style="color:${isOnline ? 'var(--success)' : 'var(--text-faint)'};">${isOnline ? '● Online' : '○ Offline'}</div>
                                 </div>
                             </div>
                             <div style="display: flex; gap: 5px;">
-                                <button class="btn-mini msg-btn" style="border-color: #4caf50; color: #4caf50;" onmouseover="this.style.background='#4caf50'; this.style.color='#000';" onmouseout="this.style.background='transparent'; this.style.color='#4caf50';">MESSAGGIO</button>
-                                <button class="btn-mini btn-reject rem-btn">RIMUOVI</button>
+                                <button class="btn-mini msg-btn">Scrivi</button>
+                                <button class="btn-mini btn-reject rem-btn">Rimuovi</button>
                             </div>
                         `;
                         // Inserisci avatar costruito in modo sicuro
@@ -595,7 +549,7 @@ el.querySelector('.msg-btn').onclick = () => {
                 if(friendElements.length > 0) {
                     friendElements.forEach(el => friendsContainer.appendChild(el));
                 } else {
-                    friendsContainer.innerHTML = '<p style="font-family:\'Courier Prime\'; color:#666;">>> Nessuna connessione attiva.</p>';
+                    friendsContainer.innerHTML = '<p style="color:var(--text-muted);">Non hai ancora amici. Cerca qualcuno per nome utente e mandagli una richiesta.</p>';
                 }
             }
         }
@@ -610,43 +564,43 @@ el.querySelector('.msg-btn').onclick = () => {
 
             const myUsername = document.getElementById('p-username').textContent.toLowerCase();
             if (rawTargetName.toLowerCase() === myUsername) { 
-                window.kripixNotify("ERRORE", "Non puoi aggiungere te stesso.", "error"); 
+                window.kripixNotify("Errore", "Non puoi aggiungere te stesso.", "error"); 
                 return; 
             }
 
-            btnAddUI.innerText = "RICERCA E TRASMISSIONE...";
+            btnAddUI.innerText = "Invio…";
             btnAddUI.style.pointerEvents = 'none';
 
             try {
                 // CHIAMATA ALLA CLOUD FUNCTION
                 await callSendFriendRequest({ targetUsername: rawTargetName });
                 
-                window.kripixNotify("SUCCESSO", "Richiesta inviata in modo sicuro.", "success");
+                window.kripixNotify("Richiesta inviata", "Ora deve accettarla.", "success");
                 friendInputUI.value = ''; 
                 btnAddUI.classList.remove('ready');
             } catch (error) { 
-                window.kripixNotify("ERRORE SERVER", error.message, "error"); 
+                window.kripixNotify("Errore server", error.message, "error"); 
             }
             
-            btnAddUI.innerText = "CERCA E INVIA";
+            btnAddUI.innerText = "Invia richiesta";
             btnAddUI.style.pointerEvents = 'auto';
         };
 
         window.cancelSentRequest = async function(targetUid) {
             try { 
                 await callRemoveConnection({ targetUid: targetUid }); 
-                window.kripixNotify("ANNULLATA", "Richiesta ritirata.", "info"); 
+                window.kripixNotify("Annullata", "Richiesta ritirata.", "info"); 
             } catch (error) { 
-                window.kripixNotify("ERRORE", error.message, "error"); 
+                window.kripixNotify("Errore", error.message, "error"); 
             }
         };
 
         window.acceptRequest = async function(senderId) {
             try {
                 await callAcceptFriendRequest({ senderUid: senderId });
-                window.kripixNotify("CONNESSIONE STABILITA", "Agente aggiunto alla rete.", "success");
+                window.kripixNotify("Nuovo amico", "Ora siete amici.", "success");
             } catch (error) { 
-                window.kripixNotify("ERRORE", error.message, "error"); 
+                window.kripixNotify("Errore", error.message, "error"); 
             }
         };
 
@@ -654,7 +608,7 @@ el.querySelector('.msg-btn').onclick = () => {
             try { 
                 // Il rifiuto è sicuro da fare sul front-end perché rimuovi qualcosa dal MIO documento
                 await updateDoc(myDocRef, { requests: arrayRemove(senderId) }); 
-                window.kripixNotify("RIFIUTATA", "Richiesta annullata.", "info"); 
+                window.kripixNotify("Rifiutata", "Richiesta annullata.", "info"); 
             } catch (error) {}
         };
 
@@ -673,10 +627,10 @@ el.querySelector('.msg-btn').onclick = () => {
             if (!currentlyRemovingFriendId) return;
             try {
                 await callRemoveConnection({ targetUid: currentlyRemovingFriendId });
-                window.kripixNotify("INTERROTTA", "Agente rimosso.", "error");
+                window.kripixNotify("Amico rimosso", "Non siete più amici.", "info");
                 closeRemoveModal();
             } catch (error) { 
-                window.kripixNotify("ERRORE", "Impossibile rimuovere l'agente.", "error"); 
+                window.kripixNotify("Errore", "Non è stato possibile rimuovere l'amico. Riprova.", "error"); 
                 closeRemoveModal(); 
             }
         };
@@ -691,7 +645,7 @@ const callDiscordAuth = httpsCallable(functions, 'getDiscordAuthUrl');
 const btnSyncDiscord = document.getElementById('btn-sync-discord');
 if (btnSyncDiscord) {
     btnSyncDiscord.addEventListener('click', async function() {
-        this.innerText = "CONNESSIONE...";
+        this.innerText = "Collegamento…";
         this.style.pointerEvents = "none";
         
         try {
@@ -703,9 +657,9 @@ if (btnSyncDiscord) {
                 throw new Error("Risposta anomala dal server.");
             }
         } catch (error) {
-            console.error("ERRORE DISCORD AUTH:", error); // Utile se devi debuggare la console F12
-            if(window.kripixNotify) window.kripixNotify("ERRORE", "Impossibile contattare i server Discord.", "error");
-            this.innerText = "COLLEGA ACCOUNT";
+            console.error("Errore Discord auth:", error); // Utile se devi debuggare la console F12
+            if(window.kripixNotify) window.kripixNotify("Errore", "Impossibile contattare i server Discord.", "error");
+            this.innerText = "Collega Discord";
             this.style.pointerEvents = "auto";
         }
     });
@@ -717,7 +671,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (urlParams.get('sync') === 'success') {
         window.history.replaceState({}, document.title, window.location.pathname);
         setTimeout(() => {
-            if(window.kripixNotify) window.kripixNotify("SINCRONIZZAZIONE", "Ruoli assegnati su Discord.", "success");
+            if(window.kripixNotify) window.kripixNotify("Sincronizzazione", "Ruoli assegnati su Discord.", "success");
         }, 1000);
     }
 });
@@ -739,15 +693,15 @@ window.addEventListener('DOMContentLoaded', () => {
         const requestBetaAccess = httpsCallable(functions, 'requestBetaAccess');
 
         const ETICHETTE = {
-            active:   { testo: 'ATTIVA',      classe: 'active' },
-            pending:  { testo: 'IN ATTESA',   classe: 'pending' },
-            rejected: { testo: 'NON ACCOLTA', classe: 'rejected' },
-            none:     { testo: 'NON RICHIESTA', classe: 'none' }
+            active:   { testo: 'Attiva',      classe: 'active' },
+            pending:  { testo: 'In attesa',   classe: 'pending' },
+            rejected: { testo: 'Non accolta', classe: 'rejected' },
+            none:     { testo: 'Non richiesta', classe: 'none' }
         };
 
         const NOTE = {
             active:   'Accesso concesso. La trovi già attiva dove è prevista.',
-            pending:  'Richiesta inviata. Ti avvisiamo nel Terminale appena viene valutata.',
+            pending:  'Richiesta inviata. Ti avvisiamo nei messaggi appena viene valutata.',
             rejected: 'Questa richiesta non è stata accolta. Puoi riprovare più avanti.'
         };
 
@@ -791,7 +745,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     const btn = document.createElement('button');
                     btn.className = 'btn-gold';
                     btn.style.cssText = 'padding:10px 22px; font-size:0.8rem;';
-                    btn.textContent = 'RICHIEDI ACCESSO';
+                    btn.textContent = 'Richiedi accesso';
                     btn.onclick = () => inviaRichiesta(p.id, btn);
                     card.appendChild(btn);
                 } else if (p.status === 'none') {
@@ -812,19 +766,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
         async function inviaRichiesta(programId, btn) {
             const originale = btn.textContent;
-            btn.textContent = 'INVIO...';
+            btn.textContent = 'Invio...';
             btn.style.pointerEvents = 'none';
             try {
                 await requestBetaAccess({ programId });
                 const p = programmi.find(x => x.id === programId);
                 if (p) p.status = 'pending';
                 render();
-                if (window.kripixNotify) window.kripixNotify('BETA', 'Richiesta trasmessa. Attendi la valutazione.', 'success');
+                if (window.kripixNotify) window.kripixNotify('Richiesta inviata', 'Ti avviseremo quando lo staff l\'avrà valutata.', 'success');
             } catch (e) {
                 console.error('Richiesta beta fallita:', e);
                 btn.textContent = originale;
                 btn.style.pointerEvents = 'auto';
-                if (window.kripixNotify) window.kripixNotify('ERRORE', 'Richiesta non inviata. Riprova tra poco.', 'error');
+                if (window.kripixNotify) window.kripixNotify('Errore', 'Richiesta non inviata. Riprova tra poco.', 'error');
             }
         }
 
@@ -837,12 +791,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 const badge = document.getElementById('badge-beta');
                 if (badge && programmi.some(p => p.status === 'active')) {
                     badge.classList.add('unlocked');
-                    badge.setAttribute('data-tooltip', 'Partecipi a un programma beta del Network.');
+                    badge.setAttribute('data-tooltip', 'Partecipi a un programma beta di Kripix.');
                 }
             } catch (e) {
                 console.error('Caricamento beta fallito:', e);
                 document.getElementById('beta-list').innerHTML =
-                    '<p class="beta-loading" style="color:#ff5555;">&gt;&gt; Registro programmi non raggiungibile.</p>';
+                    '<p class="beta-loading" style="color:var(--danger);">Non riusciamo a caricare i programmi beta. Riprova tra poco.</p>';
             }
         }
 

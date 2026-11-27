@@ -54,8 +54,8 @@ function build() {
                     </svg>
                 </span>
                 <div class="ka-title">
-                    <strong>KRIPIX AI</strong>
-                    <span class="ka-state"><i class="ka-dot"></i>ONLINE</span>
+                    <strong>Kripix AI</strong>
+                    <span class="ka-state"><i class="ka-dot"></i>Online</span>
                 </div>
                 <button type="button" class="ka-close" id="ka-close" aria-label="Chiudi">
                     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
@@ -79,7 +79,7 @@ function build() {
 
             <p class="ka-foot">
                 Assistente automatico: può sbagliare e non modifica il tuo account.
-                Non scrivere password o codici. <a href="cookies.html">Dossier Privacy</a>
+                Non scrivere password o codici. <a href="cookies.html">Informativa privacy</a>
             </p>
         </div>
     `;
@@ -100,7 +100,7 @@ function addMessage(log, role, text, ticketCode) {
     if (ticketCode) {
         const nota = document.createElement('span');
         nota.className = 'ka-ticket';
-        nota.textContent = `RICHIESTA APERTA — CODICE ${ticketCode}`;
+        nota.textContent = `Richiesta aperta — codice ${ticketCode}`;
         div.appendChild(nota);
     }
 

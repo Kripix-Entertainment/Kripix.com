@@ -1,180 +1,144 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta name="description" content="La Pagoda: Un Liminal Survival Horror. La luce è la tua unica arma.">
-    <meta name="author" content="Kripix Entertainment">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Pagoda | Kripix Entertainment</title>
+    <meta name="description" content="La Pagoda: un survival horror in cui la luce è la tua unica arma. In arrivo su PC nel 2027.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="La Pagoda | Kripix Entertainment">
+    <meta property="og:description" content="La Pagoda: un survival horror in cui la luce è la tua unica arma. In arrivo su PC nel 2027.">
+    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png">
+    <meta property="og:url" content="https://kripixent.netlify.app/pagoda.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Pagoda - Kripix</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
-    
-    <style>
-        body { background-color: #020202; }
-        .game-hero { height: 100vh; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; background: linear-gradient(to bottom, rgba(5,7,10,0.9), rgba(2,2,2,1)); }
-        .game-title { font-size: clamp(3rem, 8vw, 6rem); font-weight: 900; letter-spacing: 5px; line-height: 1; margin-bottom: 10px; color: var(--text-main); text-shadow: 0 5px 20px rgba(0,0,0,0.8); text-transform: uppercase; z-index: 2; }
-        .game-tagline { font-family: 'Courier Prime'; color: var(--accent-red); font-size: 1.5rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 30px; z-index: 2; }
-        .game-nav { background: transparent !important; position: absolute; width: 100%; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .lore-section { padding: 100px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
-        .feature-block { border-left: 3px solid var(--accent-red); padding-left: 20px; margin-bottom: 50px; }
-        .feature-block h3 { color: var(--accent-gold); font-size: 1.8rem; margin-bottom: 15px; text-transform: uppercase; }
-        .feature-block p { color: #aaa; font-size: 1rem; line-height: 1.8; }
-        .boss-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 50px 5%; max-width: 1200px; margin: 0 auto; }
-        .boss-card { background: rgba(255,255,255,0.02); border: 1px solid #222; padding: 30px 20px; text-align: center; transition: 0.3s; }
-        .boss-card:hover { border-color: var(--accent-red); background: rgba(139, 35, 35, 0.05); transform: translateY(-10px); }
-        .boss-card h4 { color: var(--text-main); font-size: 1.2rem; margin-bottom: 5px; text-transform: uppercase; }
-        .boss-card span { font-family: 'Courier Prime'; color: var(--accent-red); font-size: 0.8rem; }
-        .boss-card p { margin-top: 15px; font-size: 0.85rem; color: #888; }
-        .reviews-section { padding: 80px 5%; background: var(--bg-main); border-top: 1px solid #111; border-bottom: 1px solid #111; }
-        .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; }
-        .review-card { background: rgba(255,255,255,0.02); border: 1px solid #222; padding: 30px; border-left: 3px solid var(--accent-gold); transition: 0.3s; }
-        .review-card:hover { transform: translateY(-5px); background: rgba(227, 198, 108, 0.05); }
-        .review-stars { color: var(--accent-gold); font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 2px; }
-        .review-text { color: var(--text-main); font-size: 1rem; font-style: italic; margin-bottom: 20px; line-height: 1.6; }
-        .review-author { color: #888; font-family: 'Courier Prime', monospace; font-size: 0.8rem; text-transform: uppercase; }
-        .sys-req-container { max-width: 800px; margin: 100px auto; background: #000; border: 1px solid #333; padding: 40px; font-family: 'Courier Prime', monospace; }
-        .req-header { color: var(--accent-gold); border-bottom: 1px dashed #333; padding-bottom: 10px; margin-bottom: 20px; font-size: 1.2rem; }
-        .req-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .req-list p { font-size: 0.85rem; color: #888; margin-bottom: 10px; }
-        .req-list strong { color: #ccc; }
-        .buy-banner { background: #05070a; border-top: 1px solid var(--accent-gold); padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; bottom: 0; z-index: 1000; }
-        .buy-price { font-size: 2rem; font-weight: 900; color: var(--text-main); }
-        .buy-price span { font-size: 1rem; color: var(--accent-gold); font-family: 'Courier Prime'; }
-        
-        /* Container per il Trailer Responsive */
-        .trailer-container {
-            width: 100%; max-width: 800px; aspect-ratio: 16/9; 
-            margin-bottom: 40px; border: 2px solid var(--accent-gold); 
-            box-shadow: 0 0 30px rgba(227, 198, 108, 0.2); 
-            position: relative; z-index: 2; background: #000;
-        }
-        
-        @media(max-width: 768px) { 
-            .lore-section { grid-template-columns: 1fr; } 
-            .boss-grid { grid-template-columns: 1fr 1fr; } 
-            .reviews-grid { grid-template-columns: 1fr; } 
-            .req-grid { grid-template-columns: 1fr; } 
-            .buy-banner { flex-direction: column; gap: 15px; text-align: center; } 
-            .trailer-container { width: 90%; margin-bottom: 20px; }
-        }
-    </style>
 </head>
-<body>
+<body class="has-hero">
+    <nav id="main-nav"></nav>
 
-    <nav class="game-nav">
-        <div class="logo-text"><a href="index.html">KRIPIX</a></div>
-        <a href="progetti.html" style="color:#888; text-decoration:none; font-family:'Courier Prime'; font-size:0.8rem;">← TORNA AL CATALOGO</a>
-    </nav>
+    <main>
+        <header class="game-hero">
+            <img src="assets/img/pagoda-entrance.jpg" alt="" class="game-hero-img">
+            <div class="game-hero-inner">
+                <p class="hero-kicker" data-i18n="Survival horror. In arrivo su PC nel 2027.">Survival horror. In arrivo su PC nel 2027.</p>
+                <h1 class="display-xl hero-title">La Pagoda</h1>
+                <p class="hero-sub" data-i18n="La luce è la tua unica arma.">La luce è la tua unica arma.</p>
+                <div class="btn-container">
+                    <a href="#acquista" class="btn-gold" data-i18n="Acquista">Acquista</a>
+                    <a href="#teaser" class="btn-outline" data-i18n="Guarda il teaser">Guarda il teaser</a>
+                </div>
+            </div>
+        </header>
 
-    <header class="game-hero">
-        <div class="background-grid"></div>
-        <h1 class="game-title">LA PAGODA</h1>
-        <h2 class="game-tagline">Liminal Survival Horror</h2>
-        
-        <!-- TEASER TRAILER YOUTUBE -->
-        <div class="trailer-container">
-            <!-- SOSTITUISCI "ID_DEL_VIDEO" CON L'ID DEL TUO VIDEO YOUTUBE (es. dQw4w9WgXcQ) -->
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/vCAvVx3rznc?autoplay=1&mute=1&loop=1&rel=0&showinfo=0&color=white" title="La Pagoda Teaser Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+        <section class="home-section">
+            <div class="container game-story">
+                <div>
+                    <h2 class="display-l" data-i18n="Il flash è la tua arma">Il flash è la tua arma</h2>
+                </div>
+                <div class="game-story-text">
+                    <p class="lead" data-i18n="Non hai pistole. Hai una macchina fotografica degli anni '40.">Non hai pistole. Hai una macchina fotografica degli anni '40.</p>
+                    <p data-i18n="La Pagoda è un labirinto che cambia forma di continuo. Il flash della fotocamera blocca la realtà per un istante: rivela porte nascoste, sposta le pareti e ferma le creature che vivono lì dentro.">La Pagoda è un labirinto che cambia forma di continuo. Il flash della fotocamera blocca la realtà per un istante: rivela porte nascoste, sposta le pareti e ferma le creature che vivono lì dentro.</p>
+                    <p data-i18n="Sei Stefano Valenti, giornalista di 42 anni, asmatico. Non sei un soldato: scappare è quasi sempre la scelta giusta. Accechi i mostri con il flash, li respingi a mani nude mentre sono storditi e ricarichi la fotocamera con le mani che tremano.">Sei Stefano Valenti, giornalista di 42 anni, asmatico. Non sei un soldato: scappare è quasi sempre la scelta giusta. Accechi i mostri con il flash, li respingi a mani nude mentre sono storditi e ricarichi la fotocamera con le mani che tremano.</p>
+                </div>
+            </div>
+        </section>
 
-        <button class="btn-gold" style="z-index: 2;" onclick="document.getElementById('buy-section').scrollIntoView({behavior: 'smooth'})">ACQUISISCI LICENZA</button>
-    </header>
+        <section class="home-section" id="teaser" style="padding-top:0">
+            <div class="container">
+                <button type="button" class="video-lite" id="teaser-lite" aria-label="Guarda il teaser de La Pagoda su YouTube">
+                    <img src="assets/img/pagoda-street.jpg" alt="" loading="lazy">
+                    <span class="video-lite-play"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg><span data-i18n="Guarda il teaser">Guarda il teaser</span></span>
+                </button>
+            </div>
+        </section>
 
-    <section style="background: var(--bg-main);">
-        <div class="lore-section" style="grid-template-columns: 1fr; text-align: center; max-width: 900px;">
+        <section class="home-section bg-darker">
+            <div class="container">
+                <div class="section-head">
+                    <h2 data-i18n="Cosa ti aspetta">Cosa ti aspetta</h2>
+                    <p class="muted" style="max-width:44ch" data-i18n="Quello che resta dell'Operazione Fornace.">Quello che resta dell'Operazione Fornace.</p>
+                </div>
+                <ul class="threat-list">
+                    <li>
+                        <h3 data-i18n="Il ristorante">Il ristorante</h3>
+                        <p data-i18n="Il nemico peggiore è l'edificio. Le stanze cambiano posto, i corridoi tornano su se stessi.">Il nemico peggiore è l'edificio. Le stanze cambiano posto, i corridoi tornano su se stessi.</p>
+                    </li>
+                    <li>
+                        <h3 data-i18n="Squadra Coyote">Squadra Coyote</h3>
+                        <p data-i18n="Ciò che resta degli agenti dell'FBI entrati prima di te. Fusi con l'arredamento, ti cercano al buio.">Ciò che resta degli agenti dell'FBI entrati prima di te. Fusi con l'arredamento, ti cercano al buio.</p>
+                    </li>
+                    <li>
+                        <h3 data-i18n="L'archivio">L'archivio</h3>
+                        <p data-i18n="Fotografa le stanze vuote e sviluppa i rullini: compaiono i fantasmi della mafia che frequentava il locale nel 1960.">Fotografa le stanze vuote e sviluppa i rullini: compaiono i fantasmi della mafia che frequentava il locale nel 1960.</p>
+                    </li>
+                    <li class="is-boss">
+                        <h3 data-i18n="Il Maître">Il Maître</h3>
+                        <p data-i18n="Due metri, abito impeccabile, maschera da cervo. Non si ferma. Se ti prende è finita: scappa.">Due metri, abito impeccabile, maschera da cervo. Non si ferma. Se ti prende è finita: scappa.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="home-section">
+            <div class="container">
+                <div class="section-head"><h2 data-i18n="Requisiti di sistema">Requisiti di sistema</h2></div>
+                <div class="spec-table-wrap">
+                    <table class="spec-table">
+                        <thead>
+                            <tr><th scope="col"></th><th scope="col" data-i18n="Minimi">Minimi</th><th scope="col" data-i18n="Consigliati">Consigliati</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row" data-i18n="Sistema">Sistema</th><td>Windows 10/11, 64 bit</td><td>Windows 11, 64 bit</td></tr>
+                            <tr><th scope="row" data-i18n="Processore">Processore</th><td>Intel Core i5-8400 / AMD Ryzen 5 2600</td><td>Intel Core i7-12700K / AMD Ryzen 7 5800X</td></tr>
+                            <tr><th scope="row" data-i18n="Memoria">Memoria</th><td>16 GB RAM</td><td>32 GB RAM</td></tr>
+                            <tr><th scope="row" data-i18n="Scheda video">Scheda video</th><td>NVIDIA RTX 2060 / AMD Radeon RX 5600 XT</td><td>NVIDIA RTX 3080 / AMD Radeon RX 6800 XT</td></tr>
+                            <tr><th scope="row" data-i18n="Spazio">Spazio</th><td data-i18n="85 GB su SSD NVMe (obbligatorio)">85 GB su SSD NVMe (obbligatorio)</td><td data-i18n="85 GB su SSD NVMe Gen4">85 GB su SSD NVMe Gen4</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="buy-banner" id="acquista" aria-label="Acquista La Pagoda">
             <div>
-                <div class="feature-block" style="border-left: none; padding-left: 0; margin-bottom: 60px;">
-                    <h3 style="border-bottom: 2px solid var(--accent-red); display: inline-block; padding-bottom: 10px;">LA REALTÀ OGGETTIVA</h3>
-                    <p style="margin-top: 20px;">Non spari proiettili. La tua unica arma è una vecchia macchina fotografica degli anni '40. La Pagoda è un'entità fluida, un labirinto non-euclideo in continuo mutamento. Il flash della tua fotocamera è l'unica cosa in grado di "solidificare" la verità, rivelando porte nascoste, alterando l'architettura e bloccando gli abomini che la infestano.</p>
-                </div>
-                <div class="feature-block" style="border-left: none; padding-left: 0;">
-                    <h3 style="border-bottom: 2px solid var(--accent-red); display: inline-block; padding-bottom: 10px;">PAPARAZZO BRAWLER</h3>
-                    <p style="margin-top: 20px;">Sei Stefano Valenti, un giornalista investigativo asmatico di 42 anni. Non sei un soldato e sfuggire è l'unica opzione sensata. Acceca i mostri con il flash per guadagnare secondi vitali, respingili con disperati attacchi corpo a corpo mentre sono storditi, e ricarica il condensatore della fotocamera mentre le tue mani tremano per il terrore.</p>
-                </div>
+                <h2 class="buy-title">La Pagoda <span class="buy-edition">Deluxe Edition</span></h2>
+                <p class="muted" data-i18n="Include il fascicolo «Insabbiamento Coyote» e i filtri fotografici d'epoca. Senza DRM.">Include il fascicolo «Insabbiamento Coyote» e i filtri fotografici d'epoca. Senza DRM.</p>
             </div>
-        </div>
-    </section>
-
-    <section style="background: var(--bg-darker); padding: 80px 0; border-top: 1px solid #111;">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h2 style="color:var(--text-main); font-size:2.5rem; letter-spacing:3px;">IL TUMORE DELLA REALTÀ</h2>
-            <p style="font-family:'Courier Prime'; color:var(--accent-red);">Ciò che resta dell'Operazione Fornace.</p>
-        </div>
-        <div class="boss-grid">
-            <div class="boss-card"><h4>Il Ristorante</h4><span>Labirinto Liminale</span><p>L'ambiente stesso è il tuo peggior nemico. Stanze che cambiano posizione, loop impossibili e decadenza.</p></div>
-            <div class="boss-card"><h4>Squadra Coyote</h4><span>Vittime Distorte</span><p>I resti macellati degli agenti dell'FBI. Fusi con l'arredamento, ti braccheranno senza sosta al buio.</p></div>
-            <div class="boss-card"><h4>L'Archivio</h4><span>Gli Echi del 1960</span><p>Fotografa stanze vuote per sviluppare rullini e rivelare i fantasmi della mafia che un tempo frequentava questo luogo.</p></div>
-            <div class="boss-card"><h4 style="color:var(--accent-gold);">Il Maître</h4><span>L'Avatar dell'Abisso</span><p>Due metri di eleganza immacolata e una maschera da cervo. Inarrestabile. Se ti afferra, sei morto. Scappa.</p></div>
-        </div>
-    </section>
-
-    <section class="reviews-section">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h2 style="color:var(--text-main); font-size:2.5rem; letter-spacing:3px;">LA CRITICA</h2>
-            <p style="font-family:'Courier Prime'; color:#888;">Classificazione: Terrore Puro</p>
-        </div>
-        <div class="reviews-grid">
-            <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"La meccanica della fotocamera è geniale. Usare un flash per alterare fisicamente i muri del labirinto porta il genere liminale a un nuovo livello."</p><div class="review-author">> SURVIVAL HORROR NET</div></div>
-            <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Oppressivo, malato e terrificante. Il modo in cui il gioco punisce il camping rimescolando la stanza ti tiene sempre sul filo del rasoio."</p><div class="review-author">> INDIE NIGHTMARES</div></div>
-            <div class="review-card"><div class="review-stars">★★★★☆</div><p class="review-text">"Stefano Valenti è l'antitesi dell'eroe. Sentirlo imprecare e tossire mentre ricarica il flash al buio ti trasmette la sua stessa disperazione."</p><div class="review-author">> PIXEL CRITICS</div></div>
-        </div>
-    </section>
-
-    <section style="background: var(--bg-main); padding: 1px 5%;">
-        <div class="sys-req-container">
-            <div class="req-header">>> PROTOCOLLO DI SISTEMA RICHIESTO</div>
-            <div class="req-grid">
-                <div class="req-list">
-                    <p style="color:var(--text-main); margin-bottom:15px; border-bottom:1px solid #333; padding-bottom:5px;">MINIMI</p>
-                    <p><strong>OS:</strong> Windows 10/11 64-bit</p>
-                    <p><strong>CPU:</strong> Intel Core i5-8400 / AMD Ryzen 5 2600</p>
-                    <p><strong>RAM:</strong> 16 GB (Bypass VRAM attivo)</p>
-                    <p><strong>GPU:</strong> NVIDIA RTX 2060 / AMD Radeon RX 5600 XT</p>
-                    <p><strong>Storage:</strong> 85 GB <span style="color:var(--accent-red);">[SSD NVMe OBBLIGATORIO]</span></p>
-                </div>
-                <div class="req-list">
-                    <p style="color:var(--text-main); margin-bottom:15px; border-bottom:1px solid #333; padding-bottom:5px;">RACCOMANDATI</p>
-                    <p><strong>OS:</strong> Windows 11 64-bit</p>
-                    <p><strong>CPU:</strong> Intel Core i7-12700K / AMD Ryzen 7 5800X</p>
-                    <p><strong>RAM:</strong> 32 GB</p>
-                    <p><strong>GPU:</strong> NVIDIA RTX 3080 / AMD Radeon RX 6800 XT</p>
-                    <p><strong>Storage:</strong> 85 GB <span style="color:var(--accent-red);">[SSD Gen4 NVMe]</span></p>
-                </div>
+            <div class="buy-actions">
+                <span class="buy-price">€19,99</span>
+                <button id="btn-buy-pagoda-page" class="btn-gold" data-i18n="Acquista">Acquista</button>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <div class="buy-banner" id="buy-section">
-        <div>
-            <h3 style="color:var(--text-main); font-size:1.5rem; margin-bottom:5px;">LA PAGODA - DELUXE EDITION</h3>
-            <p style="color:#888; font-family:'Courier Prime'; font-size:0.8rem;">Include il Dossier "Insabbiamento Coyote" e Filtri Vintage Fotocamera.</p>
-        </div>
-        <div style="display:flex; align-items:center; gap:30px;">
-            <div class="buy-price">€ 19.99 <br><span>(No DRM)</span></div>
-            <button id="btn-buy-pagoda-page" class="btn-gold">ACQUISTA ORA</button>
-        </div>
-    </div>
+    <footer id="main-footer" class="kripix-footer"></footer>
 
-    <div id="custom-modal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
-        <div class="modal-box" style="background: #0a0a0a; border: 1px solid #333; border-top: 3px solid var(--accent-gold); padding: 40px; max-width: 500px; width: 90%; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
-            <span style="margin-bottom: 20px; display: flex; justify-content: center; color: #4caf50;" aria-hidden="true">
-                <svg class="icon" style="width:3rem; height:3rem; stroke-width:1.5;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.2 2.8 2.8L16 9.8"/></svg>
-            </span>
-            <h3 style="font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 15px; font-weight: 800;">ACQUISTO COMPLETATO</h3>
-            <p style="color:#ccc; margin-bottom:30px;">La licenza per "La Pagoda" è stata aggiunta al tuo account.</p>
-            <div style="display: flex; gap: 15px; justify-content: center;">
-                <button class="btn-outline" onclick="document.getElementById('custom-modal').style.display='none'">Resta Qui</button>
-                <a href="libreria.html" class="btn-gold">VAI ALLA LIBRERIA</a>
-            </div>
-        </div>
-    </div>
+    <script>
+        // Il video di YouTube si carica solo quando lo chiedi
+        document.getElementById('teaser-lite').addEventListener('click', function () {
+            const frame = document.createElement('iframe');
+            frame.src = 'https://www.youtube-nocookie.com/embed/vCAvVx3rznc?autoplay=1&rel=0';
+            frame.title = 'La Pagoda, teaser';
+            frame.allow = 'autoplay; encrypted-media; picture-in-picture';
+            frame.allowFullscreen = true;
+            frame.className = 'video-lite-frame';
+            this.replaceWith(frame);
+        });
+    </script>
 
-    <!-- LOGICA ACQUISTO SICURA (FIXATA PER FURNACE) -->
+    <!-- ACQUISTO: se il gioco è già nell'account porta a I miei giochi -->
+    <footer id="main-footer" class="kripix-footer"></footer>
+
 <script type="module">
     import { app, auth, db } from './script.js';
     import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
@@ -208,10 +172,10 @@
                 }
 
                 if (hasGame) {
-                    buyBtn.innerText = 'GIÀ NELLA LIBRERIA';
-                    buyBtn.style.background = '#4caf50'; 
-                    buyBtn.style.color = '#000';
-                    buyBtn.style.borderColor = '#4caf50';
+                    buyBtn.innerText = 'Già nei tuoi giochi';
+                    buyBtn.style.background = 'var(--success)'; 
+                    buyBtn.style.color = 'var(--on-gold)';
+                    buyBtn.style.borderColor = 'var(--success)';
                     buyBtn.onclick = (e) => { 
                         e.preventDefault(); 
                         window.location.href = 'libreria.html'; 

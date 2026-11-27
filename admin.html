@@ -2,394 +2,553 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pannello admin | Kripix</title>
+    <meta name="description" content="Pannello di amministrazione di Kripix Entertainment.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OVERSEER - Kripix Admin</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
-    
+
     <style>
-        body { background-color: #020202; overflow-x: hidden; } 
-        
-        /* Dashboard Telemetria */
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
-        .stat-card { background: rgba(139, 35, 35, 0.05); border: 1px solid var(--accent-red); padding: 20px; text-align: center; }
-        .stat-number { font-size: 3rem; font-weight: 900; color: var(--text-main); line-height: 1; margin-bottom: 5px; }
-        .stat-label { font-family: 'Courier Prime', monospace; font-size: 0.8rem; color: var(--accent-red); font-weight: bold; }
+        #access-overlay { position: fixed; inset: 0; z-index: 2000; background: var(--bg); display: grid; place-items: center; color: var(--text-muted); }
 
-        /* Layout a due colonne */
-        .admin-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; margin-top: 20px; }
-        
-        /* Modulo News (Left) */
-        .news-module { background: rgba(255,255,255,0.02); border: 1px solid #333; padding: 25px; }
-        .admin-input { width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: white; font-family: 'Montserrat', sans-serif; transition: 0.3s; }
-        .admin-input:focus { outline: none; border-color: var(--accent-gold); }
-        .btn-danger { display: inline-block; padding: 5px 10px; font-size: 0.7rem; border: 1px solid #8b2323; color: #ff5555; background: transparent; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'Montserrat'; }
-        .btn-danger:hover { background: #8b2323; color: white; }
-        
-        /* Terminale Kripix OS (Right) */
-        .kripix-shell { 
-            background: #000; border: 1px solid #333; border-top: 3px solid var(--accent-gold); 
-            height: 650px; display: flex; flex-direction: column; font-family: 'Courier Prime', monospace; 
-            box-shadow: inset 0 0 20px rgba(0,0,0,1); position: relative;
-        }
-        .shell-header { background: #111; padding: 10px; font-size: 0.8rem; color: #888; display: flex; justify-content: space-between; border-bottom: 1px solid #333;}
-        .shell-output { flex: 1; padding: 20px; overflow-y: auto; color: #ccc; font-size: 0.9rem; line-height: 1.5; }
-        .shell-output p { margin-bottom: 5px; word-break: break-all; }
-        
-        /* Colori Output Terminale */
-        .sys-msg { color: var(--accent-gold); }
-        .err-msg { color: #ff5555; }
-        .success-msg { color: #4caf50; }
-        .info-msg { color: #888; }
-        .cmd-echo { color: white; font-weight: bold; }
-        
-        /* Riga di Input Terminale */
-        .shell-input-line { display: flex; align-items: center; padding: 15px 20px; background: #050505; border-top: 1px dashed #333; }
-        .shell-prompt { color: var(--accent-gold); margin-right: 10px; font-weight: bold; }
-        .shell-input { flex: 1; background: transparent; border: none; color: white; font-family: 'Courier Prime', monospace; font-size: 1rem; outline: none; }
-        
-        /* Custom Scrollbars */
-        .shell-output::-webkit-scrollbar, #admin-news-list::-webkit-scrollbar { width: 5px; }
-        .shell-output::-webkit-scrollbar-thumb, #admin-news-list::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        .shell-output::-webkit-scrollbar-thumb:hover, #admin-news-list::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 40px; }
+        .stat-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 22px 24px; }
+        .stat-number { font-family: var(--font-display); font-weight: 900; font-size: 3.2rem; line-height: 1; color: var(--text); }
+        .stat-label { color: var(--text-muted); font-size: .92rem; margin-top: 6px; }
 
-        /* Overlay di Caricamento Sicuro */
-        #access-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#05070a; z-index: 99999; display: flex; align-items:center; justify-content:center; flex-direction:column; }
-        @keyframes pulseRed { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        
-        @media(max-width: 900px) { .admin-layout { grid-template-columns: 1fr; } }
+        .admin-tabs { display: flex; gap: 6px; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: 28px; }
+        .admin-tab { background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 12px 16px; cursor: pointer;
+            font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); }
+        .admin-tab:hover { color: var(--text); }
+        .admin-tab[aria-selected="true"] { color: var(--text); border-bottom-color: var(--gold); }
+        .admin-pane[hidden] { display: none; }
+
+        .admin-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 18px; }
+        .admin-card h3 { font-size: 1.15rem; margin-bottom: 6px; }
+        .admin-card > p.muted { margin-bottom: 16px; font-size: .95rem; }
+        .admin-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .admin-row > .field { flex: 1; min-width: 200px; }
+        .admin-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+        .field { width: 100%; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line-strong); border-radius: var(--radius); color: var(--text); font-size: 1rem; }
+        .field:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
+        textarea.field { resize: vertical; min-height: 96px; }
+        .field-label { display: block; font-size: .88rem; font-weight: 600; color: var(--text-soft); margin: 14px 0 6px; }
+        .btn-sm { padding: 10px 16px !important; font-size: 1rem !important; }
+
+        .seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 99px; padding: 3px; }
+        .seg button { background: none; border: 0; border-radius: 99px; padding: 6px 14px; cursor: pointer; color: var(--text-muted); font-weight: 600; font-size: .9rem; }
+        .seg button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
+
+        .user-head { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: start; margin-bottom: 16px; }
+        .user-head h3 { font-family: var(--font-display); font-size: 2.4rem; text-transform: uppercase; line-height: 1; }
+        .kv { display: grid; grid-template-columns: 140px 1fr; gap: 8px 16px; font-size: .95rem; }
+        .kv dt { color: var(--text-muted); }
+        .kv dd { color: var(--text); word-break: break-all; }
+        .kv code { font-family: var(--font-mono); font-size: .88rem; }
+
+        .result { margin-top: 12px; font-size: .92rem; white-space: pre-wrap; }
+        .result.ok { color: var(--success); }
+        .result.err { color: var(--danger); }
+
+        .list { list-style: none; }
+        .list li { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+        .list li:first-child { border-top: 1px solid var(--line); }
+        .list small { display: block; color: var(--text-muted); font-size: .85rem; }
+        .list .actions { display: flex; gap: 8px; flex-shrink: 0; }
+        .empty { color: var(--text-muted); padding: 14px 0; }
+
+        @media (max-width: 860px) { .stats-grid, .admin-grid { grid-template-columns: 1fr; } .kv { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <div class="background-grid"></div>
+    <nav id="main-nav"></nav>
 
-    <div id="access-overlay">
-        <h2 style="color:var(--accent-red); font-family:'Courier Prime'; animation: pulseRed 2s infinite;">>> VERIFICA CREDENZIALI OVERSEER IN CORSO...</h2>
-    </div>
+    <div id="access-overlay"><p>Controllo dei permessi…</p></div>
 
-    <nav>
-        <div class="logo-text"><a href="index.html">KRIPIX</a></div>
-        <a href="index.html" class="back-link">← ESCI DAL TERMINALE</a>
-    </nav>
+    <header class="page-header">
+        <h1>Pannello admin</h1>
+        <p>Gestisci utenti, notizie, richieste beta e ticket di assistenza.</p>
+    </header>
 
-    <section class="section-padding" style="padding-top: 120px;">
+    <section class="section-padding">
         <div class="container">
-            
-            <div style="border-bottom: 1px dashed var(--accent-red); padding-bottom: 20px; margin-bottom: 30px;">
-                <h1 style="color: var(--accent-red); font-size: 2.5rem; letter-spacing: 5px;">TERMINALE OVERSEER</h1>
-                <p style="font-family:'Courier Prime'; color:#888;">Accesso di Livello 5. Autorizzazione concessa.</p>
-            </div>
 
-            <!-- DASHBOARD STATISTICHE -->
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="stat-tot-users">-</div>
-                    <div class="stat-label">AGENTI REGISTRATI</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="stat-tot-games">-</div>
-                    <div class="stat-label">LICENZE "FURNACE"</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="stat-tot-keys">-</div>
-                    <div class="stat-label">CHIAVI VERGINI</div>
-                </div>
+                <div class="stat-card"><div class="stat-number" id="stat-tot-users">–</div><div class="stat-label">Utenti registrati</div></div>
+                <div class="stat-card"><div class="stat-number" id="stat-tot-games">–</div><div class="stat-label">Copie de La Pagoda</div></div>
+                <div class="stat-card"><div class="stat-number" id="stat-tot-keys">–</div><div class="stat-label">Chiavi non ancora usate</div></div>
             </div>
 
-            <div class="admin-layout">
-                
-                <!-- COLONNA SINISTRA: BROADCAST & STORICO -->
-                <div>
-                    <!-- Pannello Trasmissione -->
-                    <div class="news-module">
-                        <h3 style="color:white; margin-bottom:20px; border-left: 3px solid var(--accent-gold); padding-left:10px;">BROADCAST DI RETE</h3>
-                        <select id="news-priority" class="admin-input" style="cursor:pointer;">
-                            <option value="normal">Priorità: NORMALE</option>
-                            <option value="high">Priorità: ALTA</option>
-                        </select>
-                        <input type="text" id="news-title" class="admin-input" placeholder="Titolo Comunicazione..." autocomplete="off">
-                        <textarea id="news-body" class="admin-input" rows="4" placeholder="Testo del messaggio..."></textarea>
-                        <input type="text" id="news-link" class="admin-input" placeholder="URL Destinazione (Opzionale)" autocomplete="off">
-                        <button id="btn-broadcast" class="btn-gold full-width">TRASMETTI NEL NETWORK</button>
+            <div class="admin-tabs" role="tablist" aria-label="Sezioni">
+                <button class="admin-tab" role="tab" aria-selected="true" aria-controls="pane-users" id="tab-users">Utenti</button>
+                <button class="admin-tab" role="tab" aria-selected="false" aria-controls="pane-news" id="tab-news">Notizie</button>
+                <button class="admin-tab" role="tab" aria-selected="false" aria-controls="pane-beta" id="tab-beta">Richieste beta</button>
+                <button class="admin-tab" role="tab" aria-selected="false" aria-controls="pane-tickets" id="tab-tickets">Ticket</button>
+                <button class="admin-tab" role="tab" aria-selected="false" aria-controls="pane-tools" id="tab-tools">Strumenti</button>
+            </div>
+
+            <!-- ============ UTENTI ============ -->
+            <div class="admin-pane" id="pane-users" role="tabpanel" aria-labelledby="tab-users">
+                <form class="admin-card" id="user-search">
+                    <h3>Cerca un utente</h3>
+                    <p class="muted">Per nome utente o per email.</p>
+                    <div class="admin-row">
+                        <div class="seg" role="group" aria-label="Cerca per">
+                            <button type="button" data-mode="-u" aria-pressed="true">Nome utente</button>
+                            <button type="button" data-mode="-e" aria-pressed="false">Email</button>
+                        </div>
+                        <input class="field" id="user-query" placeholder="es. mario_rossi" autocomplete="off" required>
+                        <button class="btn-gold btn-sm" type="submit">Cerca</button>
+                    </div>
+                    <p class="result" id="user-search-result" role="status"></p>
+                </form>
+
+                <div id="user-panel" hidden>
+                    <div class="admin-card">
+                        <div class="user-head">
+                            <div>
+                                <h3 id="u-name"></h3>
+                                <span class="tag" id="u-online"></span>
+                            </div>
+                            <button class="btn-outline btn-sm" type="button" id="u-refresh">Aggiorna</button>
+                        </div>
+                        <dl class="kv">
+                            <dt>Email</dt><dd id="u-email"></dd>
+                            <dt>Giochi</dt><dd id="u-games"></dd>
+                            <dt>Visibile nella ricerca</dt><dd id="u-visible"></dd>
+                            <dt>Codice utente (UID)</dt><dd><code id="u-uid"></code></dd>
+                        </dl>
                     </div>
 
-                    <!-- Pannello Storico -->
-                    <div class="news-module" style="margin-top: 20px;">
-                        <h3 style="color:white; margin-bottom:15px; border-left: 3px solid var(--accent-gold); padding-left:10px;">STORICO COMUNICAZIONI</h3>
-                        <div id="admin-news-list" style="max-height: 250px; overflow-y: auto; padding-right: 10px;">
-                            <!-- Qui la lista generata da JS -->
+                    <div class="admin-grid">
+                        <div class="admin-card">
+                            <h3>Scrivi all'utente</h3>
+                            <p class="muted">Arriva nei suoi messaggi come "Staff Kripix". Non può rispondere.</p>
+                            <textarea class="field" id="u-msg" placeholder="Il tuo messaggio"></textarea>
+                            <div class="admin-row" style="margin-top:12px"><button class="btn-gold btn-sm" type="button" id="u-msg-send">Invia messaggio</button></div>
+                            <p class="result" id="u-msg-result" role="status"></p>
+                        </div>
+
+                        <div class="admin-card">
+                            <h3>Giochi</h3>
+                            <p class="muted">Regala o togli un gioco dall'account.</p>
+                            <label class="field-label" for="u-game">Gioco</label>
+                            <select class="field" id="u-game">
+                                <option value="furnace">La Pagoda</option>
+                            </select>
+                            <div class="admin-row" style="margin-top:12px">
+                                <button class="btn-gold btn-sm" type="button" id="u-grant">Regala il gioco</button>
+                                <button class="btn-danger btn-sm" type="button" id="u-revoke">Togli il gioco</button>
+                            </div>
+                            <p class="result" id="u-game-result" role="status"></p>
+                        </div>
+
+                        <div class="admin-card">
+                            <h3>Stato dell'account</h3>
+                            <p class="muted">La sospensione mostra un avviso sul profilo. Il blocco impedisce di accedere.</p>
+                            <label class="field-label" for="u-reason">Motivo (lo vede l'utente)</label>
+                            <input class="field" id="u-reason" placeholder="es. Linguaggio offensivo in chat">
+                            <div class="admin-row" style="margin-top:12px">
+                                <button class="btn-outline btn-sm" type="button" data-net="suspend">Sospendi</button>
+                                <button class="btn-outline btn-sm" type="button" data-net="unsuspend">Togli sospensione</button>
+                                <button class="btn-danger btn-sm" type="button" data-net="ban">Blocca</button>
+                                <button class="btn-outline btn-sm" type="button" data-net="unban">Sblocca</button>
+                            </div>
+                            <p class="result" id="u-net-result" role="status"></p>
+                        </div>
+
+                        <div class="admin-card">
+                            <h3>Verifica in due passaggi</h3>
+                            <p class="muted">Se l'utente ha perso il telefono, puoi rimuoverla: rientrerà con la sola password.</p>
+                            <div class="admin-row">
+                                <button class="btn-outline btn-sm" type="button" id="u-mfa-status">Controlla</button>
+                                <button class="btn-danger btn-sm" type="button" id="u-mfa-reset">Rimuovi</button>
+                            </div>
+                            <p class="result" id="u-mfa-result" role="status"></p>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- COLONNA DESTRA: TERMINALE KRIPIX OS -->
-               <div class="kripix-shell">
-                    <div class="shell-header">
-                        <span>KRIPIX_OS v2.0.4</span>
-                        <span style="color:#4caf50;">STATUS: ONLINE</span>
+            <!-- ============ NOTIZIE ============ -->
+            <div class="admin-pane" id="pane-news" role="tabpanel" aria-labelledby="tab-news" hidden>
+                <div class="admin-grid">
+                    <div class="admin-card">
+                        <h3>Pubblica una notizia</h3>
+                        <p class="muted">Compare subito nella home.</p>
+                        <label class="field-label" for="news-title">Titolo</label>
+                        <input type="text" id="news-title" class="field" autocomplete="off">
+                        <label class="field-label" for="news-body">Testo</label>
+                        <textarea id="news-body" class="field" rows="4"></textarea>
+                        <label class="field-label" for="news-link">Link (facoltativo)</label>
+                        <input type="url" id="news-link" class="field" placeholder="https://…" autocomplete="off">
+                        <label class="checkbox-container" style="margin-top:14px"><input type="checkbox" id="news-high"> In evidenza</label>
+                        <div class="admin-row" style="margin-top:16px"><button id="btn-broadcast" class="btn-gold btn-sm" type="button">Pubblica</button></div>
+                        <p class="result" id="news-result" role="status"></p>
                     </div>
-                    
-                    <div class="shell-output" id="cli-output">
-                        <p class="sys-msg">Inizializzazione shell...</p>
-                        <p class="sys-msg">Connessione al core database Firebase: STABILITA.</p>
-                        <p class="info-msg">Digita 'help' per visualizzare i comandi disponibili.</p>
-                        <p>&nbsp;</p>
-                    </div>
-
-                    <div class="shell-input-line">
-                        <span class="shell-prompt">root@overseer:~$</span>
-                        <input type="text" id="cli-input" class="shell-input" autocomplete="off" spellcheck="false">
+                    <div class="admin-card">
+                        <h3>Notizie pubblicate</h3>
+                        <ul class="list" id="admin-news-list"><li class="empty">Caricamento…</li></ul>
                     </div>
                 </div>
-
             </div>
+
+            <!-- ============ BETA ============ -->
+            <div class="admin-pane" id="pane-beta" role="tabpanel" aria-labelledby="tab-beta" hidden>
+                <div class="admin-card">
+                    <div class="user-head" style="margin-bottom:8px">
+                        <div><h3 style="font-family:var(--font-body); font-size:1.15rem; text-transform:none">Richieste in attesa</h3><p class="muted">Utenti che hanno chiesto di entrare in un programma beta.</p></div>
+                        <button class="btn-outline btn-sm" type="button" id="beta-reload">Aggiorna</button>
+                    </div>
+                    <ul class="list" id="beta-list"><li class="empty">Caricamento…</li></ul>
+                </div>
+            </div>
+
+            <!-- ============ TICKET ============ -->
+            <div class="admin-pane" id="pane-tickets" role="tabpanel" aria-labelledby="tab-tickets" hidden>
+                <div class="admin-card">
+                    <div class="user-head" style="margin-bottom:8px">
+                        <div><h3 style="font-family:var(--font-body); font-size:1.15rem; text-transform:none">Ticket aperti</h3><p class="muted">Richieste preparate dall'assistente Kripix AI.</p></div>
+                        <button class="btn-outline btn-sm" type="button" id="tickets-reload">Aggiorna</button>
+                    </div>
+                    <ul class="list" id="ticket-list"><li class="empty">Caricamento…</li></ul>
+                </div>
+            </div>
+
+            <!-- ============ STRUMENTI ============ -->
+            <div class="admin-pane" id="pane-tools" role="tabpanel" aria-labelledby="tab-tools" hidden>
+                <div class="admin-grid">
+                    <div class="admin-card">
+                        <h3>Assistente Kripix AI</h3>
+                        <p class="muted">Controlla che il modello risponda.</p>
+                        <button class="btn-outline btn-sm" type="button" id="ai-ping">Controlla</button>
+                        <p class="result" id="ai-result" role="status"></p>
+                    </div>
+                    <div class="admin-card" style="border-color: color-mix(in srgb, var(--danger) 40%, transparent);">
+                        <h3>Elimina le chiavi non usate</h3>
+                        <p class="muted">Cancella tutte le chiavi di attivazione mai riscattate. Non si può annullare.</p>
+                        <button class="btn-danger btn-sm" type="button" id="keys-purge">Elimina le chiavi</button>
+                        <p class="result" id="keys-result" role="status"></p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <!-- SCRIPT PRINCIPALE -->
+    <footer id="main-footer" class="kripix-footer"></footer>
+
     <script type="module">
         import { app, auth, db } from './script.js';
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-functions.js";
         import { doc, getDoc, collection, addDoc, getCountFromServer, query, where, deleteDoc, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // Variabili Globali Terminale
-        const cliInput = document.getElementById('cli-input');
-        const cliOutput = document.getElementById('cli-output');
-        let commandHistory =[];
-        let historyIndex = -1;
+        const $ = (id) => document.getElementById(id);
+        const GAME_NAMES = { furnace: 'La Pagoda' };
 
-        // ==========================================
-        // 1. CANCELLO DI SICUREZZA
-        // ==========================================
+        // ── Accesso: solo gli admin restano su questa pagina ────
         onAuthStateChanged(auth, async (user) => {
             if (!user) { window.location.href = "login.html"; return; }
-
-            const userRef = doc(db, "users", user.uid);
-            const userSnap = await getDoc(userRef);
-
-            // Controllo rigoroso. Se non sei admin, vieni cacciato.
-            if (!userSnap.exists() || userSnap.data().isAdmin !== true) { window.location.href = "404.html"; return; }
-
-            document.getElementById('access-overlay').style.display = 'none';
-            cliInput.focus();
-            
-            // Carica i dati della pagina
-            loadTelemetry();
-            loadNewsData();
+            const snap = await getDoc(doc(db, "users", user.uid));
+            if (!snap.exists() || snap.data().isAdmin !== true) { window.location.href = "404.html"; return; }
+            $('access-overlay').remove();
+            loadStats();
+            loadNews();
         });
 
-        // ==========================================
-        // 2. TELEMETRIA VELOCE
-        // ==========================================
-        async function loadTelemetry() {
+        // ── Chiamata alla funzione cloud ───────────────────────
+        //  Il pannello compone gli stessi comandi della vecchia
+        //  console: il backend non cambia.
+        const functions = getFunctions(app, 'europe-west1');
+        const overseerCommand = httpsCallable(functions, 'overseerCommand');
+        async function run(command) {
             try {
-                const collUsers = collection(db, "users");
-                const snapUsers = await getCountFromServer(collUsers);
-                document.getElementById('stat-tot-users').innerText = snapUsers.data().count;
+                const res = await overseerCommand({ command });
+                return { ok: res.data.status === 'success', text: String(res.data.output || '') };
+            } catch (e) {
+                console.error(e);
+                return { ok: false, text: 'Richiesta non riuscita: controlla la connessione o i permessi.' };
+            }
+        }
+        // I messaggi del backend sono scritti per la vecchia console:
+        // qui li rendiamo leggibili.
+        const tidy = (t) => t
+            .replace(/^\[(SUCCESSO|OK|FALLITO|KO|ERRORE)\]\s*/i, '')
+            .replace(/\bAgente\b/g, 'Utente').replace(/\bagente\b/g, 'utente')
+            .replace(/DIRETTIVA TRASMESSA/i, 'Messaggio inviato')
+            .trim();
+        function show(el, r) {
+            el.textContent = tidy(r.text);
+            el.className = 'result ' + (r.ok ? 'ok' : 'err');
+        }
+        async function withBusy(btn, fn) {
+            const label = btn.textContent;
+            btn.disabled = true; btn.textContent = 'Attendi…';
+            try { await fn(); } finally { btn.disabled = false; btn.textContent = label; }
+        }
 
-                const qGames = query(collection(db, "users"), where("games", "array-contains", "furnace"));
-                const snapGames = await getCountFromServer(qGames);
-                document.getElementById('stat-tot-games').innerText = snapGames.data().count;
-
-                const qKeys = query(collection(db, "game_keys"), where("isUsed", "==", false));
-                const snapKeys = await getCountFromServer(qKeys);
-                document.getElementById('stat-tot-keys').innerText = snapKeys.data().count;
+        // ── Numeri ─────────────────────────────────────────────
+        async function loadStats() {
+            try {
+                $('stat-tot-users').textContent = (await getCountFromServer(collection(db, "users"))).data().count;
+                $('stat-tot-games').textContent = (await getCountFromServer(query(collection(db, "users"), where("games", "array-contains", "furnace")))).data().count;
+                $('stat-tot-keys').textContent = (await getCountFromServer(query(collection(db, "game_keys"), where("isUsed", "==", false)))).data().count;
             } catch (error) {
-                console.error("Errore nel caricamento della telemetria:", error);
+                console.error("Errore nel caricamento dei numeri:", error);
             }
         }
 
-        // ==========================================
-        // 3. LOGICA STORICO NEWS (Lettura e Cancellazione)
-        // ==========================================
-        async function loadNewsData() {
-            const q = query(collection(db, "news"), orderBy("date", "desc"));
-            const newsSnapshot = await getDocs(q);
-            const container = document.getElementById('admin-news-list');
-            container.innerHTML = '';
-            
-            if (newsSnapshot.empty) {
-                container.innerHTML = '<p style="color:#666; font-family:\'Courier Prime\'; font-size:0.85rem;">Nessun broadcast in archivio.</p>';
+        // ── Schede ─────────────────────────────────────────────
+        const tabs = [...document.querySelectorAll('.admin-tab')];
+        const loaded = {};
+        function selectTab(tab) {
+            tabs.forEach(t => {
+                const on = t === tab;
+                t.setAttribute('aria-selected', String(on));
+                t.tabIndex = on ? 0 : -1;
+                $(t.getAttribute('aria-controls')).hidden = !on;
+            });
+            const id = tab.id;
+            if (id === 'tab-beta' && !loaded.beta) { loaded.beta = true; loadBeta(); }
+            if (id === 'tab-tickets' && !loaded.tickets) { loaded.tickets = true; loadTickets(); }
+        }
+        tabs.forEach((t, i) => {
+            t.addEventListener('click', () => selectTab(t));
+            t.addEventListener('keydown', (e) => {
+                if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+                const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+                next.focus(); selectTab(next);
+            });
+        });
+
+        // ── Utenti ─────────────────────────────────────────────
+        let mode = '-u';
+        let current = null; // { uid, username, email, ... }
+        document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+            mode = b.dataset.mode;
+            document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+            $('user-query').placeholder = mode === '-u' ? 'es. mario_rossi' : 'nome@esempio.com';
+            $('user-query').focus();
+        }));
+
+        function parseUser(text) {
+            const out = {};
+            text.split('\n').forEach(line => {
+                const m = line.match(/^([A-ZÀ-Ü]+)\s*:\s*(.*)$/);
+                if (m) out[m[1]] = m[2].trim();
+            });
+            return out;
+        }
+
+        async function lookup(query) {
+            const r = await run(`find ${mode} ${query}`);
+            if (!r.ok) { show($('user-search-result'), r); $('user-panel').hidden = true; return; }
+            const u = parseUser(r.text);
+            current = { uid: u.UID, username: u.USERNAME, query };
+            $('user-search-result').textContent = '';
+            $('u-name').textContent = u.USERNAME || '—';
+            $('u-email').textContent = u.EMAIL || '—';
+            $('u-uid').textContent = u.UID || '—';
+            const online = /ONLINE/i.test(u.STATUS || '');
+            $('u-online').textContent = online ? 'Online' : 'Offline';
+            $('u-online').style.cssText = online ? 'background:var(--success-soft); color:var(--success)' : 'background:var(--surface-2); color:var(--text-muted)';
+            $('u-visible').textContent = /^(VERO|SÌ|SI)/i.test(u.VISIBILE || '') ? 'Sì' : 'No (modalità invisibile)';
+            const games = (u.LICENZE || '').split(',').map(g => g.trim().toLowerCase()).filter(g => g && g !== 'nessuna');
+            $('u-games').textContent = games.length ? games.map(g => GAME_NAMES[g] || g).join(', ') : 'Nessuno';
+            ['u-msg-result', 'u-game-result', 'u-net-result', 'u-mfa-result'].forEach(id => { $(id).textContent = ''; });
+            $('user-panel').hidden = false;
+        }
+
+        $('user-search').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const q = $('user-query').value.trim();
+            if (!q || /\s/.test(q)) { show($('user-search-result'), { ok: false, text: 'Scrivi un nome utente o un\'email, senza spazi.' }); return; }
+            await withBusy(e.submitter || $('user-search').querySelector('button[type=submit]'), () => lookup(q));
+        });
+        $('u-refresh').addEventListener('click', (e) => current && withBusy(e.currentTarget, () => lookup(current.query)));
+
+        $('u-msg-send').addEventListener('click', (e) => withBusy(e.currentTarget, async () => {
+            const text = $('u-msg').value.trim().replace(/\s+/g, ' ');
+            if (!current || !text) return;
+            const r = await run(`msg ${current.username} ${text}`);
+            show($('u-msg-result'), r);
+            if (r.ok) $('u-msg').value = '';
+        }));
+
+        const gameAction = (action) => (e) => withBusy(e.currentTarget, async () => {
+            if (!current) return;
+            const game = $('u-game').value;
+            if (action === 'revoke' && !confirm(`Togliere ${GAME_NAMES[game] || game} a ${current.username}?`)) return;
+            const r = await run(`license ${action} ${current.uid} ${game}`);
+            show($('u-game-result'), r);
+            if (r.ok) { lookup(current.query); loadStats(); }
+        });
+        $('u-grant').addEventListener('click', gameAction('grant'));
+        $('u-revoke').addEventListener('click', gameAction('revoke'));
+
+        document.querySelectorAll('[data-net]').forEach(btn => btn.addEventListener('click', (e) => withBusy(e.currentTarget, async () => {
+            if (!current) return;
+            const action = btn.dataset.net;
+            const reason = $('u-reason').value.trim().replace(/\s+/g, ' ');
+            if (action === 'ban' && !confirm(`Bloccare ${current.username}? Non potrà più accedere.`)) return;
+            if ((action === 'ban' || action === 'suspend') && !reason) {
+                show($('u-net-result'), { ok: false, text: 'Scrivi un motivo: l\'utente lo vedrà.' });
                 return;
             }
+            const r = await run(`network ${action} ${current.uid}${reason && (action === 'ban' || action === 'suspend') ? ' ' + reason : ''}`);
+            show($('u-net-result'), r);
+        })));
 
-            newsSnapshot.forEach((newsDoc) => {
-                const news = newsDoc.data();
-                const d = new Date(news.date).toLocaleDateString('it-IT');
-                const pColor = news.priority === 'high' ? '#ff5555' : '#888';
-                
-                const div = document.createElement('div');
-                div.style = "border-bottom: 1px solid #222; padding: 10px 0; display: flex; justify-content: space-between; align-items: center;";
-                
+        $('u-mfa-status').addEventListener('click', (e) => withBusy(e.currentTarget, async () => {
+            if (!current) return;
+            const r = await run(`mfa status ${current.uid}`);
+            const n = (r.text.match(/^\s*\[\d+\]/gm) || []).length;
+            show($('u-mfa-result'), r.ok ? { ok: true, text: n ? `Attiva (${n} ${n === 1 ? 'dispositivo' : 'dispositivi'}).` : 'Non attiva.' } : r);
+        }));
+        $('u-mfa-reset').addEventListener('click', (e) => withBusy(e.currentTarget, async () => {
+            if (!current || !confirm(`Rimuovere la verifica in due passaggi da ${current.username}? Fallo solo dopo aver verificato la sua identità.`)) return;
+            show($('u-mfa-result'), await run(`mfa reset ${current.uid}`));
+        }));
+
+        // ── Notizie ────────────────────────────────────────────
+        async function loadNews() {
+            const list = $('admin-news-list');
+            try {
+                const snap = await getDocs(query(collection(db, "news"), orderBy("date", "desc")));
+                list.innerHTML = '';
+                if (snap.empty) { list.innerHTML = '<li class="empty">Nessuna notizia pubblicata.</li>'; return; }
+                snap.forEach((newsDoc) => {
+                    const n = newsDoc.data();
+                    const li = document.createElement('li');
+                    const info = document.createElement('div');
+                    const title = document.createElement('strong');
+                    title.textContent = n.title;
+                    const meta = document.createElement('small');
+                    meta.textContent = new Date(n.date).toLocaleDateString('it-IT') + (n.priority === 'high' ? ', in evidenza' : '');
+                    info.append(title, meta);
+                    const del = document.createElement('button');
+                    del.className = 'btn-danger btn-sm';
+                    del.textContent = 'Elimina';
+                    del.onclick = async () => {
+                        if (!confirm(`Eliminare "${n.title}"?`)) return;
+                        try { await deleteDoc(doc(db, "news", newsDoc.id)); loadNews(); }
+                        catch (err) { window.kripixNotify && window.kripixNotify('Errore', 'Non è stato possibile eliminare la notizia.', 'error'); }
+                    };
+                    const actions = document.createElement('div');
+                    actions.className = 'actions';
+                    actions.appendChild(del);
+                    li.append(info, actions);
+                    list.appendChild(li);
+                });
+            } catch (e) {
+                list.innerHTML = '<li class="empty">Non riusciamo a caricare le notizie.</li>';
+            }
+        }
+
+        $('btn-broadcast').addEventListener('click', (e) => withBusy(e.currentTarget, async () => {
+            const title = $('news-title').value.trim();
+            const body = $('news-body').value.trim();
+            const link = $('news-link').value.trim();
+            const priority = $('news-high').checked ? 'high' : 'normal';
+            const out = $('news-result');
+            if (!title || !body) { show(out, { ok: false, text: 'Servono titolo e testo.' }); return; }
+            if (link && !/^https?:\/\//.test(link)) { show(out, { ok: false, text: 'Il link deve iniziare con https://' }); return; }
+            try {
+                await addDoc(collection(db, "news"), { priority, title, body, link, date: new Date().toISOString(), author: "Kripix" });
+                ['news-title', 'news-body', 'news-link'].forEach(id => { $(id).value = ''; });
+                $('news-high').checked = false;
+                show(out, { ok: true, text: 'Notizia pubblicata.' });
+                loadNews();
+            } catch (err) {
+                show(out, { ok: false, text: 'Pubblicazione non riuscita.' });
+            }
+        }));
+
+        // ── Beta ───────────────────────────────────────────────
+        async function loadBeta() {
+            const list = $('beta-list');
+            list.innerHTML = '<li class="empty">Caricamento…</li>';
+            const r = await run('beta list');
+            list.innerHTML = '';
+            const rows = r.text.split('\n').map(l => l.match(/^\s*\[IN ATTESA\]\s+(\S+)\s+(\S+)\s+(\S+)\s*$/)).filter(Boolean);
+            if (!r.ok) { list.innerHTML = '<li class="empty"></li>'; list.firstChild.textContent = tidy(r.text); return; }
+            if (!rows.length) { list.innerHTML = '<li class="empty">Nessuna richiesta in attesa.</li>'; return; }
+            rows.forEach(([, program, username, uid]) => {
+                const li = document.createElement('li');
                 const info = document.createElement('div');
-                // Nodi testuali sicuri
-                const strongTitle = document.createElement('strong');
-                strongTitle.style.color = "white";
-                strongTitle.style.fontSize = "0.9rem";
-                strongTitle.textContent = news.title;
-
-                info.appendChild(strongTitle);
-                info.insertAdjacentHTML('beforeend', `<br><span style="color:${pColor}; font-size:0.75rem; font-family:'Courier Prime';">${d} | PRIORITÀ: ${news.priority.toUpperCase()}</span>`);
-                
-                const delBtn = document.createElement('button');
-                delBtn.className = 'btn-danger';
-                delBtn.style = 'padding: 5px 10px; font-size: 0.7rem; min-width: 35px; cursor: pointer;';
-                delBtn.textContent = 'X';
-                delBtn.onclick = () => window.deleteNews(newsDoc.id);
-                
-                div.appendChild(info);
-                div.appendChild(delBtn);
-                container.appendChild(div);
+                const t = document.createElement('strong'); t.textContent = username;
+                const s = document.createElement('small'); s.textContent = `Programma: ${program}`;
+                info.append(t, s);
+                const actions = document.createElement('div'); actions.className = 'actions';
+                const ok = document.createElement('button'); ok.className = 'btn-gold btn-sm'; ok.textContent = 'Approva';
+                const no = document.createElement('button'); no.className = 'btn-outline btn-sm'; no.textContent = 'Rifiuta';
+                const decide = (verb) => (e) => withBusy(e.currentTarget, async () => {
+                    const res = await run(`beta ${verb} ${uid} ${program}`);
+                    if (res.ok) li.remove(); else alert(tidy(res.text));
+                    if (!list.children.length) list.innerHTML = '<li class="empty">Nessuna richiesta in attesa.</li>';
+                });
+                ok.onclick = decide('grant'); no.onclick = decide('deny');
+                actions.append(ok, no);
+                li.append(info, actions);
+                list.appendChild(li);
             });
         }
+        $('beta-reload').addEventListener('click', loadBeta);
 
-        window.deleteNews = async function(newsId) {
-            try {
-                await deleteDoc(doc(db, "news", newsId));
-                loadNewsData(); 
-                printToShell(`[SISTEMA]: Comunicazione di rete distrutta.`, "err-msg");
-            } catch (error) {
-                printToShell(`[ERRORE]: Impossibile distruggere la comunicazione.`, "err-msg");
+        // ── Ticket ─────────────────────────────────────────────
+        async function loadTickets() {
+            const list = $('ticket-list');
+            list.innerHTML = '<li class="empty">Caricamento…</li>';
+            const r = await run('ticket list');
+            list.innerHTML = '';
+            if (!r.ok) { list.innerHTML = '<li class="empty"></li>'; list.firstChild.textContent = tidy(r.text); return; }
+            const re = /\[([0-9A-Z]{8})\]\s+(.+?)\s+—\s+(.+?)\s+\(([^)]*)\)\n\s*(.*)/g;
+            let m, count = 0;
+            while ((m = re.exec(r.text))) {
+                count++;
+                const [, code, cat, username, , summary] = m;
+                const li = document.createElement('li');
+                const info = document.createElement('div');
+                const t = document.createElement('strong'); t.textContent = `${username} (${cat.toLowerCase()})`;
+                const s = document.createElement('small'); s.textContent = summary || 'Nessun riepilogo';
+                const c = document.createElement('small'); c.textContent = `Codice ${code}`;
+                info.append(t, s, c);
+                const actions = document.createElement('div'); actions.className = 'actions';
+                const close = document.createElement('button'); close.className = 'btn-outline btn-sm'; close.textContent = 'Segna come risolto';
+                close.onclick = (e) => withBusy(e.currentTarget, async () => {
+                    const res = await run(`ticket close ${code}`);
+                    if (res.ok) li.remove(); else alert(tidy(res.text));
+                    if (!list.children.length) list.innerHTML = '<li class="empty">Nessun ticket aperto.</li>';
+                });
+                actions.appendChild(close);
+                li.append(info, actions);
+                list.appendChild(li);
             }
-        };
-
-        // ==========================================
-        // 4. INVIO BROADCAST (Nuove News)
-        // ==========================================
-        document.getElementById('btn-broadcast').addEventListener('click', async () => {
-            const priority = document.getElementById('news-priority').value;
-            const title = document.getElementById('news-title').value.trim(); 
-            const body = document.getElementById('news-body').value.trim(); 
-            const link = document.getElementById('news-link').value.trim(); 
-            const btn = document.getElementById('btn-broadcast');
-            
-            if(!title || !body) return;
-            
-            btn.innerText = "TRASMISSIONE IN CORSO..."; btn.disabled = true;
-            try {
-                await addDoc(collection(db, "news"), { priority, title, body, link, date: new Date().toISOString(), author: "Kripix Overseer" });
-                document.getElementById('news-title').value = ''; document.getElementById('news-body').value = ''; document.getElementById('news-link').value = '';
-                
-                printToShell(`[BROADCAST]: Notizia "${title}" trasmessa al network.`, "sys-msg");
-                if(window.kripixNotify) window.kripixNotify("BROADCAST", "Comunicazione inviata.", "success");
-                
-                loadNewsData(); // Ricarica la lista per vedere la nuova news
-            } catch (e) {
-                if(window.kripixNotify) window.kripixNotify("ERRORE", "Trasmissione fallita.", "error");
-            }
-            btn.innerText = "TRASMETTI NEL NETWORK"; btn.disabled = false;
-        });
-
-        // ==========================================
-        // 5. LOGICA TERMINALE KRIPIX OS
-        // ==========================================
-        function printToShell(text, className = '') {
-            const p = document.createElement('p');
-            p.textContent = text;
-            if (className) p.className = className;
-            cliOutput.appendChild(p);
-            cliOutput.scrollTop = cliOutput.scrollHeight; 
+            if (!count) list.innerHTML = '<li class="empty">Nessun ticket aperto.</li>';
         }
+        $('tickets-reload').addEventListener('click', loadTickets);
 
-        cliInput.addEventListener('keydown', async (e) => {
-            if (e.key === 'Enter') {
-                const cmdString = cliInput.value.trim();
-                if (!cmdString) return;
-
-                commandHistory.push(cmdString);
-                historyIndex = commandHistory.length;
-                cliInput.value = '';
-
-                printToShell(`root@overseer:~$ ${cmdString}`, 'cmd-echo');
-                await executeCommand(cmdString);
-            } 
-            else if (e.key === 'ArrowUp') {
-                if (historyIndex > 0) {
-                    historyIndex--;
-                    cliInput.value = commandHistory[historyIndex];
-                }
-            } else if (e.key === 'ArrowDown') {
-                if (historyIndex < commandHistory.length - 1) {
-                    historyIndex++;
-                    cliInput.value = commandHistory[historyIndex];
-                } else {
-                    historyIndex = commandHistory.length;
-                    cliInput.value = '';
-                }
-            }
-        });
-
-        async function executeCommand(cmdString) {
-            const args = cmdString.split(' ').filter(Boolean); 
-            const command = args[0].toLowerCase();
-
-            if (command === 'clear') {
-                cliOutput.innerHTML = '';
-                return;
-            }
-
-            if (command === 'help') {
-                printToShell("COMANDI DISPONIBILI:", "sys-msg");
-                printToShell("  find -u [username]               : Trova informazioni su un agente.");
-                printToShell("  find -e [email]                  : Trova agente tramite email.");
-                printToShell("  msg [username] [messaggio]       : Invia un messaggio/direttiva a un agente."); // <-- AGGIUNTA QUESTA!
-                printToShell("  license grant [uid] [id]         : Regala una licenza a un utente.");
-                printToShell("  license revoke [uid] [id]        : Revoca una licenza.");
-                printToShell("  keys purge                       : Elimina tutte le chiavi vergini.");
-                printToShell("  network ban [uid] (motivo)       : Blocca permanentemente l'accesso all'account.");
-                printToShell("  network unban [uid]              : Rimuove il blocco di accesso.");
-                printToShell("  network suspend [uid] (motivo)   : Applica un avviso rosso sul profilo dell'agente.");
-                printToShell("  network unsuspend [uid]          : Rimuove l'avviso di sospensione.");
-                printToShell("  mfa status [uid]                 : Mostra i fattori 2FA registrati dall'agente.");
-                printToShell("  mfa reset [uid]                  : Rimuove la 2FA (agente che ha perso il telefono).");
-                printToShell("  beta list                        : Richieste di accesso beta in attesa.");
-                printToShell("  beta grant [uid] [programma]     : Concede l'accesso a un programma beta.");
-                printToShell("  beta deny [uid] [programma]      : Rifiuta la richiesta.");
-                printToShell("  ticket list                      : Ticket aperti dalla Kripix AI.");
-                printToShell("  ticket close [codice]            : Chiude un ticket.");
-                printToShell("  ai ping                          : Verifica che il modello Gemini risponda.");
-                printToShell("  clear                            : Pulisce il terminale.");
-                printToShell(" ");
-                return;
-            }
-
-            printToShell("Esecuzione protocollo remoto...", "info-msg");
-            
-            try {
-                // Assicurati che "europe-west1" sia la region in cui hai hostato la funzione
-                const functions = getFunctions(app, 'europe-west1');
-                const overseerCommand = httpsCallable(functions, 'overseerCommand');
-                
-                const result = await overseerCommand({ command: cmdString });
-                
-                if (result.data.status === 'success') {
-                    const lines = result.data.output.split('\n');
-                    lines.forEach(line => printToShell(line, "success-msg"));
-                    // Se distruggiamo delle chiavi, aggiorniamo la telemetria in tempo reale
-                    if (command === 'keys') loadTelemetry();
-                } else {
-                    printToShell(`[ERRORE]: ${result.data.output}`, "err-msg");
-                }
-                printToShell(" "); 
-
-            } catch (error) {
-                printToShell(`[CRASH SISTEMA]: Errore di connessione o autorizzazione negata.`, "err-msg");
-                console.error(error);
-                printToShell(" ");
-            }
-        }
-
-        document.querySelector('.kripix-shell').addEventListener('click', (e) => {
-    // Se l'utente sta cliccando sull'input o ha già del testo selezionato, non fare nulla.
-    if (e.target.id === 'cli-input' || !window.getSelection().isCollapsed) {
-        return; 
-    }
-    // Altrimenti, metti a fuoco l'input per permettergli di scrivere.
-    cliInput.focus();
-});
+        // ── Strumenti ──────────────────────────────────────────
+        $('ai-ping').addEventListener('click', (e) => withBusy(e.currentTarget, async () => {
+            show($('ai-result'), await run('ai ping'));
+        }));
+        $('keys-purge').addEventListener('click', (e) => withBusy(e.currentTarget, async () => {
+            const typed = prompt('Per confermare scrivi ELIMINA');
+            if (typed !== 'ELIMINA') return;
+            const r = await run('keys purge');
+            show($('keys-result'), r);
+            if (r.ok) loadStats();
+        }));
     </script>
 </body>
 </html>

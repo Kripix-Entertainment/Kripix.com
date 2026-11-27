@@ -3,210 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminale Comunicazioni - Kripix</title>
+    <title>Messaggi | Kripix</title>
+    <meta name="description" content="I tuoi messaggi su Kripix.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#07080b">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
-    <link rel="icon" href="favicon.ico">
+
+
     
     <style>
-        body { background-color: #05070a; overflow: hidden; height: 100vh; }
-        
-        /* Layout a schermo intero (come una vera App) */
         .chat-app {
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            height: calc(100vh - 80px); /* Togliamo lo spazio della navbar */
-            margin-top: 80px;
-            border-top: 1px solid #333;
+            display: grid; grid-template-columns: 340px 1fr;
+            height: calc(100dvh - var(--nav-h));
+            border-bottom: 1px solid var(--line);
         }
+        .sidebar { background: var(--bg-raised); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
+        .sidebar-header { padding: 22px 20px 14px; font-family: var(--font-display); font-weight: 800; font-size: 1.8rem; text-transform: uppercase; line-height: 1; color: var(--text); }
+        .chat-list { flex: 1; overflow-y: auto; }
+        .chat-user-row { display: flex; align-items: center; gap: 14px; padding: 14px 20px; cursor: pointer; border-left: 3px solid transparent; transition: background .15s; }
+        .chat-user-row:hover { background: var(--surface); }
+        .chat-user-row.active { background: var(--surface-2); border-left-color: var(--gold); }
+        .chat-user-row.active.overseer { border-left-color: var(--red); }
+        .chat-avatar { width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; background: var(--surface-2); font-size: 1.1rem; }
+        .chat-info h4 { color: var(--text); font-size: 1rem; margin-bottom: 2px; line-height: 1.2; }
+        .chat-user-row.overseer .chat-info h4 { color: var(--red); }
+        .chat-info p { color: var(--text-muted); font-size: .82rem; }
+        .status-dot { color: var(--success); font-size: .6rem; margin-right: 4px; }
+        .status-dot.offline { color: var(--text-faint); }
 
-        /* COLONNA SINISTRA: LISTA CHAT */
-        .sidebar {
-            background: #020202;
-            border-right: 1px solid #333;
-            display: flex;
-            flex-direction: column;
-        }
-        .sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid #222;
-            color: var(--accent-gold);
-            font-family: 'Courier Prime';
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-        .chat-list {
-            flex: 1;
-            overflow-y: auto;
-        }
-        
-        /* Stile Utente nella Lista */
-        .chat-user-row {
-            display: flex; align-items: center; gap: 15px;
-            padding: 15px 20px; border-bottom: 1px solid #111;
-            cursor: pointer; transition: 0.2s;
-        }
-        .chat-user-row:hover, .chat-user-row.active {
-            background: rgba(227, 198, 108, 0.05);
-            border-left: 3px solid var(--accent-gold);
-        }
-        .chat-user-row.active.overseer { border-left-color: var(--accent-red); }
-        
-        .chat-avatar {
-            width: 45px; height: 45px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold; color: white; background: #333; font-size: 1.2rem;
-        }
-        .chat-info h4 { color: white; font-size: 1rem; margin-bottom: 3px; line-height: 1; }
-        .chat-info p { color: #666; font-family: 'Courier Prime'; font-size: 0.75rem; }
-        .status-dot { color: #4caf50; font-size: 0.6rem; margin-right: 5px; }
-        .status-dot.offline { color: #666; }
+        .chat-window { background: var(--bg); display: flex; flex-direction: column; position: relative; overflow: hidden; min-height: 0; }
+        .chat-header { padding: 16px 28px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+        .messages-area { flex: 1; padding: 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .msg-bubble { max-width: min(70%, 560px); padding: 11px 16px; font-size: .96rem; line-height: 1.5; position: relative; border-radius: 14px; word-wrap: break-word; }
+        .msg-time { font-size: .7rem; color: var(--text-muted); margin-top: 4px; text-align: right; display: block; }
+        .msg-out { align-self: flex-end; background: var(--gold); color: var(--on-gold); border-bottom-right-radius: 4px; }
+        .msg-out .msg-time { color: inherit; opacity: .7; }
+        .msg-in { align-self: flex-start; background: var(--surface-2); color: var(--text); border-bottom-left-radius: 4px; }
+        .msg-overseer { align-self: flex-start; background: var(--red-soft); border: 1px solid color-mix(in srgb, var(--red) 40%, transparent); color: var(--text); border-bottom-left-radius: 4px; }
 
-        /* COLONNA DESTRA: LA CHAT VERA E PROPRIA */
-        .chat-window {
-            background: #05070a;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-        
-        /* Header Chat (In alto) */
-        .chat-header {
-            padding: 20px 30px;
-            background: #0a0a0a;
-            border-bottom: 1px solid #333;
-            display: flex; align-items: center; gap: 15px;
-        }
-        
-        /* Area Messaggi (Scorrevole) */
-        .messages-area {
-            flex: 1;
-            padding: 30px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        /* Stile Messaggio Singolo */
-        .msg-bubble {
-            max-width: 70%;
-            padding: 12px 18px;
-            font-family: 'Montserrat';
-            font-size: 0.95rem;
-            line-height: 1.5;
-            position: relative;
-        }
-        .msg-time {
-            font-family: 'Courier Prime'; font-size: 0.6rem; color: #666;
-            margin-top: 5px; text-align: right; display: block;
-        }
+        .chat-input-area { padding: 16px 28px; border-top: 1px solid var(--line); display: flex; gap: 10px; flex-shrink: 0; background: var(--bg-raised); }
+        .chat-input { flex: 1; padding: 13px 16px; background: var(--bg); border: 1px solid var(--line-strong); border-radius: 99px; color: var(--text); font-size: 1rem; outline: none; }
+        .chat-input:focus { border-color: var(--gold); }
+        .btn-send { background: var(--gold); color: var(--on-gold); font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; letter-spacing: .06em; text-transform: uppercase; border: none; border-radius: 99px; padding: 0 24px; cursor: pointer; }
+        .btn-send:hover { background: var(--text); color: var(--bg); }
+        .overseer-block { display: none; width: 100%; text-align: center; padding: 18px; color: var(--text-muted); border-top: 1px solid var(--line); flex-shrink: 0; font-size: .92rem; }
 
-        /* Messaggi Inviati (Da Me) */
-        .msg-out {
-            align-self: flex-end;
-            background: rgba(227, 198, 108, 0.1);
-            border: 1px solid var(--accent-gold);
-            color: var(--text-main);
-            border-radius: 8px 0 8px 8px;
-        }
-        /* Messaggi Ricevuti (Dall'Amico) */
-        .msg-in {
-            align-self: flex-start;
-            background: #111;
-            border: 1px solid #333;
-            color: #ddd;
-            border-radius: 0 8px 8px 8px;
-        }
-        /* Messaggi da Overseer (Rossi e speciali) */
-        .msg-overseer {
-            align-self: flex-start;
-            background: rgba(139, 35, 35, 0.1);
-            border: 1px solid var(--accent-red);
-            color: #ff5555;
-            border-radius: 0 8px 8px 8px;
-            font-family: 'Courier Prime', monospace; /* Stile terminale */
-        }
+        .empty-chat { position: absolute; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; color: var(--text-muted); text-align: center; padding: 24px; }
 
-        /* Footer Chat (Dove scrivi) */
-        .chat-input-area {
-            padding: 20px 30px;
-            background: #020202;
-            border-top: 1px solid #333;
-            display: flex; gap: 15px;
-        }
-        .chat-input {
-            flex: 1; padding: 15px 20px;
-            background: #0a0a0a; border: 1px solid #444; color: white;
-            font-family: 'Courier Prime'; font-size: 1rem;
-            outline: none; transition: 0.3s;
-        }
-        .chat-input:focus { border-color: var(--accent-gold); }
-        .btn-send {
-            background: var(--accent-gold); color: #000; font-weight: bold;
-            border: none; padding: 0 25px; cursor: pointer; transition: 0.3s;
-            font-family: 'Montserrat';
-        }
-        .btn-send:hover { background: #fff; }
-        
-        /* Blocco Scrittura (Quando parla l'Overseer) */
-        .overseer-block {
-            display: none; width: 100%; text-align: center;
-            padding: 20px; font-family: 'Courier Prime'; color: #ff5555;
-            background: #0a0a0a; border-top: 1px solid #333;
-        }
+        .sidebar-toggle { display: none; position: fixed; top: calc(var(--nav-h) + 12px); left: 12px; z-index: 200; width: 42px; height: 42px; background: var(--gold); color: var(--on-gold); border: none; cursor: pointer; border-radius: 50%; box-shadow: var(--shadow); }
 
-        /* Schermata Vuota (Nessuna chat selezionata) */
-        .empty-chat {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #05070a; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; z-index: 10;
-        }
-
-        /* Custom Scrollbar per le chat */
-        .messages-area::-webkit-scrollbar, .chat-list::-webkit-scrollbar { width: 6px; }
-        .messages-area::-webkit-scrollbar-thumb, .chat-list::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-
-        /* ── Mobile: sidebar a scomparsa con toggle ── */
-        .sidebar-toggle {
-            display: none;
-            position: fixed; top: 90px; left: 10px; z-index: 200;
-            width: 40px; height: 40px;
-            background: var(--accent-gold); color: #000;
-            border: none; font-size: 1.3rem; font-weight: bold;
-            cursor: pointer; border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0,0,0,.6);
-            transition: background .2s;
-        }
-        .sidebar-toggle:hover { background: #fff; }
-
-        @media(max-width: 800px) {
+        @media (max-width: 800px) {
             .chat-app { grid-template-columns: 1fr; }
-            .sidebar {
-                position: fixed; top: 80px; left: 0;
-                width: 85vw; max-width: 350px;
-                height: calc(100vh - 80px);
-                z-index: 150;
-                transform: translateX(-100%);
-                transition: transform .3s ease;
-            }
+            .sidebar { position: fixed; top: var(--nav-h); left: 0; width: 85vw; max-width: 340px; height: calc(100dvh - var(--nav-h)); z-index: 150; transform: translateX(-100%); transition: transform .3s ease; }
             .sidebar.open { transform: translateX(0); }
             .sidebar-toggle { display: flex; align-items: center; justify-content: center; }
-            .sidebar-backdrop {
-                display: none; position: fixed; inset: 0; z-index: 140;
-                background: rgba(0,0,0,.6);
-            }
+            .sidebar-backdrop { display: none; position: fixed; inset: 0; z-index: 140; background: var(--overlay); }
             .sidebar-backdrop.visible { display: block; }
+            .chat-header { padding-left: 66px; }
         }
     </style>
 </head>
 <body>
-    <div class="background-grid"></div>
 
-    <nav id="main-nav" style="border-bottom: 1px solid #222; background: #05070a; position: fixed;"></nav>
+    <nav id="main-nav"></nav>
 
     <!-- Mobile sidebar toggle -->
-    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Apri contatti" aria-expanded="false">
+    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Apri le conversazioni" aria-expanded="false">
         <svg class="icon icon-md" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
     </button>
     <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
@@ -215,13 +85,11 @@
         
         <!-- COLONNA SINISTRA: GLI AMICI E OVERSEER -->
         <div class="sidebar">
-            <div class="sidebar-header">
-                > CANALI CRITTOGRAFATI_
-            </div>
+            <h1 class="sidebar-header" data-i18n="Messaggi">Messaggi</h1>
             <div class="chat-list" id="chat-list-container">
                 <!-- Qui Firebase inietterà gli amici e il canale Overseer -->
-                <div style="padding: 20px; text-align: center; color: #666; font-family: 'Courier Prime'; font-size: 0.8rem;">
-                    Sincronizzazione contatti in corso...
+                <div style="padding: 20px; color: var(--text-muted); font-size: 0.9rem;">
+                    Caricamento delle conversazioni…
                 </div>
             </div>
         </div>
@@ -234,15 +102,16 @@
                 <span style="opacity: 0.2; margin-bottom: 20px; display: flex;" aria-hidden="true">
                     <svg class="icon" style="width:4rem; height:4rem; stroke-width:1;" viewBox="0 0 24 24"><path d="M3 6h18v12H3z"/><path d="m3 7 9 6 9-6"/></svg>
                 </span>
-                <h3 style="color: #666; font-family: 'Courier Prime'; font-weight: normal;">SELEZIONA UN CANALE OPERATIVO</h3>
+                <h2 style="font-size:2rem; margin-bottom:8px;">Scegli una conversazione</h2>
+                <p style="color:var(--text-muted)">I tuoi amici compaiono qui. Per aggiungerne uno vai sul tuo <a href="profilo.html" style="color:var(--text)">profilo</a>.</p>
             </div>
 
             <!-- Header Dinamico -->
             <div class="chat-header">
                 <div class="chat-avatar" id="current-chat-avatar">?</div>
                 <div>
-                    <h3 style="color: white; font-size: 1.2rem; margin: 0; line-height: 1;" id="current-chat-name">Agente Sconosciuto</h3>
-                    <span id="current-chat-status" style="font-family: 'Courier Prime'; font-size: 0.8rem; color: #888;">Stato Sconosciuto</span>
+                    <h3 style="color: var(--text); font-size: 1.2rem; margin: 0; line-height: 1;" id="current-chat-name"></h3>
+                    <span id="current-chat-status" style="font-size: 0.85rem; color: var(--text-muted);"></span>
                 </div>
             </div>
 
@@ -262,18 +131,20 @@
 
             <!-- Barra di inserimento testo -->
             <div class="chat-input-area" id="input-form">
-                <input type="text" id="msg-input" class="chat-input" placeholder="Scrivi un messaggio crittografato..." autocomplete="off">
-                <button id="btn-send-msg" class="btn-send">INVIA</button>
+                <input type="text" id="msg-input" class="chat-input" placeholder="Scrivi un messaggio..." autocomplete="off">
+                <button id="btn-send-msg" class="btn-send">Invia</button>
             </div>
 
             <!-- Blocco Overseer -->
             <div class="overseer-block" id="overseer-block">
-                [ PROTOCOLLO A SENSO UNICO ] Impossibile trasmettere al livello 5.
+                Non puoi rispondere ai messaggi dello staff. Per assistenza scrivi a info@kripix.com.
             </div>
 
         </div>
 
     </div>
+
+    <footer id="main-footer" class="kripix-footer"></footer>
 
 <script type="module" src="script.js"></script>
 <script type="module">
@@ -310,7 +181,7 @@
 
     // Profilo di sistema preimpostato
     resolvedProfiles["KRIPX_OVERSEER_SYSTEM"] = {
-        username: "KRIPIX ADMIN",
+        username: "Staff Kripix",
         color: "#ff5555",
         onlineStatus: "online",
         privacy: { invisible: false }
@@ -400,7 +271,7 @@
         chatArray.forEach(item => createSidebarRow(item.id));
 
         if (chatArray.length === 0) {
-            listContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #666; font-family:\'Courier Prime\'; font-size:0.8rem;">Nessun contatto disponibile.</div>';
+            listContainer.innerHTML = '<div style="padding: 20px; color: var(--text-muted); font-size:0.9rem;">Nessuna conversazione. Aggiungi un amico dal tuo <a href="profilo.html" style="color:var(--text)">profilo</a>.</div>';
         }
 
         if (urlForcedAgentId) {
@@ -426,18 +297,18 @@
         const hasUnread = chatData ? chatData[`unread_${myUid}`] === true : false;
         let isOnline = (profile?.onlineStatus === "online" && (!profile?.privacy || profile.privacy.invisible !== true));
         let statusHTML = isOnline ? `<span class="status-dot">●</span> Online` : `<span class="status-dot offline">●</span> Offline`;
-        if (isSystem) statusHTML = `<span class="status-dot" style="color:#ff5555;">●</span> Canale Diretto`;
+        if (isSystem) statusHTML = `<span class="status-dot" style="color:var(--red);">●</span> Messaggi dallo staff`;
 
         const div = document.createElement('div');
         div.className = `chat-user-row ${isSystem ? 'overseer' : ''} ${currentTargetId === targetUid ? 'active' : ''}`;
         div.id = `chat-row-${chatKey}`;
         
-        let unreadDot = hasUnread && currentTargetId !== targetUid ? `<div style="width:10px; height:10px; background:#ff5555; border-radius:50%; margin-left:auto; box-shadow: 0 0 10px #ff5555;"></div>` : '';
+        let unreadDot = hasUnread && currentTargetId !== targetUid ? `<div class="unread-dot" style="width:10px; height:10px; background:var(--danger); border-radius:50%; margin-left:auto;"></div>` : '';
 
         div.innerHTML = `
-            <div class="chat-avatar" style="background-color: ${bgCol};">${title.charAt(0).toUpperCase()}</div>
+            <div class="chat-avatar" style="background-color: ${String(bgCol).replace(/[^#a-zA-Z0-9(),.%\s-]/g, '')};">${title.charAt(0).toUpperCase()}</div>
             <div class="chat-info" style="flex:1;">
-                <h4 style="color:${isSystem ? '#ff5555' : 'white'};" class="safe-title"></h4>
+                <h4 class="safe-title"></h4>
                 <p>${statusHTML}</p>
             </div>
             ${unreadDot}
@@ -458,7 +329,7 @@
         currentIsSystemChat = isSystem;
         
         chatName.innerText = title;
-        chatName.style.color = isSystem ? '#ff5555' : 'white';
+        chatName.style.color = isSystem ? 'var(--red)' : 'var(--text)';
         chatAvatar.innerText = title.charAt(0).toUpperCase();
         chatAvatar.style.backgroundColor = bgCol;
         chatStatus.innerHTML = statusHTML;
@@ -466,7 +337,7 @@
         if (isSystem) {
             inputForm.style.display = 'none';
             overseerBlock.style.display = 'block';
-            overseerBlock.innerText = "[ PROTOCOLLO A SENSO UNICO ] Direttiva di sistema. Impossibile rispondere.";
+            overseerBlock.innerText = "Non puoi rispondere ai messaggi dello staff. Per assistenza scrivi a info@kripix.com.";
         } else {
             inputForm.style.display = 'flex';
             overseerBlock.style.display = 'none';
@@ -474,7 +345,7 @@
 
         if (hasUnread) markChatAsRead({ targetUid: targetUid, isSystemChat: isSystem });
         
-        const dot = document.querySelector(`#chat-row-${targetUid} div[style*="background:#ff5555"]`);
+        const dot = document.querySelector(`#chat-row-${targetUid} div[style*="background:var(--danger)"]`);
         if (dot && !dot.classList.contains('chat-avatar')) dot.remove();
 
         loadMessages(targetUid, isSystem);
@@ -501,10 +372,10 @@
                 const isUnreadByOther = chatData[`unread_${targetUid}`];
 
                 if (isUnreadByOther) {
-                    receiptEl.innerText = "> CONSEGNATO";
+                    receiptEl.innerText = "Consegnato";
                     receiptEl.className = "msg-receipt receipt-sent";
                 } else {
-                    receiptEl.innerText = "> LETTO";
+                    receiptEl.innerText = "Letto";
                     receiptEl.className = "msg-receipt receipt-read";
                 }
             }
@@ -522,7 +393,7 @@
             if (snapshot.docChanges().length === 0) return;
 
             if (snapshot.empty) {
-                msgContainer.innerHTML = `<p style="text-align:center; color:#666; font-family:'Courier Prime'; font-size:0.8rem; margin-top:20px;">[ INIZIO TRASMISSIONE SECURA ]</p>`;
+                msgContainer.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:0.9rem; margin:20px auto 0;">Nessun messaggio. Scrivi tu per primo.</p>`;
                 return;
             }
 
@@ -576,7 +447,7 @@
                     const chatData = activeChats[targetUid];
                     if (chatData) {
                         const isUnreadByOther = chatData[`unread_${targetUid}`];
-                        receiptEl.innerText = isUnreadByOther ? "> CONSEGNATO" : "> LETTO";
+                        receiptEl.innerText = isUnreadByOther ? "Consegnato" : "Letto";
                         receiptEl.className = isUnreadByOther ? "msg-receipt receipt-sent" : "msg-receipt receipt-read";
                     }
                 } else {
@@ -608,8 +479,8 @@
             tempDiv.remove(); 
         } catch (e) {
             tempDiv.style.border = '1px solid #ff5555';
-            tempDiv.style.color = '#ff5555';
-            window.kripixNotify("ERRORE", "Messaggio non recapitato.", "error");
+            tempDiv.style.color = 'var(--danger)';
+            window.kripixNotify("Messaggio non inviato", "Controlla la connessione e riprova.", "error");
         }
     });
 

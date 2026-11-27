@@ -152,32 +152,32 @@ export function describeAuthError(error) {
     switch (code) {
         case 'auth/invalid-verification-code':
         case 'auth/invalid-verification-id':
-            return '>> CODICE NON VALIDO. Controlla che l\'orario del telefono sia sincronizzato e riprova.';
+            return 'Codice non valido. Controlla che l\'orario del telefono sia sincronizzato e riprova.';
 
         case 'auth/wrong-password':
         case 'auth/invalid-credential':
-            return '>> PASSWORD ERRATA.';
+            return 'Password errata.';
 
         case 'auth/too-many-requests':
-            return '>> TROPPI TENTATIVI. Attendi qualche minuto prima di riprovare.';
+            return 'Troppi tentativi. Attendi qualche minuto prima di riprovare.';
 
         case 'auth/requires-recent-login':
-            return '>> SESSIONE SCADUTA. Esci e rientra, poi riprova.';
+            return 'Sessione scaduta. Esci e rientra, poi riprova.';
 
         case 'auth/unsupported-first-factor':
         case 'auth/operation-not-allowed':
-            return '>> LA VERIFICA IN DUE PASSAGGI NON È ATTIVA SU QUESTO PROGETTO. Contatta lo staff.';
+            return 'La verifica in due passaggi non è attiva su questo progetto. Contatta lo staff.';
 
         case 'auth/second-factor-already-in-use':
-            return '>> QUESTO DISPOSITIVO È GIÀ REGISTRATO SULL\'ACCOUNT.';
+            return 'Questo dispositivo è già registrato sull\'account.';
 
         case 'auth/maximum-second-factor-count-exceeded':
-            return '>> HAI GIÀ RAGGIUNTO IL NUMERO MASSIMO DI DISPOSITIVI.';
+            return 'Hai già raggiunto il numero massimo di dispositivi.';
 
         case 'auth/network-request-failed':
-            return '>> CONNESSIONE ASSENTE. Verifica la rete e riprova.';
+            return 'Connessione assente. Verifica la rete e riprova.';
 
         default:
-            return '>> OPERAZIONE NON RIUSCITA. Riprova tra poco.';
+            return 'Operazione non riuscita. Riprova tra poco.';
     }
 }

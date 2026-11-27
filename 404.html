@@ -1,162 +1,41 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
- <!-- ========================================== -->
-    <!-- SEO & OPEN GRAPH (CONDIVISIONE SOCIAL)     -->
-    <!-- ========================================== -->
-    
-    <!-- Descrizione base per i motori di ricerca (Max 160 caratteri) -->
-    <meta name="description" content="Kripix Entertainment: A different way to see pixels">
-    
-    <!-- Parole chiave (Keywords) -->
-    <meta name="keywords" content="videogiochi, sviluppo indie, kripix, La Pagoda, pixel otros, engine narrativo, thriller psicologico">
-    
-    <!-- Autore -->
-    <meta name="author" content="Kripix Entertainment">
-    
-    <!-- Istruzioni per i Crawler (Permette a Google di indicizzare la pagina) -->
-    <meta name="robots" content="index, follow">
-
-    <!-- TAG OPEN GRAPH (Per Facebook, Discord, LinkedIn, ecc.) -->
-    <!-- Titolo che appare nell'anteprima -->
-    <meta property="og:title" content="Kripix Entertainment | A different way to see pixels">
-    
-    <!-- Descrizione dell'anteprima -->
-    <meta property="og:description" content="Esplora i nostri mondi immersivi. Scopri 'La Pagoda' e accedi al network operativo per gli agenti Kripix.">
-    
-    <!-- Immagine di copertina (DEVI METTERE UN URL ASSOLUTO VALIDO) -->
-    <!-- Esempio: "https://kripix-studio.netlify.app/assets/cover-social.jpg" -->
-    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png"> 
-    
-    <!-- URL della pagina principale -->
-    <meta property="og:url" content="https://kripixent.netlify.app/">
-    
-    <!-- Tipo di contenuto -->
-    <meta property="og:type" content="website">
-
-    <!-- TAG TWITTER / X (Specifici per la visualizzazione Card su X) -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kripix Entertainment">
-    <meta name="twitter:description" content="Creatori di esperienze narrative ad alta tensione. Unisciti al network.">
-    <meta name="twitter:image" content="https://kripixent.netlify.app/SocialPreview.png">
-    
-    <!-- Tema colore Browser Mobile (La barra in alto su Chrome per Android diventerà scura) -->
-    <meta name="theme-color" content="#05070a">   
     <meta charset="UTF-8">
-
-    <!-- ========================================== -->
-    <!-- FAVICON (ICONA SULLA TAB DEL BROWSER)      -->
-    <!-- ========================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+    <title>Pagina non trovata | Kripix</title>
+    <meta name="description" content="La pagina che cerchi non esiste.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico"> <!-- Fallback per browser vecchi -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Dossier Mancante</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
-    
-    <style>
-        /* CSS SPECIFICO PER LA 404 */
-        
-        /* Centratura Totale */
-        .error-container {
-            height: 100vh;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            text-align: center;
-            position: relative;
-            z-index: 2; /* Sopra l'overlay rosso */
-        }
-
-        /* Titolo 404 Glitch */
-        .glitch-text {
-            font-size: 10rem; 
-            font-weight: 900; 
-            color: var(--text-main); /* Avorio base */
-            line-height: 1;
-            margin-bottom: 10px;
-            position: relative;
-            /* Effetto ombra rossa spostata */
-            text-shadow: 4px 4px 0px var(--accent-red);
-            animation: textShudder 2s infinite;
-        }
-
-        /* Sottotitolo */
-        .error-title {
-            font-family: 'Courier Prime', monospace;
-            color: var(--accent-gold);
-            font-size: 1.5rem;
-            letter-spacing: 5px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        /* Descrizione */
-        .error-desc {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem; 
-            color: #888;
-            margin-bottom: 50px; 
-            max-width: 500px;
-            line-height: 1.6;
-        }
-
-        /* L'effetto Vignettatura Rossa Pulsante */
-        .red-alert-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; /* Lascia cliccare attraverso */
-            z-index: 1;
-            /* Ombra interna rossa sfumata */
-            box-shadow: inset 0 0 150px rgba(139, 35, 35, 0.4);
-            animation: pulseRed 3s infinite ease-in-out;
-        }
-
-        /* Animazione pulsazione */
-        @keyframes pulseRed {
-            0%, 100% { box-shadow: inset 0 0 100px rgba(139, 35, 35, 0.2); }
-            50% { box-shadow: inset 0 0 250px rgba(139, 35, 35, 0.6); }
-        }
-
-        /* Animazione tremolio testo */
-        @keyframes textShudder {
-            0%, 100% { transform: translate(0,0); }
-            95% { transform: translate(0,0); }
-            96% { transform: translate(-2px, 2px); }
-            97% { transform: translate(2px, -2px); }
-            98% { transform: translate(-2px, -2px); }
-            99% { transform: translate(2px, 2px); }
-        }
-
-    </style>
 </head>
 <body>
-    <!-- Sfondo standard -->
-    <div class="background-grid"></div>
+    <nav id="main-nav"></nav>
 
-    <!-- EFFETTO ANGOLI ROSSI -->
-    <div class="red-alert-overlay"></div>
+    <main class="error-page">
+        <img src="assets/img/pagoda-facade.jpg" alt="" class="error-bg">
+        <div class="error-inner">
+            <p class="error-code">404</p>
+            <h1 class="display-l" data-i18n="Questa porta è chiusa">Questa porta è chiusa</h1>
+            <p class="lead" style="margin:18px 0 30px" data-i18n="La pagina che cerchi non esiste, oppure è stata spostata.">La pagina che cerchi non esiste, oppure è stata spostata.</p>
+            <div class="btn-container">
+                <a href="index.html" class="btn-gold" data-i18n="Torna alla home">Torna alla home</a>
+                <a href="faq.html" class="btn-outline" data-i18n="Centro assistenza">Centro assistenza</a>
+            </div>
+        </div>
+    </main>
 
-    <!-- Navigazione Semplificata (Solo Logo) -->
-    <nav>
-        <div class="logo-text"><a href="index.html">KRIPIX</a></div>
-        <!-- Nessun altro link per non distrarre -->
-    </nav>
+    <footer id="main-footer" class="kripix-footer"></footer>
 
-    <!-- Contenuto Errore -->
-    <div class="error-container">
-        <h1 class="glitch-text">404</h1>
-        <h2 class="error-title">DOSSIER SCONOSCIUTO</h2>
-        
-        <p class="error-desc">
-            Il percorso che stai cercando di seguire non esiste o è stato cancellato.<br>
-            Non c'è nulla da vedere qui, Agente.
-        </p>
-        
-        <a href="index.html" class="btn-gold">RITORNA ALLA HOME</a>
-    </div>
-
+    <script type="module" src="script.js"></script>
 </body>
 </html>

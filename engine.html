@@ -1,41 +1,39 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta name="description" content="Kripix Entertainment: A different way to see pixels">
-    <meta name="author" content="Kripix Entertainment">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Otros | Kripix</title>
+    <meta name="description" content="Il motore grafico di Kripix Entertainment.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixel Otros - Kripix DevKit</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
+
+
     <style>
-        .engine-hero { height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle, #1a1a1a 0%, #000 90%); position: relative; overflow: hidden; }
-        .tech-grid { position: absolute; top:0; left:0; width:100%; height:100%; background-image: linear-gradient(rgba(227, 198, 108, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(227, 198, 108, 0.05) 1px, transparent 1px); background-size: 60px 60px; animation: gridMove 20s linear infinite; }
-        @keyframes gridMove { from { transform: translateY(0); } to { transform: translateY(60px); } }
-        .feature-card { background: rgba(255,255,255,0.02); border: 1px solid #333; padding: 30px; text-align: left; transition: 0.3s; }
-        .feature-card:hover { border-color: var(--accent-red); background: rgba(139, 35, 35, 0.05); }
-        .eula-container { background: #000; border: 1px solid #444; padding: 20px; height: 300px; overflow-y: scroll; margin: 30px 0; font-family: 'Courier Prime', monospace; font-size: 0.8rem; color: #aaa; text-align: left; }
-        .eula-container::-webkit-scrollbar { width: 5px; }
-        .eula-container::-webkit-scrollbar-thumb { background: var(--accent-gold); }
-        .warning-box { border: 1px solid var(--accent-red); background: rgba(139, 35, 35, 0.1); padding: 20px; margin-bottom: 40px; text-align: left; display: flex; gap: 20px; align-items: flex-start; }
+        .feature-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 26px; }
+        .feature-card h3 { font-family: var(--font-display); font-size: 1.8rem; text-transform: uppercase; line-height: 1; }
+        .eula-container { background: var(--bg); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 20px; height: 260px; overflow-y: auto; margin: 24px 0; font-size: .92rem; color: var(--text-soft); }
+        .warning-box { border: 1px solid color-mix(in srgb, var(--red) 45%, transparent); background: var(--red-soft); border-radius: var(--radius-lg); padding: 22px; margin-bottom: 40px; display: flex; gap: 18px; align-items: flex-start; }
+        @media (max-width: 760px) { .engine-features { grid-template-columns: 1fr !important; } .warning-box { flex-direction: column; } }
     </style>
 </head>
 <body>
     
 <nav id="main-nav"></nav>
 
-    <header class="engine-hero">
-        <div class="tech-grid"></div>
-        <div class="hero-content" style="z-index: 10;">
-            <p style="font-family:'Courier Prime'; color:var(--accent-red); letter-spacing:3px;">DEVELOPER KIT[ALPHA]</p>
-            <h1 style="font-size: 5rem; margin: 10px 0; line-height: 1;">PIXEL OTROS</h1>
-            <p class="tagline">The Ultimate Storytelling Engine.</p>
-        </div>
+    <header class="page-header">
+        <span class="tag red" data-i18n="Solo staff">Solo staff</span>
+        <h1 style="margin-top:16px">Pixel Otros</h1>
+        <p data-i18n="Il motore grafico di Kripix. Da qui scarichi l'SDK (versione alpha).">Il motore grafico di Kripix. Da qui scarichi l'SDK (versione alpha).</p>
     </header>
 
     <section class="section-padding">
@@ -46,35 +44,34 @@
                     <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
                 </div>
                 <div>
-                    <h4 style="color:var(--accent-red); margin-bottom:10px;">ATTENZIONE: ARCHITETTURA AD ALTO COSTO</h4>
+                    <h4 style="color:var(--red); margin-bottom:8px;">Richiede una macchina potente</h4>
                     <p style="font-size:0.9rem; opacity:0.8;">
-                        Pixel Otros non è progettato per la scalabilità. Utilizza una tecnologia di <strong>Streaming SSD Diretto</strong> che bypassa la RAM di sistema per caricare texture non compresse. 
-                        Questo motore è creato per un solo scopo: <strong>Iper-Realismo Narrativo</strong>.
+                        Pixel Otros legge le texture non compresse direttamente dall'SSD, senza passare dalla RAM. Ha senso solo su una workstation con un SSD NVMe veloce.
                     </p>
                 </div>
             </div>
 
-            <div class="download-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom:80px;">
-                <div class="feature-card"><h3 style="color:var(--accent-gold);">VRAM BYPASS</h3><p style="font-size:0.9rem; margin-top:10px;">Le texture vengono lette direttamente dall'NVMe.</p></div>
-                <div class="feature-card"><h3 style="color:var(--accent-gold);">NANO-VOXEL</h3><p style="font-size:0.9rem; margin-top:10px;">Geometria infinita. Niente più LOD.</p></div>
-                <div class="feature-card"><h3 style="color:var(--accent-gold);">GLOBAL LUMEN</h3><p style="font-size:0.9rem; margin-top:10px;">Raytracing pathtraced completo.</p></div>
+            <div class="download-grid engine-features" style="grid-template-columns: repeat(3, 1fr); margin-bottom:64px;">
+                <div class="feature-card"><h3>VRAM bypass</h3><p style="font-size:0.9rem; margin-top:10px;">Le texture arrivano direttamente dall'SSD NVMe.</p></div>
+                <div class="feature-card"><h3>Nano-Voxel</h3><p style="font-size:0.9rem; margin-top:10px;">Geometria infinita. Niente più LOD.</p></div>
+                <div class="feature-card"><h3>Global Lumen</h3><p style="font-size:0.9rem; margin-top:10px;">Illuminazione in path tracing completo.</p></div>
             </div>
 
-            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-                <h2 class="section-header" style="border:none; padding:0;">LICENZA D'USO</h2>
-                <p>Leggi attentamente i termini. Pixel Otros è software proprietario.</p>
+            <div style="max-width: 760px;">
+                <h2 class="section-header">Licenza d'uso</h2>
+                <p class="muted">Pixel Otros è software proprietario. Leggi i termini prima di scaricarlo.</p>
                 
                 <div class="eula-container">
-                    <p>TERMINI E CONDIZIONI KRIPIX ENTERTAINMENT...</p>
+                    <p>Termini e condizioni di Kripix Entertainment.</p>
                     <p>Scorri per leggere i dettagli della licenza d'uso del motore grafico.</p>
                 </div>
 
-                <label class="checkbox-container" style="display:inline-block; margin-bottom:30px; text-align:left;">
+                <label class="checkbox-container" style="margin-bottom:24px;">
                     <input type="checkbox" id="accept-eula">
-                    Ho letto, compreso e accetto di sacrificare le mie prestazioni per il realismo.
+                    Ho letto e accetto la licenza d'uso.
                 </label>
-                <br>
-                <button id="download-engine-btn" class="btn-gold" style="opacity:0.5; pointer-events:none;">SCARICA SDK (45 GB)</button>
+                <div></div>
+                <button id="download-engine-btn" class="btn-gold" style="opacity:0.5; pointer-events:none;">Scarica SDK (45 GB)</button>
             </div>
         </div>
     </section>
@@ -111,11 +108,11 @@
                     checkbox.disabled = true;
                     checkbox.checked = false;
                     label.style.opacity = "0.5";
-                    label.innerHTML = "<em>Installazione non supportata su architettura mobile.</em>";
+                    label.textContent = "L'SDK si installa solo da computer.";
 
-                    btn.innerText = "WORKSTATION RICHIESTA";
-                    btn.style.borderColor = "#ff4444"; 
-                    btn.style.color = "#ff4444";
+                    btn.innerText = "Serve un computer";
+                    btn.style.borderColor = "var(--danger)"; 
+                    btn.style.color = "var(--danger)";
                     btn.style.background = "rgba(255, 68, 68, 0.05)";
                     btn.style.opacity = "1"; 
                     btn.style.pointerEvents = "none";
@@ -125,7 +122,7 @@
                             btn.style.opacity = '1';
                             btn.style.pointerEvents = 'auto';
                             btn.style.borderColor = 'var(--accent-gold)';
-                            btn.style.color = '#000';
+                            btn.style.color = 'var(--on-gold)';
                             btn.style.background = 'var(--accent-gold)';
                         } else {
                             btn.style.opacity = '0.5';
@@ -136,10 +133,10 @@
                     });
 
                     btn.addEventListener('click', function() {
-                        this.innerHTML = "INIZIALIZZAZIONE...";
+                        this.innerHTML = "Preparazione…";
                         this.style.opacity = "0.7";
                         setTimeout(() => {
-                            alert("LICENZA DEV ACQUISITA.\nIl download è stato aggiunto alla coda del tuo Kripix Launcher.");
+                            alert("Licenza accettata. Trovi il download dell'SDK nel Kripix Launcher.");
                             window.location.href = "index.html"; 
                         }, 1500);
                     });

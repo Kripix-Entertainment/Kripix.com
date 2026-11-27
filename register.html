@@ -1,71 +1,60 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta name="description" content="Kripix Entertainment: A different way to see pixels">
-    <meta name="keywords" content="videogiochi, sviluppo indie, kripix, il filo del dubbio, pixel otros, engine narrativo, thriller psicologico">
-    <meta name="author" content="Kripix Entertainment">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Kripix Entertainment | A different way to see pixels">
-    <meta property="og:description" content="Esplora i nostri mondi immersivi. Scopri 'Il Filo del Dubbio' e accedi al network operativo per gli agenti Kripix.">
-    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png">
-    <meta property="og:url" content="https://kripixent.netlify.app/">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kripix Entertainment">
-    <meta name="twitter:description" content="Creatori di esperienze narrative ad alta tensione. Unisciti al network.">
-    <meta name="twitter:image" content="https://kripixent.netlify.app/SocialPreview.png">
-    <meta name="theme-color" content="#05070a">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea un account | Kripix</title>
+    <meta name="description" content="Crea il tuo account Kripix.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrazione - Kripix</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-grid"></div>
-    <nav>
-        <div class="logo-text"><a href="index.html">KRIPIX</a></div>
-        <a href="index.html" class="back-link">← ANNULLA</a>
-    </nav>
+    <nav id="main-nav"></nav>
     <div class="login-container">
         <div class="login-box">
             <div class="login-header">
-                <h2>NUOVO AGENTE</h2>
-                <p style="font-family:'Courier Prime'; font-size:0.8rem; color:#888;">INIZIALIZZAZIONE PROTOCOLLO CLOUD</p>
+                <h2 data-i18n="Crea un account">Crea un account</h2>
+                <p data-i18n="Ti serve per acquistare i giochi, usare il launcher e parlare con gli altri giocatori.">Ti serve per acquistare i giochi, usare il launcher e parlare con gli altri giocatori.</p>
             </div>
             <form class="terminal-form" id="registerForm" novalidate>
                 <div class="input-group">
-                    <label>EMAIL OPERATIVA</label>
-                    <input type="email" id="email" placeholder="nome@esempio.com" required>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="nome@esempio.com" required autocomplete="email">
                 </div>
                 <div class="input-group">
-                    <label>NOME IN CODICE (USERNAME)</label>
-                    <input type="text" id="regUsername" placeholder="Scegli il tuo ID" required autocomplete="off">
+                    <label for="regUsername" data-i18n="Nome utente">Nome utente</label>
+                    <input type="text" id="regUsername" placeholder="Il nome che vedranno gli altri" required autocomplete="username">
                 </div>
                 <div class="input-group">
-                    <label>PASSWORD (Min 8 car. + 1 Numero)</label>
-                    <input type="password" id="pass1" placeholder="Crea password" required>
+                    <label for="pass1" data-i18n="Password (almeno 8 caratteri e un numero)">Password (almeno 8 caratteri e un numero)</label>
+                    <input type="password" id="pass1" placeholder="Crea una password" required autocomplete="new-password">
                 </div>
                 <div class="input-group">
-                    <label>CONFERMA PASSWORD</label>
-                    <input type="password" id="pass2" placeholder="Ripeti password" required>
+                    <label for="pass2" data-i18n="Ripeti la password">Ripeti la password</label>
+                    <input type="password" id="pass2" placeholder="Ripeti la password" required autocomplete="new-password">
                 </div>
                 <div class="validation-msg" id="msg-server" style="text-align: center; margin-bottom: 15px; font-size: 0.85rem; display:none;"></div>
-                <button type="submit" id="btn-submit" class="btn-gold full-width glow-effect">CREA ACCOUNT</button>
+                <button type="submit" id="btn-submit" class="btn-gold full-width" data-i18n="Crea account">Crea account</button>
             </form>
             <div class="login-footer">
-                <p>Hai già un ID?</p>
-                <a href="login.html" class="register-link">TORNA AL LOGIN</a>
+                <p data-i18n="Hai già un account?">Hai già un account?</p>
+                <a href="login.html" class="register-link" data-i18n="Accedi">Accedi</a>
             </div>
         </div>
     </div>
 
     <!-- SCRIPT FIREBASE -->
+    <footer id="main-footer" class="kripix-footer"></footer>
+
 <script type="module">
     import { app, auth } from './script.js'; // <-- ECCO IL FIX!
     import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-functions.js";
@@ -89,33 +78,33 @@
 
         // CONTROLLO SPAZI FORZATO
         if (username.indexOf(' ') >= 0) {
-            serverMsg.innerText = ">> ERRORE: Il Nome in Codice non può contenere spazi.";
-            serverMsg.style.color = '#ff5555';
+            serverMsg.innerText = "Il nome utente non può contenere spazi.";
+            serverMsg.style.color = 'var(--danger)';
             serverMsg.style.display = 'block';
             return;
         }
 
         if (password !== pass2) {
-            serverMsg.innerText = ">> Le password non coincidono.";
-            serverMsg.style.color = '#ff5555';
+            serverMsg.innerText = "Le due password non sono uguali.";
+            serverMsg.style.color = 'var(--danger)';
             serverMsg.style.display = 'block';
             return;
         }
         if (password.length < 8) {
-            serverMsg.innerText = ">> La password è troppo corta.";
-            serverMsg.style.color = '#ff5555';
+            serverMsg.innerText = "La password è troppo corta: servono almeno 8 caratteri e un numero.";
+            serverMsg.style.color = 'var(--danger)';
             serverMsg.style.display = 'block';
             return;
         }
 
-        btnSubmit.innerHTML = 'INIZIALIZZAZIONE...';
+        btnSubmit.innerHTML = 'Creazione in corso…';
         btnSubmit.disabled = true;
         serverMsg.style.display = 'block';
         serverMsg.style.color = "var(--text-main)";
 
         try {
             // FASE 1: Creazione account sul Server (Cloud Function)
-            serverMsg.innerText = ">> FASE 1: Creazione dossier nel Cloud...";
+            serverMsg.innerText = "Creazione dell'account…";
             
             const createUserAccount = httpsCallable(functions, 'createUserAccount');
             const result = await createUserAccount({ email, password, username });
@@ -123,29 +112,29 @@
             if (result.data.status === 'success') {
                 
                 // FASE 2: Eseguiamo il login invisibile per poter mandare la mail
-                serverMsg.innerText = ">> FASE 2: Connessione per l'invio mail...";
+                serverMsg.innerText = "Preparazione dell'email di conferma…";
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 
                 // FASE 3: Mandiamo la Mail di Verifica di Firebase
-                serverMsg.innerText = ">> FASE 3: Trasmissione mail di sistema Firebase in corso...";
+                serverMsg.innerText = "Invio dell'email di conferma…";
                 await sendEmailVerification(userCredential.user);
                 
                 // Slogghiamo l'utente, così deve verificare l'email prima di entrare
                 await signOut(auth);
 
                 // FATTO!
-                serverMsg.innerText = ">> PROTOCOLLO COMPLETATO! Controlla la tua casella email (anche nello Spam).";
+                serverMsg.innerText = "Account creato. Ti abbiamo mandato un'email: apri il link per confermare l'indirizzo (controlla anche lo spam).";
                 serverMsg.style.color = "var(--accent-gold)";
-                btnSubmit.innerHTML = 'REGISTRAZIONE COMPLETATA';
+                btnSubmit.innerHTML = 'Account creato';
 
                 setTimeout(() => { window.location.href = 'login.html'; }, 4000);
             }
 
         } catch (error) {
             // L'errore ora verrà mostrato correttamente
-            serverMsg.innerText = '>> ERRORE: ' + error.message;
-            serverMsg.style.color = '#ff5555';
-            btnSubmit.innerHTML = 'CREA ACCOUNT';
+            serverMsg.innerText = 'Non è stato possibile creare l\'account: ' + error.message;
+            serverMsg.style.color = 'var(--danger)';
+            btnSubmit.innerHTML = 'Crea account';
             btnSubmit.disabled = false;
         }
     });

@@ -3,33 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO & OPEN GRAPH -->
-    <meta name="description" content="Domande frequenti e guide rapide: come creare un account Kripix, acquistare un gioco, installare il launcher e riscattare una chiave.">
-    <meta name="keywords" content="kripix, faq, supporto, assistenza, launcher, account, acquisto, chiave attivazione">
-    <meta name="author" content="Kripix Entertainment">
+    <title>Centro assistenza | Kripix Entertainment</title>
+    <meta name="description" content="Risposte su account, acquisti, chiavi e launcher.">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Domande Frequenti | Kripix Entertainment">
-    <meta property="og:description" content="Tutto quello che serve sapere su account, acquisti, launcher e licenze Kripix.">
+    <meta property="og:title" content="Centro assistenza | Kripix Entertainment">
+    <meta property="og:description" content="Risposte su account, acquisti, chiavi e launcher.">
     <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png">
     <meta property="og:url" content="https://kripixent.netlify.app/faq.html">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Domande Frequenti | Kripix">
-    <meta name="twitter:description" content="Account, acquisti, launcher e licenze: le risposte in un posto solo.">
-    <meta name="twitter:image" content="https://kripixent.netlify.app/SocialPreview.png">
-    <meta name="theme-color" content="#05070a">
-
-    <!-- FAVICON -->
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico">
-
-    <title>Domande Frequenti - Kripix</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
+
+
 
     <style>
         /* ============================================================
@@ -47,13 +41,13 @@
             width: 100%;
             padding: 16px 18px 16px 52px;
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid #333;
+            border: 1px solid var(--line);
             color: var(--text-main);
-            font-family: 'Courier Prime', monospace;
+            font-family: var(--font-body);
             font-size: 1rem;
             transition: 0.3s;
         }
-        .faq-search input::placeholder { color: #555; }
+        .faq-search input::placeholder { color: var(--text-faint); }
         .faq-search input:focus {
             outline: none;
             border-color: var(--accent-gold);
@@ -62,7 +56,7 @@
         }
         .faq-search .search-icon {
             position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
-            color: #555; pointer-events: none; transition: 0.3s;
+            color: var(--text-faint); pointer-events: none; transition: 0.3s;
         }
         .faq-search input:focus + .search-icon { color: var(--accent-gold); }
 
@@ -70,9 +64,9 @@
         .faq-filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
         .faq-chip {
             background: transparent;
-            border: 1px solid #333;
-            color: #888;
-            font-family: 'Courier Prime', monospace;
+            border: 1px solid var(--line);
+            color: var(--text-muted);
+            font-family: var(--font-body);
             font-size: 0.75rem;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -80,7 +74,7 @@
             cursor: pointer;
             transition: 0.25s;
         }
-        .faq-chip:hover { border-color: #666; color: var(--text-main); }
+        .faq-chip:hover { border-color: var(--line-strong); color: var(--text-main); }
         .faq-chip.active {
             border-color: var(--accent-gold);
             color: var(--accent-gold);
@@ -89,24 +83,24 @@
         }
 
         .faq-count {
-            font-family: 'Courier Prime', monospace;
+            font-family: var(--font-body);
             font-size: 0.75rem;
-            color: #555;
+            color: var(--text-faint);
             margin-bottom: 30px;
             letter-spacing: 1px;
         }
 
         /* ── Accordion ────────────────────────────────────────── */
         .faq-item {
-            border: 1px solid #222;
-            border-left: 2px solid #222;
+            border: 1px solid var(--line);
+            border-left: 2px solid var(--line);
             background: rgba(255, 255, 255, 0.02);
             margin-bottom: 12px;
             transition: border-color 0.3s, background 0.3s;
         }
-        .faq-item:hover { border-color: #3a3a3a; border-left-color: #555; }
+        .faq-item:hover { border-color: #3a3a3a; border-left-color: var(--line-strong); }
         .faq-item.open {
-            border-color: #333;
+            border-color: var(--line);
             border-left-color: var(--accent-gold);
             background: rgba(227, 198, 108, 0.03);
         }
@@ -120,7 +114,7 @@
             background: none;
             border: none;
             color: var(--text-main);
-            font-family: 'Montserrat', sans-serif;
+            font-family: var(--font-body);
             font-size: 1rem;
             font-weight: 600;
             padding: 20px 22px;
@@ -133,9 +127,9 @@
 
         /* Numero progressivo in stile terminale */
         .faq-q-index {
-            font-family: 'Courier Prime', monospace;
+            font-family: var(--font-body);
             font-size: 0.75rem;
-            color: #555;
+            color: var(--text-faint);
             flex-shrink: 0;
             transition: color 0.25s;
         }
@@ -145,7 +139,7 @@
 
         .faq-chevron {
             flex-shrink: 0;
-            color: #555;
+            color: var(--text-faint);
             display: flex;
             transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.25s;
         }
@@ -169,7 +163,7 @@
         .faq-a p + p { margin-top: 12px; }
         .faq-a strong { color: var(--text-main); font-weight: 600; }
         .faq-a code {
-            font-family: 'Courier Prime', monospace;
+            font-family: var(--font-body);
             color: var(--accent-gold);
             background: rgba(227, 198, 108, 0.08);
             padding: 2px 6px;
@@ -183,12 +177,12 @@
             display: none;
             text-align: center;
             padding: 60px 20px;
-            border: 1px dashed #333;
-            font-family: 'Courier Prime', monospace;
-            color: #666;
+            border: 1px dashed var(--line);
+            font-family: var(--font-body);
+            color: var(--text-faint);
         }
         .faq-empty.visible { display: block; }
-        .faq-empty span { display: block; color: #444; font-size: 0.85rem; margin-top: 10px; }
+        .faq-empty span { display: block; color: var(--text-faint); font-size: 0.85rem; margin-top: 10px; }
 
         /* ── Guide rapide ─────────────────────────────────────── */
         .guides-grid {
@@ -198,7 +192,7 @@
         }
         .guide-card {
             background: rgba(255, 255, 255, 0.02);
-            border: 1px solid #222;
+            border: 1px solid var(--line);
             border-top: 2px solid var(--accent-gold);
             padding: 28px 26px;
             position: relative;
@@ -206,7 +200,7 @@
         }
         .guide-card:hover {
             transform: translateY(-4px);
-            border-color: #333;
+            border-color: var(--line);
             border-top-color: var(--accent-gold);
             box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
             background: rgba(227, 198, 108, 0.03);
@@ -214,7 +208,7 @@
         .guide-num {
             position: absolute;
             top: 16px; right: 20px;
-            font-family: 'Montserrat', sans-serif;
+            font-family: var(--font-body);
             font-weight: 900;
             font-size: 2.6rem;
             line-height: 1;
@@ -236,13 +230,13 @@
             padding-left: 32px;
             margin-bottom: 12px;
             font-size: 0.88rem;
-            color: #999;
+            color: var(--text-muted);
             line-height: 1.55;
         }
         .guide-steps li::before {
             content: counter(step, decimal-leading-zero);
             position: absolute; left: 0; top: 1px;
-            font-family: 'Courier Prime', monospace;
+            font-family: var(--font-body);
             font-size: 0.75rem;
             color: var(--accent-gold);
             opacity: 0.7;
@@ -250,7 +244,7 @@
         .guide-link {
             display: inline-block;
             margin-top: 8px;
-            font-family: 'Courier Prime', monospace;
+            font-family: var(--font-body);
             font-size: 0.8rem;
             color: var(--accent-gold);
             text-decoration: none;
@@ -262,7 +256,7 @@
         .ai-teaser {
             margin-top: 60px;
             display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
-            border: 1px dashed #333;
+            border: 1px dashed var(--line);
             background: rgba(227, 198, 108, 0.03);
             padding: 24px 26px;
             transition: 0.3s;
@@ -278,11 +272,11 @@
         .ai-teaser-mark .icon { width: 24px; height: 24px; }
         .ai-teaser-text { flex: 1; min-width: 220px; }
         .ai-teaser h3 {
-            font-family: 'Montserrat', sans-serif;
+            font-family: var(--font-body);
             font-size: 0.95rem; font-weight: 900; letter-spacing: 2px;
             color: var(--text-main); margin-bottom: 5px;
         }
-        .ai-teaser p { color: #888; font-size: 0.87rem; line-height: 1.6; }
+        .ai-teaser p { color: var(--text-muted); font-size: 0.87rem; line-height: 1.6; }
         .ai-teaser-cta { flex-shrink: 0; padding: 11px 22px; font-size: 0.75rem; }
 
         /* ── Box finale di contatto ───────────────────────────── */
@@ -297,12 +291,12 @@
         }
         .help-cta:hover { border-style: solid; background: rgba(227, 198, 108, 0.07); }
         .help-cta h3 { font-size: 1.6rem; margin-bottom: 12px; color: var(--text-main); }
-        .help-cta p { color: #888; font-family: 'Courier Prime', monospace; font-size: 0.9rem; margin-bottom: 28px; }
+        .help-cta p { color: var(--text-muted); font-family: var(--font-body); font-size: 0.9rem; margin-bottom: 28px; }
         .help-actions { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
 
         /* Titoletto di sezione in stile terminale */
         .term-label {
-            font-family: 'Courier Prime', monospace;
+            font-family: var(--font-body);
             color: var(--accent-red);
             letter-spacing: 3px;
             font-size: 0.8rem;
@@ -321,22 +315,55 @@
             .block-title { font-size: 1.5rem; }
             .help-cta { padding: 35px 22px; }
         }
+        /* ── Ritocchi del nuovo stile ─────────────────────────── */
+        .faq-wrap { max-width: 920px; margin: 0; }
+        .term-label, .guide-num, .faq-q-index { display: none !important; }
+        .block-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.4rem, 5vw, 3.6rem); line-height: .92; letter-spacing: 0; margin-bottom: 28px; }
+        .guides-grid { gap: 16px; }
+        .guide-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px; }
+        .guide-card:hover { transform: none; box-shadow: none; background: var(--surface); border-color: var(--line-strong); }
+        .guide-card h3 { font-size: 1.15rem; text-transform: none; letter-spacing: 0; padding-right: 0; margin-bottom: 14px; }
+        .guide-steps li { color: var(--text-soft); font-size: .93rem; padding-left: 26px; }
+        .guide-steps li::before { content: counter(step) "."; color: var(--text-muted); opacity: 1; font-weight: 700; font-size: .9rem; top: 0; }
+        .guide-link { color: var(--text); font-weight: 600; font-size: .92rem; border-bottom: 1px solid var(--gold); padding-bottom: 1px; }
+        .guide-link:hover { letter-spacing: 0; color: var(--gold); }
+        .faq-search input { background: var(--bg); border: 1px solid var(--line-strong); border-radius: 99px; }
+        .faq-search input:focus { background: var(--bg); box-shadow: 0 0 0 3px var(--gold-soft); }
+        .faq-chip { border-radius: 99px; text-transform: none; letter-spacing: 0; font-size: .9rem; font-weight: 600; padding: 7px 16px; border-color: var(--line-strong); color: var(--text-soft); }
+        .faq-chip.active { background: var(--text); color: var(--bg); border-color: var(--text); box-shadow: none; }
+        .faq-count { font-size: .9rem; letter-spacing: 0; color: var(--text-muted); margin-bottom: 18px; }
+        .faq-item { border: 0; border-bottom: 1px solid var(--line); background: none; margin: 0; }
+        .faq-item:first-child { border-top: 1px solid var(--line); }
+        .faq-item:hover, .faq-item.open { border-color: var(--line); border-left-color: transparent; background: none; }
+        .faq-q { padding: 20px 0; font-size: 1.08rem; }
+        .faq-q:hover, .faq-item.open .faq-q { color: var(--text); }
+        .faq-item.open .faq-chevron { color: var(--text); }
+        .faq-a { padding: 0 0 22px; color: var(--text-soft); font-size: 1rem; }
+        .faq-a code { font-family: var(--font-mono); color: var(--text); background: var(--surface-2); border-radius: 3px; }
+        .faq-a a { color: var(--text); border-bottom-color: var(--gold); }
+        .ai-teaser, .help-cta { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+        .ai-teaser:hover, .help-cta:hover { background: var(--surface); border-style: solid; border-color: var(--line-strong); }
+        .ai-teaser h3 { font-size: 1.1rem; letter-spacing: 0; font-weight: 700; }
+        .ai-teaser-mark { border-radius: 50%; }
+        .help-cta { max-width: 920px; margin: 72px 0 0; text-align: left; }
+        .help-cta h3 { font-family: var(--font-display); font-size: 2.4rem; text-transform: uppercase; line-height: 1; }
+        .help-actions { justify-content: flex-start; }
+        .faq-empty { border-radius: var(--radius-lg); color: var(--text-muted); }
     </style>
 </head>
 <body>
-    <div class="background-grid"></div>
 
     <nav id="main-nav"></nav>
 
     <div class="page-header">
-        <h1 data-i18n="CENTRO ASSISTENZA">CENTRO ASSISTENZA</h1>
-        <p style="opacity: 0.7; font-family: 'Courier Prime'; margin-top: 10px;" data-i18n="Domande frequenti, guide rapide e istruzioni operative.">Domande frequenti, guide rapide e istruzioni operative.</p>
+        <h1 data-i18n="Centro assistenza">Centro assistenza</h1>
+        <p data-i18n="Guide rapide e risposte alle domande più comuni.">Guide rapide e risposte alle domande più comuni.</p>
     </div>
 
     <!-- ========== GUIDE RAPIDE ========== -->
     <section class="section-padding" style="padding-top: 30px; padding-bottom: 60px;">
         <div class="container faq-wrap">
-            <p class="term-label" data-i18n="PRIMI PASSI">PRIMI PASSI</p>
+            <p class="term-label" data-i18n="Primi passi">Primi passi</p>
             <h2 class="block-title" data-i18n="Guide rapide">Guide rapide</h2>
 
             <div class="guides-grid">
@@ -346,23 +373,23 @@
                     <h3 data-i18n="Creare un account">Creare un account</h3>
                     <ol class="guide-steps">
                         <li data-i18n="Apri la pagina di registrazione e inserisci la tua email.">Apri la pagina di registrazione e inserisci la tua email.</li>
-                        <li data-i18n="Scegli un Nome in Codice unico, senza spazi.">Scegli un Nome in Codice unico, senza spazi.</li>
+                        <li data-i18n="Scegli un nome utente unico, senza spazi.">Scegli un nome utente unico, senza spazi.</li>
                         <li data-i18n="Imposta una password di almeno 8 caratteri con un numero.">Imposta una password di almeno 8 caratteri con un numero.</li>
                         <li data-i18n="Conferma il link di verifica che ricevi via email e accedi.">Conferma il link di verifica che ricevi via email e accedi.</li>
                     </ol>
-                    <a href="register.html" class="guide-link" data-i18n="Crea il tuo Kripix ID →">Crea il tuo Kripix ID →</a>
+                    <a href="register.html" class="guide-link" data-i18n="Crea il tuo account Kripix">Crea il tuo account Kripix</a>
                 </article>
 
                 <article class="guide-card">
                     <div class="guide-num" aria-hidden="true">02</div>
                     <h3 data-i18n="Acquistare un gioco">Acquistare un gioco</h3>
                     <ol class="guide-steps">
-                        <li data-i18n="Accedi con il tuo Kripix ID: la licenza viene legata all'account.">Accedi con il tuo Kripix ID: la licenza viene legata all'account.</li>
+                        <li data-i18n="Accedi con il tuo account Kripix: la licenza viene legata all'account.">Accedi con il tuo account Kripix: la licenza viene legata all'account.</li>
                         <li data-i18n="Apri il catalogo e scegli l'edizione che preferisci.">Apri il catalogo e scegli l'edizione che preferisci.</li>
-                        <li data-i18n="Completa il pagamento sul terminale protetto da Stripe.">Completa il pagamento sul terminale protetto da Stripe.</li>
+                        <li data-i18n="Completa il pagamento sulla pagina protetta da Stripe.">Completa il pagamento sulla pagina protetta da Stripe.</li>
                         <li data-i18n="Trovi subito gioco e chiave nella tua Libreria.">Trovi subito gioco e chiave nella tua Libreria.</li>
                     </ol>
-                    <a href="progetti.html" class="guide-link" data-i18n="Vai al catalogo →">Vai al catalogo →</a>
+                    <a href="progetti.html" class="guide-link" data-i18n="Vai al catalogo">Vai al catalogo</a>
                 </article>
 
                 <article class="guide-card">
@@ -372,33 +399,33 @@
                         <li data-i18n="Vai alla pagina di download: il sistema operativo viene riconosciuto da solo.">Vai alla pagina di download: il sistema operativo viene riconosciuto da solo.</li>
                         <li data-i18n="Scarica il file .exe su Windows oppure .dmg su macOS.">Scarica il file .exe su Windows oppure .dmg su macOS.</li>
                         <li data-i18n="Avvia l'installazione e apri il Kripix Launcher.">Avvia l'installazione e apri il Kripix Launcher.</li>
-                        <li data-i18n="Accedi con il tuo Kripix ID: la libreria si sincronizza da sola.">Accedi con il tuo Kripix ID: la libreria si sincronizza da sola.</li>
+                        <li data-i18n="Accedi con il tuo account Kripix: la libreria si sincronizza da sola.">Accedi con il tuo account Kripix: la libreria si sincronizza da sola.</li>
                     </ol>
-                    <a href="download.html" class="guide-link" data-i18n="Scarica il launcher →">Scarica il launcher →</a>
+                    <a href="download.html" class="guide-link" data-i18n="Scarica il launcher">Scarica il launcher</a>
                 </article>
 
                 <article class="guide-card">
                     <div class="guide-num" aria-hidden="true">04</div>
                     <h3 data-i18n="Riscattare una chiave">Riscattare una chiave</h3>
                     <ol class="guide-steps">
-                        <li data-i18n="Entra in Configurazione dal menu del tuo avatar.">Entra in Configurazione dal menu del tuo avatar.</li>
-                        <li data-i18n="Apri la sezione Licenze Esterne.">Apri la sezione Licenze Esterne.</li>
+                        <li data-i18n="Apri le Impostazioni dal menu del tuo avatar.">Apri le Impostazioni dal menu del tuo avatar.</li>
+                        <li data-i18n="Apri la sezione Codici di attivazione.">Apri la sezione Codici di attivazione.</li>
                         <li data-i18n="Premi Inserisci Chiave e digita il codice.">Premi Inserisci Chiave e digita il codice.</li>
                         <li data-i18n="Il gioco compare nella Libreria dopo la verifica.">Il gioco compare nella Libreria dopo la verifica.</li>
                     </ol>
-                    <a href="impostazioni.html" class="guide-link" data-i18n="Apri la configurazione →">Apri la configurazione →</a>
+                    <a href="impostazioni.html" class="guide-link" data-i18n="Apri le impostazioni">Apri le impostazioni</a>
                 </article>
 
                 <article class="guide-card">
                     <div class="guide-num" aria-hidden="true">05</div>
                     <h3 data-i18n="Proteggere l'account">Proteggere l'account</h3>
                     <ol class="guide-steps">
-                        <li data-i18n="In Configurazione apri la sezione Sicurezza.">In Configurazione apri la sezione Sicurezza.</li>
+                        <li data-i18n="In Impostazioni apri la sezione Sicurezza.">In Impostazioni apri la sezione Sicurezza.</li>
                         <li data-i18n="Attiva la Verifica in Due Passaggi e conferma la password.">Attiva la Verifica in Due Passaggi e conferma la password.</li>
                         <li data-i18n="Inquadra il QR con la tua app di autenticazione.">Inquadra il QR con la tua app di autenticazione.</li>
                         <li data-i18n="Digita il codice a 6 cifre per completare l'attivazione.">Digita il codice a 6 cifre per completare l'attivazione.</li>
                     </ol>
-                    <a href="impostazioni.html#sicurezza" class="guide-link" data-i18n="Attiva la 2FA →">Attiva la 2FA →</a>
+                    <a href="impostazioni.html#sicurezza" class="guide-link" data-i18n="Attiva la 2FA">Attiva la 2FA</a>
                 </article>
 
                 <article class="guide-card">
@@ -408,9 +435,9 @@
                         <li data-i18n="Nella pagina di accesso premi Password dimenticata.">Nella pagina di accesso premi Password dimenticata.</li>
                         <li data-i18n="Inserisci l'email con cui ti sei registrato.">Inserisci l'email con cui ti sei registrato.</li>
                         <li data-i18n="Apri il link che ricevi, controllando anche lo Spam.">Apri il link che ricevi, controllando anche lo Spam.</li>
-                        <li data-i18n="Imposta la nuova password e rientra nel network.">Imposta la nuova password e rientra nel network.</li>
+                        <li data-i18n="Imposta la nuova password e rientra nel tuo account.">Imposta la nuova password e rientra nel tuo account.</li>
                     </ol>
-                    <a href="reset.html" class="guide-link" data-i18n="Recupera la password →">Recupera la password →</a>
+                    <a href="reset.html" class="guide-link" data-i18n="Recupera la password">Recupera la password</a>
                 </article>
 
             </div>
@@ -420,7 +447,7 @@
     <!-- ========== DOMANDE E RISPOSTE ========== -->
     <section class="section-padding bg-darker" style="padding-top: 80px;">
         <div class="container faq-wrap">
-            <p class="term-label" data-i18n="ARCHIVIO RISPOSTE">ARCHIVIO RISPOSTE</p>
+            <p class="term-label" data-i18n="Archivio risposte">Archivio risposte</p>
             <h2 class="block-title" data-i18n="Domande frequenti">Domande frequenti</h2>
 
             <!-- Ricerca -->
@@ -454,8 +481,8 @@
                     </button>
                     <div class="faq-a-wrap" id="a-crea-account" role="region">
                         <div class="faq-a-inner"><div class="faq-a">
-                            <p data-i18n-html data-i18n="faq_a_crea_account">Vai su <a href="register.html">Crea nuovo account</a>, inserisci la tua email, scegli un Nome in Codice unico (senza spazi) e una password di almeno 8 caratteri con almeno un numero. Ti arriverà un'email di verifica: finché non la confermi, l'accesso resta bloccato.</p>
-                            <p data-i18n-html data-i18n="faq_a_crea_account_2">Puoi anche usare <strong>Accedi con Google</strong>. In quel caso ti verrà comunque chiesto di scegliere un Nome in Codice per completare il reclutamento: se salti questo passaggio l'account resta incompleto e non potrai entrare.</p>
+                            <p data-i18n-html data-i18n="faq_a_crea_account">Vai su <a href="register.html">Crea nuovo account</a>, inserisci la tua email, scegli un nome utente unico (senza spazi) e una password di almeno 8 caratteri con almeno un numero. Ti arriverà un'email di verifica: finché non la confermi, l'accesso resta bloccato.</p>
+                            <p data-i18n-html data-i18n="faq_a_crea_account_2">Puoi anche usare <strong>Accedi con Google</strong>. In quel caso ti verrà comunque chiesto di scegliere un nome utente per completare la registrazione: se salti questo passaggio l'account resta incompleto e non potrai entrare.</p>
                         </div></div>
                     </div>
                 </div>
@@ -476,12 +503,12 @@
                 <div class="faq-item" data-cat="account" id="q-modifica-id">
                     <button class="faq-q" type="button" aria-expanded="false" aria-controls="a-modifica-id">
                         <span class="faq-q-index" aria-hidden="true"></span>
-                        <span class="faq-q-text" data-i18n="Posso cambiare Nome in Codice o email?">Posso cambiare Nome in Codice o email?</span>
+                        <span class="faq-q-text" data-i18n="Posso cambiare nome utente o email?">Posso cambiare nome utente o email?</span>
                         <span class="faq-chevron" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span>
                     </button>
                     <div class="faq-a-wrap" id="a-modifica-id" role="region">
                         <div class="faq-a-inner"><div class="faq-a">
-                            <p data-i18n-html data-i18n="faq_a_modifica_id">Sì. Apri <a href="impostazioni.html">Configurazione</a> e vai su <strong>Identità Agente</strong>. Il Nome in Codice deve essere unico nel network e non può contenere spazi. Se cambi email ti verrà inviata una nuova verifica al nuovo indirizzo.</p>
+                            <p data-i18n-html data-i18n="faq_a_modifica_id">Sì. Apri <a href="impostazioni.html">Impostazioni</a> e vai su <strong>Il tuo profilo</strong>. Il nome utente deve essere unico e non può contenere spazi. Se cambi email ti verrà inviata una nuova verifica al nuovo indirizzo.</p>
                         </div></div>
                     </div>
                 </div>
@@ -507,7 +534,7 @@
                     </button>
                     <div class="faq-a-wrap" id="a-2fa" role="region">
                         <div class="faq-a-inner"><div class="faq-a">
-                            <p data-i18n-html data-i18n="faq_a_2fa">Apri <a href="impostazioni.html#sicurezza">Configurazione → Sicurezza</a> e premi <strong>Attiva protezione</strong>. Dopo aver confermato la password ti mostriamo un QR: inquadralo con la tua app di autenticazione (Google Authenticator, Authy, 1Password, Bitwarden vanno tutte bene) e digita il codice a 6 cifre che compare.</p>
+                            <p data-i18n-html data-i18n="faq_a_2fa">Apri <a href="impostazioni.html#sicurezza">Impostazioni → Sicurezza</a> e premi <strong>Attiva protezione</strong>. Dopo aver confermato la password ti mostriamo un QR: inquadralo con la tua app di autenticazione (Google Authenticator, Authy, 1Password, Bitwarden vanno tutte bene) e digita il codice a 6 cifre che compare.</p>
                             <p data-i18n-html data-i18n="faq_a_2fa_2">Da quel momento, a ogni accesso ti verrà chiesto il codice oltre alla password. Il codice cambia ogni 30 secondi e viene generato dal tuo telefono: non lo inviamo via email né via SMS.</p>
                         </div></div>
                     </div>
@@ -535,7 +562,7 @@
                     </button>
                     <div class="faq-a-wrap" id="a-elimina-account" role="region">
                         <div class="faq-a-inner"><div class="faq-a">
-                            <p data-i18n-html data-i18n="faq_a_elimina_account">Da <a href="impostazioni.html">Configurazione</a> → <strong>Zona Rossa</strong> → Elimina Account. Ti verrà chiesta la password attuale come conferma.</p>
+                            <p data-i18n-html data-i18n="faq_a_elimina_account">Da <a href="impostazioni.html">Impostazioni</a> → <strong>Zona pericolosa</strong> → Elimina Account. Ti verrà chiesta la password attuale come conferma.</p>
                             <p data-i18n-html data-i18n="faq_a_elimina_account_2">L'operazione è irreversibile: vengono cancellati profilo, licenze acquistate, chiavi e rete di contatti. Se ti servono le ricevute, scaricale in PDF dalla Libreria prima di procedere.</p>
                         </div></div>
                     </div>
@@ -550,7 +577,7 @@
                     </button>
                     <div class="faq-a-wrap" id="a-acquisto" role="region">
                         <div class="faq-a-inner"><div class="faq-a">
-                            <p data-i18n-html data-i18n="faq_a_acquisto">Accedi con il tuo Kripix ID, apri il <a href="progetti.html">catalogo</a>, scegli il gioco e premi <strong>Acquista ora</strong>. Verrai portato al terminale di pagamento protetto da Stripe.</p>
+                            <p data-i18n-html data-i18n="faq_a_acquisto">Accedi con il tuo account Kripix, apri il <a href="progetti.html">catalogo</a>, scegli il gioco e premi <strong>Acquista ora</strong>. Verrai portato al pagina di pagamento protetto da Stripe.</p>
                             <p data-i18n-html data-i18n="faq_a_acquisto_2">A pagamento riuscito la licenza viene assegnata immediatamente: la trovi nella <a href="libreria.html">Libreria</a> insieme alla chiave di attivazione e alla ricevuta.</p>
                         </div></div>
                     </div>
@@ -577,7 +604,7 @@
                     </button>
                     <div class="faq-a-wrap" id="a-store-vs-steam" role="region">
                         <div class="faq-a-inner"><div class="faq-a">
-                            <p data-i18n-html data-i18n="faq_a_store_vs_steam">Il prezzo è lo stesso, ma sul Kripix Store ricevi la <strong>Deluxe Edition</strong> — artbook digitale, dossier e filtri extra — e l'intero ricavo resta allo studio. Su Steam trovi l'edizione standard.</p>
+                            <p data-i18n-html data-i18n="faq_a_store_vs_steam">Il prezzo è lo stesso, ma sul Kripix Store ricevi la <strong>Deluxe Edition</strong> — artbook digitale, documenti del caso e filtri extra — e l'intero ricavo resta allo studio. Su Steam trovi l'edizione standard.</p>
                         </div></div>
                     </div>
                 </div>
@@ -603,7 +630,7 @@
                     </button>
                     <div class="faq-a-wrap" id="a-riscatto" role="region">
                         <div class="faq-a-inner"><div class="faq-a">
-                            <p data-i18n-html data-i18n="faq_a_riscatto">Apri <a href="impostazioni.html">Configurazione</a> → <strong>Licenze Esterne</strong> → Inserisci chiave. Il formato è <code>KRPX-XXXX-XXXX-XXXX</code>. Dopo la verifica il gioco compare nella tua Libreria: ogni chiave può essere riscattata una sola volta.</p>
+                            <p data-i18n-html data-i18n="faq_a_riscatto">Apri <a href="impostazioni.html">Impostazioni</a> → <strong>Codici di attivazione</strong> → Inserisci chiave. Il formato è <code>KRPX-XXXX-XXXX-XXXX</code>. Dopo la verifica il gioco compare nella tua Libreria: ogni chiave può essere riscattata una sola volta.</p>
                         </div></div>
                     </div>
                 </div>
@@ -631,7 +658,7 @@
                     <div class="faq-a-wrap" id="a-installa-launcher" role="region">
                         <div class="faq-a-inner"><div class="faq-a">
                             <p data-i18n-html data-i18n="faq_a_installa_launcher">Dalla pagina <a href="download.html">Scarica App</a>: il sito riconosce il tuo sistema ed evidenzia la versione giusta. Scarica il <code>.exe</code> su Windows o il <code>.dmg</code> su macOS, completa l'installazione e apri il launcher.</p>
-                            <p data-i18n-html data-i18n="faq_a_installa_launcher_2">Al primo avvio accedi con lo stesso Kripix ID del sito: la tua libreria e le tue licenze si sincronizzano da sole.</p>
+                            <p data-i18n-html data-i18n="faq_a_installa_launcher_2">Al primo avvio accedi con lo stesso account Kripix del sito: la tua libreria e le tue licenze si sincronizzano da sole.</p>
                         </div></div>
                     </div>
                 </div>
@@ -658,7 +685,7 @@
                     </button>
                     <div class="faq-a-wrap" id="a-salvataggi" role="region">
                         <div class="faq-a-inner"><div class="faq-a">
-                            <p data-i18n-html data-i18n="faq_a_salvataggi">Sì. Quando sei online i progressi vengono caricati sul cloud e legati al tuo Kripix ID, così li ritrovi su qualsiasi computer. Se giochi offline il salvataggio resta in locale e viene sincronizzato al primo collegamento.</p>
+                            <p data-i18n-html data-i18n="faq_a_salvataggi">Sì. Quando sei online i progressi vengono caricati sul cloud e legati al tuo account Kripix, così li ritrovi su qualsiasi computer. Se giochi offline il salvataggio resta in locale e viene sincronizzato al primo collegamento.</p>
                         </div></div>
                     </div>
                 </div>
@@ -698,7 +725,7 @@
                     </button>
                     <div class="faq-a-wrap" id="a-privacy" role="region">
                         <div class="faq-a-inner"><div class="faq-a">
-                            <p data-i18n-html data-i18n="faq_a_privacy">Solo quello che serve a far funzionare l'account: email, Nome in Codice, licenze e lista contatti. La telemetria su crash e prestazioni è facoltativa e si disattiva da <a href="impostazioni.html">Configurazione</a> → Privacy &amp; Dati. Il dettaglio completo è nel <a href="cookies.html">Dossier Privacy</a>.</p>
+                            <p data-i18n-html data-i18n="faq_a_privacy">Solo quello che serve a far funzionare l'account: email, nome utente, licenze e lista contatti. La telemetria su crash e prestazioni è facoltativa e si disattiva da <a href="impostazioni.html">Impostazioni</a> → Privacy &amp; Dati. Il dettaglio completo è nel <a href="cookies.html">Informativa privacy</a>.</p>
                         </div></div>
                     </div>
                 </div>
@@ -719,7 +746,7 @@
             </div>
 
             <div class="faq-empty" id="faq-empty">
-                <span style="color:#888; font-size:1rem; margin:0;" data-i18n="&gt;&gt; NESSUN RISULTATO NELL'ARCHIVIO">&gt;&gt; NESSUN RISULTATO NELL'ARCHIVIO</span>
+                <span style="color:var(--text); font-size:1.1rem; font-weight:600; margin:0;" data-i18n="Nessuna risposta trovata">Nessuna risposta trovata</span>
                 <span data-i18n="Prova con parole diverse oppure scrivici: rispondiamo noi.">Prova con parole diverse oppure scrivici: rispondiamo noi.</span>
             </div>
 
@@ -729,10 +756,10 @@
                     <svg class="icon" viewBox="0 0 24 24"><path d="M12 3v3"/><rect x="4" y="6" width="16" height="12" rx="3"/><circle cx="9" cy="12" r="1.2"/><circle cx="15" cy="12" r="1.2"/><path d="M2 11v3"/><path d="M22 11v3"/><path d="M9.5 21h5"/></svg>
                 </span>
                 <div class="ai-teaser-text">
-                    <h3 data-i18n="KRIPIX AI">KRIPIX AI</h3>
+                    <h3 data-i18n="Kripix AI">Kripix AI</h3>
                     <p id="ai-teaser-msg"></p>
                 </div>
-                <a href="profilo.html" class="btn-outline ai-teaser-cta" id="ai-teaser-cta" data-i18n="RICHIEDI L'ACCESSO">RICHIEDI L'ACCESSO</a>
+                <a href="profilo.html" class="btn-outline ai-teaser-cta" id="ai-teaser-cta" data-i18n="Richiedi l'accesso">Richiedi l'accesso</a>
             </section>
 
             <!-- Box contatto finale -->
@@ -791,12 +818,12 @@
             const total = items.length;
             if (visible === total) {
                 counter.textContent = isEnglish
-                    ? `> ${total} questions in the archive`
-                    : `> ${total} domande in archivio`;
+                    ? `${total} questions`
+                    : `${total} domande`;
             } else {
                 counter.textContent = isEnglish
-                    ? `> ${visible} of ${total} questions`
-                    : `> ${visible} di ${total} domande`;
+                    ? `${visible} of ${total} questions`
+                    : `${visible} di ${total} domande`;
             }
         }
 
@@ -884,8 +911,8 @@
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 mostra(
-                    "Un assistente che conosce il Network e ti accompagna nel problema. È in beta chiusa: accedi per vedere se hai l'accesso.",
-                    'ACCEDI', 'login.html'
+                    "Un assistente che conosce i nostri giochi e il sito, e ti aiuta a risolvere il problema. È in beta chiusa: accedi per vedere se puoi usarlo.",
+                    'Accedi', 'login.html'
                 );
                 return;
             }
@@ -900,11 +927,11 @@
                     // La chat è già raggiungibile dal pulsante in basso a destra
                     mostra("Hai accesso alla beta: trovi l'assistente nel pulsante in basso a destra, su qualsiasi pagina.", null);
                 } else if (stato === 'pending') {
-                    mostra('La tua richiesta di accesso è in valutazione. Ti avvisiamo nel Terminale appena viene decisa.', null);
+                    mostra('La tua richiesta di accesso è in valutazione. Ti avvisiamo nei messaggi appena viene decisa.', null);
                 } else {
                     mostra(
-                        'Un assistente che conosce il Network e ti accompagna nel problema. In questo momento è aperto a un gruppo ristretto di agenti.',
-                        "RICHIEDI L'ACCESSO", 'profilo.html'
+                        'Un assistente che conosce i nostri giochi e il sito, e ti aiuta a risolvere il problema. Per ora è aperto a pochi giocatori.',
+                        "Richiedi l'accesso", 'profilo.html'
                     );
                 }
             } catch (e) {

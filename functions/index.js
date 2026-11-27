@@ -198,11 +198,11 @@ exports.redeemKripixKey = onCall(europeWest1, async (request) => {
 // ==========================================
 
 exports.overseerCommand = onCall(europeWest1, async (request) => {
-    if (!request.auth) return { status: 'error', output: 'ACCESSO NEGATO.' };
+    if (!request.auth) return { status: 'error', output: 'Accesso negato.' };
     const uid = request.auth.uid;
     const adminDoc = await db.collection('users').doc(uid).get();
 
-    if (!adminDoc.exists || adminDoc.data().isAdmin !== true) return { status: 'error', output: 'ACCESSO NEGATO: Privilegi insufficienti.' };
+    if (!adminDoc.exists || adminDoc.data().isAdmin !== true) return { status: 'error', output: 'Accesso negato: serve un account admin.' };
 
     const cmdString = request.data.command || "";
     const args = cmdString.trim().split(/\s+/); 
@@ -214,20 +214,20 @@ exports.overseerCommand = onCall(europeWest1, async (request) => {
             if (!flag || !target) return { status: 'error', output: 'Sintassi errata. Uso: find -u [username] o find -e [email]' };
             if (flag === '-u') {
                 const unDoc = await db.collection('usernames').doc(target.toLowerCase()).get();
-                if (!unDoc.exists) return { status: 'error', output: `Nessun Agente trovato: ${target}` };
+                if (!unDoc.exists) return { status: 'error', output: `Nessun utente con nome ${target}.` };
                 targetUid = unDoc.data().uid;
             } else if (flag === '-e') {
                 try {
                     const userRecord = await admin.auth().getUserByEmail(target);
                     targetUid = userRecord.uid;
-                } catch(e) { return { status: 'error', output: `Nessun account associato all'email: ${target}` }; }
+                } catch(e) { return { status: 'error', output: `Nessun account con l'email ${target}.` }; }
             } else return { status: 'error', output: 'Flag sconosciuto.' };
 
             const uDoc = await db.collection('users').doc(targetUid).get();
             const pDoc = await db.collection('users').doc(targetUid).collection('private').doc('dossier').get();
             const uData = uDoc.exists ? uDoc.data() : {}; const pData = pDoc.exists ? pDoc.data() : {};
             
-            let output = `--- DOSSIER AGENTE DECRIPTATO ---\nUID      : ${targetUid}\nUSERNAME : ${uData.username}\nEMAIL    : ${pData.email || '[NON DISPONIBILE]'}\nSTATUS   : ${uData.onlineStatus ? uData.onlineStatus.toUpperCase() : 'OFFLINE'}\nVISIBILE : ${uData.privacy && uData.privacy.invisible ? 'FALSO (FANTASMA)' : 'VERO'}\nLICENZE  : ${uData.games && uData.games.length > 0 ? uData.games.join(', ').toUpperCase() : 'NESSUNA'}`;
+            let output = `--- UTENTE ---\nUID      : ${targetUid}\nUSERNAME : ${uData.username}\nEMAIL    : ${pData.email || '[NON DISPONIBILE]'}\nSTATUS   : ${uData.onlineStatus ? uData.onlineStatus.toUpperCase() : 'OFFLINE'}\nVISIBILE : ${uData.privacy && uData.privacy.invisible ? 'NO (INVISIBILE)' : 'SÌ'}\nLICENZE  : ${uData.games && uData.games.length > 0 ? uData.games.join(', ').toUpperCase() : 'NESSUNA'}`;
             return { status: 'success', output: output };
         }
 
@@ -241,7 +241,7 @@ exports.overseerCommand = onCall(europeWest1, async (request) => {
             if (!targetUsername || !messageText) return { status: 'error', output: 'Sintassi errata. Uso: msg [username] [testo]' };
 
             const unDoc = await db.collection('usernames').doc(targetUsername.toLowerCase()).get();
-            if (!unDoc.exists) return { status: 'error', output: `Agente non trovato: ${targetUsername}` };
+            if (!unDoc.exists) return { status: 'error', output: `Nessun utente con nome ${targetUsername}.` };
             
             const targetUid = unDoc.data().uid;
             
@@ -271,7 +271,7 @@ exports.overseerCommand = onCall(europeWest1, async (request) => {
             }, { merge: true });
 
             await batch.commit();
-            return { status: 'success', output: `[DIRETTIVA TRASMESSA] a ${targetUsername.toUpperCase()}.` };
+            return { status: 'success', output: `Messaggio inviato a ${targetUsername}.` };
         }
         
         if (action === 'license') {
@@ -288,12 +288,12 @@ exports.overseerCommand = onCall(europeWest1, async (request) => {
             if (subAction === 'grant') {
                 await userRef.update({ games: admin.firestore.FieldValue.arrayUnion(gameId) });
                 await dossierRef.set({ [`keys.${gameId}`]: "OVERSEER_DIRECT_GRANT" }, { merge: true });
-                return { status: 'success', output: `[SUCCESSO] Licenza concessa.` };
+                return { status: 'success', output: `Gioco aggiunto all'account.` };
             } else if (subAction === 'revoke') {
                 await userRef.update({ games: admin.firestore.FieldValue.arrayRemove(gameId) });
                 // NOTA: il delete su campi annidati (dot notation) funziona solo su UPDATE
                 await dossierRef.update({ [`keys.${gameId}`]: admin.firestore.FieldValue.delete() });
-                return { status: 'success', output: `[SUCCESSO] Licenza revocata per ${gameId}.` };
+                return { status: 'success', output: `Gioco ${gameId} tolto dall'account.` };
             }
         }
 
@@ -302,10 +302,10 @@ exports.overseerCommand = onCall(europeWest1, async (request) => {
             if (!subAction || !targetUid) return { status: 'error', output: 'Sintassi errata. Uso: network [azione] [uid] (motivo)' };
             const userRef = db.collection('users').doc(targetUid);
             switch (subAction) {
-                case 'ban': await admin.auth().updateUser(targetUid, { disabled: true }); await userRef.set({ accountStatus: { isBanned: true, reason: reason } }, { merge: true }); return { status: 'success', output: `Agente bannato.` };
-                case 'unban': await admin.auth().updateUser(targetUid, { disabled: false }); await userRef.update({ 'accountStatus.isBanned': false }); return { status: 'success', output: `Agente riabilitato.` };
-                case 'suspend': await userRef.set({ accountStatus: { isSuspended: true, reason: reason } }, { merge: true }); return { status: 'success', output: `Agente sospeso.` };
-                case 'unsuspend': await userRef.update({ accountStatus: admin.firestore.FieldValue.delete() }); return { status: 'success', output: `Sospensione revocata.` };
+                case 'ban': await admin.auth().updateUser(targetUid, { disabled: true }); await userRef.set({ accountStatus: { isBanned: true, reason: reason } }, { merge: true }); return { status: 'success', output: `Account bloccato.` };
+                case 'unban': await admin.auth().updateUser(targetUid, { disabled: false }); await userRef.update({ 'accountStatus.isBanned': false }); return { status: 'success', output: `Account sbloccato.` };
+                case 'suspend': await userRef.set({ accountStatus: { isSuspended: true, reason: reason } }, { merge: true }); return { status: 'success', output: `Account sospeso.` };
+                case 'unsuspend': await userRef.update({ accountStatus: admin.firestore.FieldValue.delete() }); return { status: 'success', output: `Sospensione tolta.` };
             }
         }
 
@@ -377,10 +377,10 @@ exports.overseerCommand = onCall(europeWest1, async (request) => {
                 });
 
                 const nota = factors.length === 0
-                    ? '\nNOTA: prima della rimozione l\'SDK non elencava fattori. Fai riprovare l\'accesso all\'agente per conferma.'
+                    ? '\nNota: prima della rimozione non risultavano dispositivi registrati. Chiedi all\'utente di riprovare l\'accesso.'
                     : '';
 
-                return { status: 'success', output: `[SUCCESSO] Verifica in due passaggi rimossa (${factors.length} fattore/i).\nL'agente rientra con la sola password.${nota}` };
+                return { status: 'success', output: `Verifica in due passaggi rimossa (${factors.length} dispositivo/i). L'utente ora entra con la sola password.${nota}` };
             }
 
             return { status: 'error', output: 'Sotto-comando sconosciuto. Uso: mfa status [uid] oppure mfa reset [uid]' };
@@ -428,7 +428,7 @@ exports.overseerCommand = onCall(europeWest1, async (request) => {
                     { isBetaTester: nuovo === 'active' }, { merge: true }
                 );
 
-                return { status: 'success', output: `[SUCCESSO] Programma "${programId}" ora ${nuovo === 'active' ? 'ATTIVO' : 'RIFIUTATO'} per ${targetUid}.` };
+                return { status: 'success', output: `Richiesta ${nuovo === 'active' ? 'approvata' : 'rifiutata'} (${programId}).` };
             }
 
             return { status: 'error', output: 'Sotto-comando sconosciuto. Uso: beta list | beta grant [uid] [programma] | beta deny [uid] [programma]' };
@@ -467,7 +467,7 @@ exports.overseerCommand = onCall(europeWest1, async (request) => {
                     closedBy: uid,
                     closedAt: admin.firestore.FieldValue.serverTimestamp()
                 });
-                return { status: 'success', output: `[SUCCESSO] Ticket ${shortId.toUpperCase()} chiuso.` };
+                return { status: 'success', output: `Ticket ${shortId.toUpperCase()} chiuso.` };
             }
 
             return { status: 'error', output: 'Sotto-comando sconosciuto. Uso: ticket list | ticket close [codice]' };
@@ -488,14 +488,14 @@ exports.overseerCommand = onCall(europeWest1, async (request) => {
 
         if (action === 'keys' && args[1] === 'purge') {
             const snapshot = await db.collection('game_keys').where('isUsed', '==', false).get();
-            if (snapshot.empty) return { status: 'success', output: "Nessuna chiave vergine trovata." };
+            if (snapshot.empty) return { status: 'success', output: "Nessuna chiave da eliminare." };
             const batch = db.batch(); let count = 0;
             snapshot.docs.forEach((doc) => { batch.delete(doc.ref); count++; });
             await batch.commit(); 
-            return { status: 'success', output: `Distrutte ${count} chiavi.` };
+            return { status: 'success', output: `Eliminate ${count} chiavi.` };
         }
 
-        return { status: 'error', output: `Comando non riconosciuto.` };
+        return { status: 'error', output: `Operazione non riconosciuta.` };
     } catch (error) { return { status: 'error', output: `Errore: ${error.message}` }; }
 });
 

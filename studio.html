@@ -1,97 +1,74 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
- <!-- ========================================== -->
-    <!-- SEO & OPEN GRAPH (CONDIVISIONE SOCIAL)     -->
-    <!-- ========================================== -->
-    
-    <!-- Descrizione base per i motori di ricerca (Max 160 caratteri) -->
-    <meta name="description" content="Kripix Entertainment: A different way to see pixels">
-    
-    <!-- Parole chiave (Keywords) -->
-    <meta name="keywords" content="videogiochi, sviluppo indie, kripix, il filo del dubbio, pixel otros, engine narrativo, thriller psicologico">
-    
-    <!-- Autore -->
-    <meta name="author" content="Kripix Entertainment">
-    
-    <!-- Istruzioni per i Crawler (Permette a Google di indicizzare la pagina) -->
-    <meta name="robots" content="index, follow">
-
-    <!-- TAG OPEN GRAPH (Per Facebook, Discord, LinkedIn, ecc.) -->
-    <!-- Titolo che appare nell'anteprima -->
-    <meta property="og:title" content="Kripix Entertainment | A different way to see pixels">
-    
-    <!-- Descrizione dell'anteprima -->
-    <meta property="og:description" content="Esplora i nostri mondi immersivi. Scopri 'Il Filo del Dubbio' e accedi al network operativo per gli agenti Kripix.">
-    
-    <!-- Immagine di copertina (DEVI METTERE UN URL ASSOLUTO VALIDO) -->
-    <!-- Esempio: "https://kripix-studio.netlify.app/assets/cover-social.jpg" -->
-    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png"> 
-    
-    <!-- URL della pagina principale -->
-    <meta property="og:url" content="https://kripixent.netlify.app/">
-    
-    <!-- Tipo di contenuto -->
-    <meta property="og:type" content="website">
-
-    <!-- TAG TWITTER / X (Specifici per la visualizzazione Card su X) -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kripix Entertainment">
-    <meta name="twitter:description" content="Creatori di esperienze narrative ad alta tensione. Unisciti al network.">
-    <meta name="twitter:image" content="https://kripixent.netlify.app/SocialPreview.png">
-    
-    <!-- Tema colore Browser Mobile (La barra in alto su Chrome per Android diventerà scura) -->
-    <meta name="theme-color" content="#05070a">   
     <meta charset="UTF-8">
-
-    <!-- ========================================== -->
-    <!-- FAVICON (ICONA SULLA TAB DEL BROWSER)      -->
-    <!-- ========================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lo studio | Kripix Entertainment</title>
+    <meta name="description" content="Chi siamo e come facciamo i nostri giochi.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Lo studio | Kripix Entertainment">
+    <meta property="og:description" content="Chi siamo e come facciamo i nostri giochi.">
+    <meta property="og:image" content="https://kripixent.netlify.app/SocialPreview.png">
+    <meta property="og:url" content="https://kripixent.netlify.app/studio.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#07080b">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico"> <!-- Fallback per browser vecchi -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi Siamo - Kripix</title>
+    <script>try{if(localStorage.getItem('kripix_theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Courier+Prime&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-grid"></div>
+    <nav id="main-nav"></nav>
 
-<nav id="main-nav"></nav>
-    <div class="page-header">
-        <h1>LO STUDIO</h1>
-    </div>
+    <header class="page-header">
+        <h1 data-i18n="Lo studio">Lo studio</h1>
+        <p data-i18n="Siamo un piccolo studio italiano. Facciamo giochi narrativi, con calma, uno alla volta.">Siamo un piccolo studio italiano. Facciamo giochi narrativi, con calma, uno alla volta.</p>
+    </header>
 
     <section class="section-padding">
-        <div class="container">
-            <h2 class="section-header">LA NOSTRA MISSIONE</h2>
-            <p class="studio-intro">
-                Da Kripix Entertainment, crediamo che i videogiochi siano la forma d'arte più potente del nostro tempo. 
-                Non creiamo semplici passatempi, ma mondi immersivi e atmosfere dense che sfidano l'intelletto.
-            </p>
+        <div class="container studio-grid">
+            <h2 class="studio-quote" data-i18n="Non facciamo passatempi. Facciamo mondi.">Non facciamo passatempi. Facciamo mondi.</h2>
+            <div>
+                <p class="studio-intro" data-i18n="Per noi i videogiochi sono la forma d'arte più potente del nostro tempo. Vogliamo che chi gioca resti dentro le nostre storie anche dopo aver spento.">Per noi i videogiochi sono la forma d'arte più potente del nostro tempo. Vogliamo che chi gioca resti dentro le nostre storie anche dopo aver spento.</p>
+                <p class="muted" style="margin-top:20px" data-i18n="Il nostro primo gioco è La Pagoda. Lo sviluppiamo con Pixel Otros, il motore grafico che costruiamo in casa.">Il nostro primo gioco è La Pagoda. Lo sviluppiamo con Pixel Otros, il motore grafico che costruiamo in casa.</p>
+            </div>
+        </div>
+    </section>
 
-            <h2 class="section-header" style="margin-top: 80px;">I 4 PILASTRI</h2>
+    <section class="section-padding bg-darker">
+        <div class="container">
+            <h2 class="section-header" data-i18n="Come lavoriamo">Come lavoriamo</h2>
             <div class="pillars-grid">
                 <div class="pillar-card">
-                    <h4>01. ATMOSFERA È REGINA</h4>
-                    <p>Non è un contorno, è il fondamento. Ogni ombra, ogni suono deve servire a costruire un mondo credibile.</p>
+                    <h4 data-i18n="L'atmosfera prima di tutto">L'atmosfera prima di tutto</h4>
+                    <p data-i18n="Non è un contorno, è la base. Ogni ombra e ogni suono servono a rendere il mondo credibile.">Non è un contorno, è la base. Ogni ombra e ogni suono servono a rendere il mondo credibile.</p>
                 </div>
                 <div class="pillar-card">
-                    <h4>02. IL GAMEPLAY HA UN SENSO</h4>
-                    <p>Rifiutiamo le meccaniche inutili. Le azioni del giocatore devono avere conseguenze tangibili.</p>
+                    <h4 data-i18n="Meccaniche con un senso">Meccaniche con un senso</h4>
+                    <p data-i18n="Niente meccaniche messe lì per riempire. Quello che fai nel gioco ha conseguenze vere.">Niente meccaniche messe lì per riempire. Quello che fai nel gioco ha conseguenze vere.</p>
                 </div>
                 <div class="pillar-card">
-                    <h4>03. NARRAZIONE INTERATTIVA</h4>
-                    <p>Non ci limitiamo a raccontare una storia; diamo al giocatore gli strumenti per scoprirla.</p>
+                    <h4 data-i18n="Storie da scoprire">Storie da scoprire</h4>
+                    <p data-i18n="Non ti raccontiamo tutto: ti diamo gli strumenti per capire la storia da solo.">Non ti raccontiamo tutto: ti diamo gli strumenti per capire la storia da solo.</p>
                 </div>
                 <div class="pillar-card">
-                    <h4>04. QUALITÀ SULLA QUANTITÀ</h4>
-                    <p>Preferiamo creare 10 ore indimenticabili piuttosto che 100 ore di contenuti ripetitivi.</p>
+                    <h4 data-i18n="Qualità prima della quantità">Qualità prima della quantità</h4>
+                    <p data-i18n="Meglio dieci ore che ricordi che cento ore tutte uguali.">Meglio dieci ore che ricordi che cento ore tutte uguali.</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:end; gap:24px; flex-wrap:wrap;">
+            <h2 class="display-l" style="max-width:14ch" data-i18n="Vuoi lavorare con noi?">Vuoi lavorare con noi?</h2>
+            <a href="contatti.html" class="btn-gold" data-i18n="Scrivici">Scrivici</a>
         </div>
     </section>
 
