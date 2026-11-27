@@ -38,6 +38,15 @@ http.createServer((req, res) => {
 
     fs.readFile(filePath, (err, data) => {
         if (err) {
+            // Come online: le pagine che non esistono mostrano 404.html
+            const ext = path.extname(rel).toLowerCase();
+            if (ext === '' || ext === '.html') {
+                fs.readFile(path.join(ROOT, '404.html'), (e2, page) => {
+                    res.writeHead(404, { 'Content-Type': MIME['.html'] });
+                    res.end(e2 ? '404 — ' + rel : page);
+                });
+                return;
+            }
             res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
             res.end('404 — ' + rel);
             return;
